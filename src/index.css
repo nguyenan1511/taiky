@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: '1FTV VIP Imagine Serif Stamp Rough';
+    src:
+        url('/fonts/1FTV-VIP-Imagine-Serif-Stamp-Rough.woff2') format('woff2'),
+        url('/fonts/1FTV-VIP-Imagine-Serif-Stamp-Rough.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'UTM Colossalis';
+    src:
+        url('/fonts/UTM-Colossalis.woff2') format('woff2'),
+        url('/fonts/UTM-Colossalis.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Force rebuild marker */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Arsenal', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3e9dc;
+    overflow-x: hidden;
+    /* Prevent absolute-positioned decorative elements from causing horizontal scroll */
+}
+
+/* Event hero (Swiper) — themed pagination bullets */
+.event-hero-swiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    margin: 0 5px !important;
+    background: #ffffff;
+    opacity: 0.7;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
+
+.event-hero-swiper .swiper-pagination-bullet-active {
+    width: 28px;
+    opacity: 1;
+}
+
+.event-hero-swiper .swiper-pagination {
+    bottom: 22px !important;
+}
