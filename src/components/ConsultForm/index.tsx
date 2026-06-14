@@ -9,7 +9,6 @@ const imgBg = '/images/bg-form.jpg';
 
 const imgDecorTimeline1 = '/images/decor-timeline-1.png';
 const imgDecorFormLeft = '/images/decor-form-left.png';
-const imgDecorFormRight = '/images/decor-form-right.png';
 
 const fieldClass =
     'w-full border-0 border-b border-taiky-lightbrown/50 bg-transparent pb-[8px] text-[16px] text-taiky-brown outline-none transition-colors placeholder:uppercase placeholder:tracking-[0.04em] placeholder:text-taiky-lightbrown focus:border-taiky-orange';
