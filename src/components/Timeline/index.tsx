@@ -6,7 +6,15 @@
  * background; 1976 is the top row (no flame), then each flame marks a year
  * (1978 → 2026) alternating left / right, with its photo on the opposite side.
  * Coordinates were measured directly from the 1304×3440 sample.
+ *
+ * Content is driven by `GET /grown-ups`; the fixed `imgPos`/`textPos` layout
+ * coordinates stay local (design-specific) and are paired with the API rows by
+ * order. Falls back to the built-in content when the feed is empty / erroring.
  */
+
+import { useGrownUps, usePage } from '../../lib/api/queries';
+import { img, t } from '../../lib/api/helpers';
+import { PAGE, pageSection } from '../../lib/api/pages';
 
 const imgMapLine = '/images/map-line.webp';
 
@@ -83,67 +91,117 @@ const MILESTONES: Milestone[] = [
     },
 ];
 
+type MilestoneContent = Pick<Milestone, 'year' | 'title' | 'subtitle' | 'image'>;
+
 export default function Timeline() {
+    const { data } = useGrownUps();
+    const apiItems = data?.data ?? [];
+
+    // ABOUT-US page CMS section 4: heading + label.
+    const { data: page } = usePage(PAGE.ABOUT_US);
+    const s4 = pageSection(page?.data, '4');
+    const heading = s4?.title || 'QUÁ TRÌNH PHÁT TRIỂN';
+    const label = s4?.label || 'TAKYFOOD';
+
+    // API content if available, else the built-in fallback content.
+    const content: MilestoneContent[] = apiItems.length
+        ? apiItems.map((g) => ({
+              year: t(g.year),
+              title: t(g.title),
+              subtitle: t(g.description),
+              image: img(g.image),
+          }))
+        : MILESTONES.map(({ year, title, subtitle, image }) => ({ year, title, subtitle, image }));
+
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg pt-[40px] z-10">
-            <div className="absolute top-0 left-0 translate-x-[-20%]">
+            {/* Decorative blobs are positioned for the tall desktop canvas only */}
+            <div className="absolute top-0 left-0 translate-x-[-20%] hidden min-[1304px]:block">
                 <img src={imgDecorTopleft} alt="bg-banner" />
             </div>
-            <div className="absolute top-[1090px] left-0 mix-blend-color-burn">
+            <div className="absolute top-[1090px] left-0 mix-blend-color-burn hidden min-[1304px]:block">
                 <img src={imgDecorTimeline1} alt="bg-banner" />
             </div>
-            <div className="absolute top-[410px] right-0">
+            <div className="absolute top-[410px] right-0 hidden min-[1304px]:block">
                 <img src={imgDecorTimeline} alt="bg-banner" />
             </div>
-
-            <div className="absolute top-[1800px] right-0 z-10 mix-blend-color-burn translate-x-[15%]">
+            <div className="absolute top-[1800px] right-0 z-10 mix-blend-color-burn translate-x-[15%] hidden min-[1304px]:block">
                 <img src={imgDecorTimeline2} alt="bg-banner" />
             </div>
-            <div className="absolute top-[2500px] right-0 z-10 translate-x-[35%]">
+            <div className="absolute top-[2500px] right-0 z-10 translate-x-[35%] hidden min-[1304px]:block">
                 <img src={imgDecorTimeline3} alt="bg-banner" />
             </div>
-            <div className="absolute top-[3000px] left-0 z-10 mix-blend-color-burn opacity-35 translate-x-[-10%]">
+            <div className="absolute top-[3000px] left-0 z-10 mix-blend-color-burn opacity-35 translate-x-[-10%] hidden min-[1304px]:block">
                 <img src={imgDecorTimeline4} alt="bg-banner" />
             </div>
             {/* Heading */}
-            <div className="flex flex-col items-center pt-[40px] pb-[20px] text-center relative z-10">
-                <h2 className="font-stamp font-normal tracking-brand text-[44px] leading-[48px] text-taiky-orange uppercase mb-[20px]">
-                    QUÁ TRÌNH PHÁT TRIỂN
+            <div className="flex flex-col items-center pt-[24px] lg:pt-[40px] pb-[20px] text-center relative z-10 px-[20px]">
+                <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase mb-[12px] lg:mb-[20px]">
+                    {heading}
                 </h2>
-                <p className="font-stamp text-[40px] leading-[32px] text-taiky-brown uppercase">
-                    TAKYFOOD
+                <p className="font-stamp text-[28px] leading-[28px] lg:text-[40px] lg:leading-[32px] text-taiky-brown uppercase">
+                    {label}
                 </p>
             </div>
 
-            {/* Fixed-size canvas: dotted path + milestones */}
-            <div className="flex justify-center items-center relative z-10">
+            {/* Desktop (≥1304px): fixed-size canvas with the winding dotted path */}
+            <div className="hidden min-[1304px]:flex justify-center items-center relative z-10">
                 <div className="relative mx-auto">
                     <img src={imgMapLine} alt="" className="w-[1304px] h-auto" />
 
-                    {MILESTONES.map(({ year, title, subtitle, image, imgPos, textPos }) => (
-                        <div key={year}>
-                            <img
-                                src={image}
-                                alt={`TAKYfood ${year}`}
-                                className={`absolute ${imgPos}`}
-                            />
-                            <div className={`absolute ${textPos}`}>
-                                <p className="font-stamp text-[44px] leading-[44px] text-taiky-orange">
-                                    {year}
-                                </p>
-                                <p className="mt-[10px] font-sans font-bold text-[18px] leading-[24px] text-taiky-brown">
-                                    {title}
-                                </p>
-                                {subtitle && (
-                                    <p className="mt-[6px] font-sans text-[14px] leading-[20px] text-taiky-lightbrown">
-                                        {subtitle}
+                    {MILESTONES.map(({ imgPos, textPos }, i) => {
+                        const c = content[i];
+                        if (!c) return null;
+                        return (
+                            <div key={i}>
+                                <img
+                                    src={c.image}
+                                    alt={`TAKYfood ${c.year}`}
+                                    className={`absolute ${imgPos}`}
+                                />
+                                <div className={`absolute ${textPos}`}>
+                                    <p className="font-stamp text-[44px] leading-[44px] text-taiky-orange">
+                                        {c.year}
                                     </p>
-                                )}
+                                    <p className="mt-[10px] font-sans font-bold text-[18px] leading-[24px] text-taiky-brown">
+                                        {c.title}
+                                    </p>
+                                    {c.subtitle && (
+                                        <p className="mt-[6px] font-sans text-[14px] leading-[20px] text-taiky-lightbrown">
+                                            {c.subtitle}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
+
+            {/* Mobile / tablet (<1304px): vertical stacked timeline */}
+            <ol className="min-[1304px]:hidden relative z-10 mx-auto flex max-w-[420px] flex-col gap-[40px] px-[24px] pb-[40px] pt-[12px]">
+                {content.map(({ year, title, subtitle, image }, i) => (
+                    <li key={i} className="flex flex-col items-center gap-[12px] text-center">
+                        <img
+                            src={image}
+                            alt={`TAKYfood ${year}`}
+                            loading="lazy"
+                            className="w-full max-w-[320px] h-auto rounded-[12px]"
+                        />
+                        <p className="font-stamp text-[40px] leading-[40px] text-taiky-orange">
+                            {year}
+                        </p>
+                        <p className="font-sans font-bold text-[16px] leading-[22px] text-taiky-brown">
+                            {title}
+                        </p>
+                        {subtitle && (
+                            <p className="font-sans text-[13px] leading-[19px] text-taiky-lightbrown">
+                                {subtitle}
+                            </p>
+                        )}
+                    </li>
+                ))}
+            </ol>
         </section>
     );
 }

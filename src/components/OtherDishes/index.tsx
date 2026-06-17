@@ -64,12 +64,12 @@ export default function OtherDishes() {
             <div className="absolute top-0 left-0 mix-blend-color-burn">
                 <img src={imgDecorLeft} alt="bg-banner" />
             </div>
-            <Container className="flex flex-col items-center gap-[38px] py-[40px] relative z-10">
-                <h2 className="font-stamp font-normal tracking-brand text-[36px] leading-[44px] text-taiky-orange uppercase text-center">
+            <Container className="flex flex-col items-center gap-[24px] lg:gap-[38px] py-[40px] relative z-10">
+                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                     MÓN NGON KHÁC
                 </h2>
 
-                <div className="grid w-full grid-cols-3 gap-x-[24px] gap-y-[40px]">
+                <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[40px]">
                     {RECIPES.map((recipe, i) => (
                         <RecipeItem key={`${recipe.title}-${i}`} {...recipe} />
                     ))}

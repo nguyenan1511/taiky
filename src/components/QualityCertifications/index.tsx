@@ -1,4 +1,6 @@
 import Container from '../Container';
+import { usePage } from '../../lib/api/queries';
+import { PAGE, pageSection } from '../../lib/api/pages';
 
 /**
  * "CHỨNG NHẬN CHẤT LƯỢNG" — quality-certification badges
@@ -14,21 +16,34 @@ const CERTIFICATIONS = [
 ];
 
 export default function QualityCertifications() {
+    // ABOUT-US page CMS section 5: heading + intro copy.
+    const { data } = usePage(PAGE.ABOUT_US);
+    const s5 = pageSection(data?.data, '5');
+    const heading = s5?.title || 'CHỨNG NHẬN CHẤT LƯỢNG';
+
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
-            <Container className="flex flex-col items-center gap-[28px] py-[60px]">
-                <h2 className="font-stamp font-normal tracking-brand text-[44px] leading-[48px] text-taiky-orange uppercase text-center">
-                    CHỨNG NHẬN CHẤT LƯỢNG
+            <Container className="flex flex-col items-center gap-[24px] lg:gap-[28px] py-[48px] lg:py-[60px]">
+                <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase text-center">
+                    {heading}
                 </h2>
 
-                <p className="max-w-[1140px] text-center font-sans text-[18px] leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
-                    Cam kết <span className="font-bold text-taiky-brown">chất lượng cao</span>,
-                    nguồn nguyên liệu <span className="font-bold text-taiky-brown">minh bạch</span>,{' '}
-                    <span className="font-bold text-taiky-brown">an toàn</span> cho sức khỏe người
-                    tiêu dùng.
-                </p>
+                {s5?.content ? (
+                    <div
+                        className="max-w-[1140px] text-center font-sans text-[15px] leading-[24px] lg:text-[18px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold [&_b]:font-bold [&_b]:text-taiky-brown"
+                        dangerouslySetInnerHTML={{ __html: s5.content }}
+                    />
+                ) : (
+                    <p className="max-w-[1140px] text-center font-sans text-[15px] leading-[24px] lg:text-[18px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
+                        Cam kết <span className="font-bold text-taiky-brown">chất lượng cao</span>,
+                        nguồn nguyên liệu{' '}
+                        <span className="font-bold text-taiky-brown">minh bạch</span>,{' '}
+                        <span className="font-bold text-taiky-brown">an toàn</span> cho sức khỏe
+                        người tiêu dùng.
+                    </p>
+                )}
 
-                <ul className="mt-[20px] flex w-full flex-wrap items-center justify-center gap-x-[56px] gap-y-[32px]">
+                <ul className="mt-[12px] lg:mt-[20px] flex w-full flex-wrap items-center justify-center gap-x-[28px] gap-y-[24px] lg:gap-x-[56px] lg:gap-y-[32px]">
                     {CERTIFICATIONS.map(({ src, alt }) => (
                         <li key={src}>
                             <img
@@ -37,7 +52,7 @@ export default function QualityCertifications() {
                                 width={230}
                                 height={230}
                                 loading="lazy"
-                                className="block h-[150px] w-[150px] object-contain"
+                                className="block h-[100px] w-[100px] lg:h-[150px] lg:w-[150px] object-contain"
                             />
                         </li>
                     ))}

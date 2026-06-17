@@ -3,15 +3,24 @@ import TodayEat from '../../components/TodayEat';
 import FriedDishes from '../../components/FriedDishes';
 import VietnameseCakes from '../../components/VietnameseCakes';
 import OtherDishes from '../../components/OtherDishes';
+import Reveal from '../../components/Reveal';
 
 export default function Food() {
     return (
         <main className="relative">
             <FoodHero />
-            <TodayEat />
-            <FriedDishes />
-            <VietnameseCakes />
-            <OtherDishes />
+            <Reveal>
+                <TodayEat />
+            </Reveal>
+            <Reveal>
+                <FriedDishes />
+            </Reveal>
+            <Reveal>
+                <VietnameseCakes />
+            </Reveal>
+            <Reveal>
+                <OtherDishes />
+            </Reveal>
         </main>
     );
 }

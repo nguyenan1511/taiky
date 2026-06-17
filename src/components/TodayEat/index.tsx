@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Container from '../Container';
 import RecipeMeta from '../RecipeMeta';
+import { usePage } from '../../lib/api/queries';
+import { PAGE, pageSection } from '../../lib/api/pages';
 
 /**
  * "HÔM NAY ĂN GÌ" — featured-recipe slider. Each slide is a split card: a
@@ -59,6 +61,11 @@ export default function TodayEat() {
 
     const go = (delta: number) => setIndex((i) => (i + delta + RECIPES.length) % RECIPES.length);
 
+    // FOOD page CMS section 2: heading + subtitle.
+    const { data: page } = usePage(PAGE.FOOD);
+    const s2 = pageSection(page?.data, '2');
+    const heading = s2?.title || 'HÔM NAY ĂN GÌ';
+
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
             <div className="absolute top-0 left-0 translate-x-[-30%]">
@@ -67,24 +74,31 @@ export default function TodayEat() {
             <div className="absolute top-[60px] right-0 mix-blend-color-burn">
                 <img src={imgDecorTopRight} alt="bg-banner" />
             </div>
-            <Container className="flex flex-col items-center gap-[24px] py-[60px] relative z-10">
+            <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px] lg:py-[60px] relative z-10">
                 {/* Heading */}
-                <h2 className="font-stamp font-normal tracking-brand text-[44px] leading-[48px] text-taiky-orange uppercase text-center">
-                    HÔM NAY ĂN GÌ
+                <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase text-center">
+                    {heading}
                 </h2>
-                <p className="text-[20px] leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
-                    <span className="font-bold text-taiky-brown">Bữa ăn gia đình</span> thêm trọn vị
-                    khi có <span className="font-bold text-taiky-brown">TAKYFOOD</span>
-                </p>
+                {s2?.content ? (
+                    <div
+                        className="text-center text-[15px] leading-[22px] lg:text-[20px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold [&_b]:font-bold [&_b]:text-taiky-brown"
+                        dangerouslySetInnerHTML={{ __html: s2.content }}
+                    />
+                ) : (
+                    <p className="text-center text-[15px] leading-[22px] lg:text-[20px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
+                        <span className="font-bold text-taiky-brown">Bữa ăn gia đình</span> thêm
+                        trọn vị khi có <span className="font-bold text-taiky-brown">TAKYFOOD</span>
+                    </p>
+                )}
 
                 {/* Slider */}
-                <div className="relative w-full px-[60px] pt-[20px]">
+                <div className="relative w-full px-[36px] lg:px-[60px] pt-[20px]">
                     {/* Prev */}
                     <button
                         type="button"
                         onClick={() => go(-1)}
                         aria-label="Công thức trước"
-                        className="absolute left-0 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
+                        className="absolute left-0 top-1/2 flex h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
                     >
                         <svg
                             width="34"
@@ -96,38 +110,39 @@ export default function TodayEat() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             aria-hidden="true"
+                            className="h-[24px] w-[24px] lg:h-[34px] lg:w-[34px]"
                         >
                             <path d="M19 12H5M11 6l-6 6 6 6" />
                         </svg>
                     </button>
 
-                    {/* Slide — fixed height so the frame never shifts between slides */}
-                    <div className="grid h-[450px] grid-cols-2 overflow-hidden rounded-md">
+                    {/* Slide — stacks on mobile; fixed height on desktop so the frame never shifts */}
+                    <div className="flex flex-col lg:grid lg:h-[450px] lg:grid-cols-2 overflow-hidden rounded-md">
                         {/* Lined-paper info panel */}
-                        <div className="relative">
+                        <div className="relative order-2 lg:order-none">
                             <img
                                 src={imgBg}
                                 alt=""
                                 className="absolute inset-0 h-full w-full object-cover"
                             />
-                            <div className="relative z-10 flex h-full flex-col justify-center px-[48px] py-[56px]">
-                                <h3 className="text-[28px] font-bold leading-[34px] text-taiky-brown">
+                            <div className="relative z-10 flex h-full flex-col justify-center px-[24px] py-[28px] lg:px-[48px] lg:py-[56px]">
+                                <h3 className="text-[20px] leading-[26px] lg:text-[28px] lg:leading-[34px] font-bold text-taiky-brown">
                                     {recipe.title}
                                 </h3>
                                 <RecipeMeta
                                     people={recipe.people}
                                     time={recipe.time}
                                     difficulty={recipe.difficulty}
-                                    className="mt-[20px] gap-x-[28px] text-[15px]"
+                                    className="mt-[16px] lg:mt-[20px] gap-x-[20px] lg:gap-x-[28px] text-[13px] lg:text-[15px]"
                                 />
-                                <p className="mt-[24px] max-w-[460px] text-[16px] leading-[26px] text-taiky-brown">
+                                <p className="mt-[16px] lg:mt-[24px] max-w-[460px] text-[14px] leading-[22px] lg:text-[16px] lg:leading-[26px] text-taiky-brown">
                                     {recipe.description}
                                 </p>
                                 <button
                                     type="button"
-                                    className="mt-[32px] w-fit bg-taiky-yellow px-[36px] py-[14px]"
+                                    className="mt-[20px] lg:mt-[32px] w-fit bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
                                 >
-                                    <span className="text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
+                                    <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
                                         Xem chi tiết
                                     </span>
                                 </button>
@@ -135,11 +150,11 @@ export default function TodayEat() {
                         </div>
 
                         {/* Dish photo */}
-                        <div className="relative">
+                        <div className="relative order-1 lg:order-none">
                             <img
                                 src={recipe.image}
                                 alt={recipe.title}
-                                className="h-full w-full object-cover"
+                                className="h-[220px] w-full object-cover lg:h-full"
                             />
                         </div>
                     </div>
@@ -149,12 +164,13 @@ export default function TodayEat() {
                         type="button"
                         onClick={() => go(1)}
                         aria-label="Công thức sau"
-                        className="absolute right-0 top-1/2 flex h-[48px] w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
+                        className="absolute right-0 top-1/2 flex h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
                     >
                         <svg
                             width="34"
                             height="34"
                             viewBox="0 0 24 24"
+                            className="h-[24px] w-[24px] lg:h-[34px] lg:w-[34px]"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"

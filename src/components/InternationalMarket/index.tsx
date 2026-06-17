@@ -49,18 +49,18 @@ export default function InternationalMarket() {
             <div className="absolute top-0 right-0 mix-blend-color-burn">
                 <img src={imgDecorTopRight} alt="bg-banner" />
             </div>
-            <Container className="flex flex-col items-center gap-[24px] py-[40px]">
-                <h2 className="font-stamp font-normal tracking-brand text-[36px] leading-[44px] text-taiky-orange uppercase text-center">
+            <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px]">
+                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                     THỊ TRƯỜNG QUỐC TẾ
                 </h2>
-                <p className="text-[18px] leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
+                <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
                     Chúng tôi đã xuất khẩu đến{' '}
                     <span className="font-bold text-taiky-brown">59 quốc gia</span>
                 </p>
 
                 <img src={imgMap} alt="Bản đồ thị trường xuất khẩu TAKYfood" className="w-full" />
 
-                <div className="mt-[8px] grid w-full grid-cols-2 gap-x-[64px] gap-y-[28px]">
+                <div className="mt-[8px] grid w-full grid-cols-1 lg:grid-cols-2 gap-x-[64px] gap-y-[20px] lg:gap-y-[28px]">
                     <div className="flex flex-col gap-[28px]">
                         {LEFT_REGIONS.map((region) => (
                             <RegionRow key={region.name} {...region} />

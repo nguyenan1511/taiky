@@ -25,7 +25,7 @@ const SLIDES: Slide[] = [
 
 export default function EventHero() {
     return (
-        <section className="relative w-full overflow-hidden pt-[120px]">
+        <section className="relative w-full overflow-hidden pt-[80px] lg:pt-[120px]">
             <Swiper
                 modules={[Autoplay, EffectFade, Pagination]}
                 effect="fade"
@@ -38,15 +38,15 @@ export default function EventHero() {
             >
                 {SLIDES.map((slide) => (
                     <SwiperSlide key={slide.title}>
-                        <div className="relative aspect-[1440/620] w-full">
+                        <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1440/620] w-full">
                             <img
                                 src={slide.image}
                                 alt={slide.title}
                                 className="absolute inset-0 h-full w-full object-cover"
                             />
                             {/* Caption */}
-                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent pb-[64px] pt-[80px]">
-                                <p className="mx-auto max-w-[1100px] px-[40px] text-center text-[30px] font-bold uppercase leading-[42px] text-white">
+                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent pb-[44px] pt-[48px] lg:pb-[64px] lg:pt-[80px]">
+                                <p className="mx-auto max-w-[1100px] px-[20px] lg:px-[40px] text-center text-[18px] leading-[24px] lg:text-[30px] lg:leading-[42px] font-bold uppercase text-white">
                                     {slide.title}
                                 </p>
                             </div>

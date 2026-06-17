@@ -1,52 +1,93 @@
+import { useState } from 'react';
 import Container from '../Container';
+import { useSettings, useSubmitSubscriber } from '../../lib/api/queries';
 
 const imgLogoMain = '/images/footer-logo-main.svg';
 const imgBg = '/images/bg-ft.png';
 
+// Shown until settings load (and as a fallback if the request fails).
+const FALLBACK = {
+    companyName: 'CÔNG TY CỔ PHẦN BỘT - THỰC PHẨM TÀI KÝ',
+    address: '435 Quốc lộ 13, Khu phố 24, Phường Hiệp Bình, TP. Hồ Chí Minh, Việt Nam',
+    phone: '19006108',
+    email: 'contact@takyfood.com.vn',
+};
+
 export default function Footer() {
+    const { data: settingsData } = useSettings();
+    const s = settingsData?.data;
+    const companyName = s?.companyName || FALLBACK.companyName;
+    const address = s?.address || FALLBACK.address;
+    const phone = s?.phone || FALLBACK.phone;
+    const email = s?.email || FALLBACK.email;
+
+    const [subEmail, setSubEmail] = useState('');
+    const subscribe = useSubmitSubscriber();
+
+    const handleSubscribe = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (subscribe.isPending || !subEmail.trim()) return;
+        subscribe.mutate(subEmail.trim(), { onSuccess: () => setSubEmail('') });
+    };
+
     return (
         <footer className="relative w-full overflow-hidden pt-[40px] z-10">
             <img src={imgBg} alt="" className="absolute inset-x-0 top-0 w-full h-auto" />
             {/* Logo centered */}
 
-            <div className="flex justify-center items-center relative z-10">
-                <img src={imgLogoMain} alt="" className="" />
+            <div className="flex justify-center items-center relative z-10 px-[20px]">
+                <img src={imgLogoMain} alt="" className="h-auto w-[180px] max-w-full lg:w-auto" />
             </div>
 
-            {/* Main content */}
-            <div className="bg-taiky-footerbg absolute w-screen h-[300px] bottom-0 left-0"></div>
+            {/* Main content — orange backdrop; on mobile it spans from below the
+                logo to the bottom so it covers the taller stacked content. */}
+            <div className="bg-taiky-footerbg absolute w-screen bottom-0 left-0 top-[120px] lg:top-auto lg:h-[300px]"></div>
 
-            <Container className="px-8 md:px-[80px] py-8 flex flex-wrap items-start justify-between gap-8 relative z-10 pt-[80px]">
+            <Container className="px-6 sm:px-8 md:px-[80px] py-8 flex flex-wrap items-start justify-between gap-8 relative z-10 pt-[48px] lg:pt-[80px]">
                 {/* Left: company info */}
-                <div className="flex flex-col gap-[22px] max-w-[461px] min-w-[260px]">
+                <div className="flex flex-col gap-[22px] max-w-[461px] min-w-[240px]">
                     <h3 className="font-bold text-white text-[20px] leading-6 uppercase">
-                        CÔNG TY CỔ PHẦN BỘT - THỰC PHẨM TÀI KÝ
+                        {companyName}
                     </h3>
                     <div className="flex flex-col gap-3 font-bold text-white text-[14px] leading-6">
-                        <p className="whitespace-pre-wrap">
-                            Địa chỉ: 435 Quốc lộ 13, Khu phố 24, Phường Hiệp Bình,{'\n'}TP. Hồ Chí
-                            Minh, Việt Nam
-                        </p>
-                        <p>Hotline: 19006108</p>
-                        <p>Email: contact@takyfood.com.vn</p>
+                        <p className="whitespace-pre-wrap">Địa chỉ: {address}</p>
+                        <p>Hotline: {phone}</p>
+                        <p>Email: {email}</p>
                     </div>
                     {/* Newsletter */}
-                    <div className="flex items-center">
-                        <input
-                            type="email"
-                            placeholder="Email nhận khuyến mãi"
-                            className="bg-white px-4 py-[10px] text-[16px] leading-6 w-[240px] outline-none text-taiky-lightbrown"
-                        />
-                        <button className="px-4 py-[10px] font-sans text-white text-[16px] leading-6 whitespace-nowrap bg-taiky-footerbg border border-white/40">
-                            Gửi ngay
-                        </button>
-                    </div>
+                    <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+                        <div className="flex items-center">
+                            <input
+                                type="email"
+                                required
+                                value={subEmail}
+                                onChange={(e) => setSubEmail(e.target.value)}
+                                placeholder="Email nhận khuyến mãi"
+                                className="bg-white px-4 py-[10px] text-[16px] leading-6 w-full min-w-0 sm:w-[240px] outline-none text-taiky-lightbrown"
+                            />
+                            <button
+                                type="submit"
+                                disabled={subscribe.isPending}
+                                className="px-4 py-[10px] font-sans text-white text-[16px] leading-6 whitespace-nowrap bg-taiky-footerbg border border-white/40 transition hover:opacity-90 disabled:opacity-60"
+                            >
+                                {subscribe.isPending ? 'Đang gửi…' : 'Gửi ngay'}
+                            </button>
+                        </div>
+                        {subscribe.isSuccess && (
+                            <p className="text-[13px] text-white">Đăng ký nhận tin thành công!</p>
+                        )}
+                        {subscribe.isError && (
+                            <p className="text-[13px] text-white/90">
+                                Đăng ký thất bại. Vui lòng thử lại.
+                            </p>
+                        )}
+                    </form>
                 </div>
 
                 {/* Right group: nav columns + back-to-top */}
-                <div className="flex flex-wrap items-start gap-[60px]">
+                <div className="flex flex-wrap items-start gap-x-[24px] gap-y-[28px] lg:gap-[60px]">
                     {/* Nav col 1 */}
-                    <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[160px]">
+                    <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
                         <p className="text-[16px] mb-2">Giới thiệu về TAKYFood</p>
                         {[
                             'Sản phẩm',
@@ -62,7 +103,7 @@ export default function Footer() {
                     </div>
 
                     {/* Nav col 2 */}
-                    <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[160px]">
+                    <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
                         <p className="text-[16px] mb-2">Hỗ trợ khách hàng</p>
                         {[
                             'Chính sách bảo hành & dịch vụ',

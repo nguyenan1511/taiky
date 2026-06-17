@@ -32,7 +32,7 @@ export default function ProductCard({
         <article
             className={`flex w-full flex-col items-center gap-[16px] text-center ${className}`}
         >
-            <div className="h-[301px] w-full overflow-hidden">
+            <div className="h-[260px] sm:h-[301px] w-full overflow-hidden">
                 <img
                     src={img}
                     alt={title.replace(/\n/g, ' ')}
