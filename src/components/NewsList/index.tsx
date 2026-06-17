@@ -1,0 +1,179 @@
+import { useState } from 'react';
+import Container from '../Container';
+import NewsItem from '../NewsItem';
+import NewsCardSkeleton from '../NewsItem/Skeleton';
+import Pagination from '../Pagination';
+import ListState from '../ListState';
+import { useNews, useNewsCategories } from '../../lib/api/queries';
+import { t, toNewsCard } from '../../lib/api/helpers';
+
+/**
+ * "TIN TỨC SỰ KIỆN" — news list: category tabs (from `GET /news-categories`),
+ * a news-card grid filtered by category (`GET /news?categories=`) and
+ * server-driven pagination.
+ */
+
+const PER_PAGE = 9;
+
+const imgSketch = '/images/decor-bottom-catalog.jpg';
+
+export default function NewsList() {
+    // empty category id = "all news"
+    const [activeCategory, setActiveCategory] = useState('');
+    const [page, setPage] = useState(1);
+    const [ddOpen, setDdOpen] = useState(false);
+
+    const { data: catsData } = useNewsCategories();
+    const categories = catsData?.data ?? [];
+    const activeLabel = activeCategory
+        ? t(categories.find((c) => c.id === activeCategory)?.name)
+        : 'Tất cả tin tức';
+
+    const { data, isLoading, isError, refetch } = useNews({
+        categories: activeCategory || undefined,
+        page,
+        limit: PER_PAGE,
+    });
+    const articles = data?.data ?? [];
+    const pageCount = data?.pagination.pageCount ?? 1;
+
+    const selectCategory = (id: string) => {
+        setActiveCategory(id);
+        setPage(1);
+        setDdOpen(false);
+    };
+
+    const tabClass = (active: boolean) =>
+        `-mb-[1px] border-b-2 pb-[14px] text-[16px] font-bold uppercase tracking-[0.04em] transition-colors ${
+            active
+                ? 'border-taiky-orange text-taiky-orange'
+                : 'border-transparent text-taiky-brown hover:text-taiky-orange'
+        }`;
+
+    return (
+        <section className="relative w-full overflow-visible bg-taiky-bg z-10">
+            <div className="absolute bottom-0 right-0 translate-x-[20%] translate-y-[50%] z-1">
+                <img src={imgSketch} alt="bg-banner" />
+            </div>
+            <Container className="flex flex-col items-center gap-[24px] lg:gap-[36px] py-[40px] lg:py-[60px] relative z-10">
+                <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase text-center">
+                    TIN TỨC SỰ KIỆN
+                </h2>
+
+                {/* Mobile / tablet: category dropdown */}
+                <div className="relative w-full max-w-[320px] lg:hidden">
+                    <button
+                        type="button"
+                        onClick={() => setDdOpen((o) => !o)}
+                        aria-expanded={ddOpen}
+                        className="flex w-full items-center justify-between border-b border-taiky-lightbrown/40 pb-[10px] font-bold text-[18px] uppercase text-taiky-brown"
+                    >
+                        {activeLabel}
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                            className={`text-taiky-orange transition-transform ${ddOpen ? 'rotate-180' : ''}`}
+                        >
+                            <path
+                                d="M6 9l6 6 6-6"
+                                stroke="currentColor"
+                                strokeWidth="2.2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    {ddOpen && (
+                        <ul className="absolute left-0 right-0 z-20 mt-[6px] max-h-[280px] overflow-auto rounded-[8px] bg-taiky-bg shadow-card-hover">
+                            <li>
+                                <button
+                                    type="button"
+                                    onClick={() => selectCategory('')}
+                                    className={`block w-full px-[16px] py-[10px] text-left text-[15px] font-bold uppercase transition-colors ${
+                                        activeCategory === ''
+                                            ? 'text-taiky-orange'
+                                            : 'text-taiky-brown hover:text-taiky-orange'
+                                    }`}
+                                >
+                                    Tất cả tin tức
+                                </button>
+                            </li>
+                            {categories.map((category) => (
+                                <li key={category.id}>
+                                    <button
+                                        type="button"
+                                        onClick={() => selectCategory(category.id)}
+                                        className={`block w-full px-[16px] py-[10px] text-left text-[15px] font-bold uppercase transition-colors ${
+                                            category.id === activeCategory
+                                                ? 'text-taiky-orange'
+                                                : 'text-taiky-brown hover:text-taiky-orange'
+                                        }`}
+                                    >
+                                        {t(category.name)}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                {/* Desktop: category tabs */}
+                <div className="hidden lg:flex w-fit items-center justify-center gap-[48px] border-b border-taiky-lightbrown/40">
+                    <button
+                        type="button"
+                        onClick={() => selectCategory('')}
+                        className={tabClass(activeCategory === '')}
+                    >
+                        Tất cả tin tức
+                    </button>
+                    {categories.map((category) => (
+                        <button
+                            key={category.id}
+                            type="button"
+                            onClick={() => selectCategory(category.id)}
+                            className={tabClass(category.id === activeCategory)}
+                        >
+                            {t(category.name)}
+                        </button>
+                    ))}
+                </div>
+
+                {/* News grid */}
+                {isLoading ? (
+                    <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">
+                        {Array.from({ length: PER_PAGE }).map((_, i) => (
+                            <NewsCardSkeleton key={i} />
+                        ))}
+                    </div>
+                ) : (
+                    <>
+                        <ListState
+                            error={isError}
+                            empty={articles.length === 0}
+                            onRetry={() => refetch()}
+                            emptyText="Chưa có tin tức cho mục này."
+                        />
+                        {articles.length > 0 && (
+                            <div className="grid w-full animate-fade-rise grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">
+                                {articles.map((n) => {
+                                    const card = toNewsCard(n);
+                                    return <NewsItem key={card.id} {...card} />;
+                                })}
+                            </div>
+                        )}
+                    </>
+                )}
+
+                <Pagination
+                    className="mt-[12px]"
+                    page={page}
+                    pageCount={pageCount}
+                    onPageChange={setPage}
+                />
+            </Container>
+        </section>
+    );
+}
