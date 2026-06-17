@@ -9,9 +9,7 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
-const imgTree = '/images/kitchen-tree.png';
-const imgTextLeft = '/images/text-left.png';
-const imgTextRight = '/images/text-right.png';
+
 const imgDecorTopleft = '/images/decor-orange.png';
 const imgDecorBottomRight = '/images/decor-foodbowls-2.png';
 const imgMainCore = '/images/corevalue.png';
