@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api, type QueryParams } from './client';
 import type {
+    ApiBanner,
     ApiCulinary,
     ApiGrownUp,
     ApiLogo,
@@ -24,6 +25,7 @@ export const qk = {
     partners: ['partners'] as const,
     markets: ['markets'] as const,
     settings: ['settings'] as const,
+    banners: ['banners'] as const,
     grownUps: ['grown-ups'] as const,
     culinary: (params?: QueryParams) => ['culinary', params] as const,
     culinaryCategories: ['culinary-categories'] as const,
@@ -60,6 +62,14 @@ export function useBrands() {
         queryKey: qk.brands,
         queryFn: () =>
             api.get<ListResponse<Taxonomy>>('/api/v1/frontend/brands', { limit: 100, page: 1 }),
+    });
+}
+
+export function useCategories() {
+    return useQuery({
+        queryKey: qk.categories,
+        queryFn: () =>
+            api.get<ListResponse<Taxonomy>>('/api/v1/frontend/categories', { limit: 100, page: 1 }),
     });
 }
 
@@ -117,16 +127,24 @@ export function useSettings() {
     });
 }
 
+// --- Banners --------------------------------------------------------------
+// Page-scoped hero banners; filter the result by the `page` field client-side.
+
+export function useBanners() {
+    return useQuery({
+        queryKey: qk.banners,
+        queryFn: () =>
+            api.get<ListResponse<ApiBanner>>('/api/v1/frontend/banners', { limit: 100, page: 1 }),
+    });
+}
+
 // --- Development timeline (grown-ups) -------------------------------------
 
 export function useGrownUps() {
     return useQuery({
         queryKey: qk.grownUps,
-        queryFn: () =>
-            api.get<ListResponse<ApiGrownUp>>('/api/v1/frontend/grown-ups', {
-                limit: 20,
-                page: 1,
-            }),
+        // No pagination params; response is the standard { data, pagination } envelope.
+        queryFn: () => api.get<ListResponse<ApiGrownUp>>('/api/v1/frontend/grown-ups'),
     });
 }
 

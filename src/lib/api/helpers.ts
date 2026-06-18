@@ -1,6 +1,7 @@
-import type { ApiNews, ApiProduct, Localized, LocalizedImage } from './types';
+import type { ApiCulinary, ApiNews, ApiProduct, Localized, LocalizedImage } from './types';
 import type { Product } from '../../components/ProductItem';
 import type { NewsArticle } from '../../components/NewsItem';
+import type { Recipe } from '../../components/RecipeItem';
 
 /** Resolve a localized text field, preferring Vietnamese. */
 export function t(value?: Localized | null): string {
@@ -32,5 +33,17 @@ export function toNewsCard(n: ApiNews): NewsArticle & { id: string } {
         tag: n.label || '',
         title: t(n.name),
         date: n.publishDate || '',
+    };
+}
+
+/** Map a backend culinary item onto the shared RecipeItem view-model. */
+export function toRecipeCard(c: ApiCulinary): Recipe & { id: string } {
+    return {
+        id: c.id,
+        title: t(c.name),
+        people: c.servings != null ? `${c.servings} Người` : '',
+        time: c.cookingTime || '',
+        difficulty: c.difficulty || '',
+        image: img(c.image),
     };
 }

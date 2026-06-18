@@ -4,14 +4,15 @@ import ProductItem from '../ProductItem';
 import ProductCardSkeleton from '../ProductItem/Skeleton';
 import Pagination from '../Pagination';
 import ListState from '../ListState';
-import { useBrands, useProducts, usePage } from '../../lib/api/queries';
+import RevealStagger from '../RevealStagger';
+import { useCategories, useProducts, usePage } from '../../lib/api/queries';
 import { t, toProductCard } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 /**
- * "DANH MỤC SẢN PHẨM" — product catalog: brand tabs (from `GET /brands`), a
- * product grid filtered by the active brand (`GET /products?brands=`) and
- * server-driven pagination.
+ * "DANH MỤC SẢN PHẨM" — product catalog: category tabs (from `GET /categories`),
+ * a product grid filtered by the active category (`GET /products?categories=`)
+ * and server-driven pagination.
  */
 
 const PER_PAGE = 8;
@@ -20,29 +21,31 @@ const imgDecor = '/images/decor-timeline-1.png';
 const imgSketch = '/images/decor-bottom-catalog.jpg';
 
 export default function ProductCatalog() {
-    // empty brand id = "all brands"
-    const [activeBrand, setActiveBrand] = useState('');
+    // empty category id = "all categories"
+    const [activeCategory, setActiveCategory] = useState('');
     const [page, setPage] = useState(1);
     const [ddOpen, setDdOpen] = useState(false);
 
-    const { data: brandsData } = useBrands();
-    const brands = brandsData?.data ?? [];
-    const activeLabel = activeBrand ? t(brands.find((b) => b.id === activeBrand)?.name) : 'Tất cả';
+    const { data: categoriesData } = useCategories();
+    const categories = categoriesData?.data ?? [];
+    const activeLabel = activeCategory
+        ? t(categories.find((c) => c.id === activeCategory)?.name)
+        : 'Tất cả';
 
     // PRODUCT page CMS section 3: heading.
     const { data: cmsPage } = usePage(PAGE.PRODUCT);
     const heading = pageSection(cmsPage?.data, '3')?.title || 'DANH MỤC SẢN PHẨM';
 
     const { data, isLoading, isError, refetch } = useProducts({
-        brands: activeBrand || undefined,
+        categories: activeCategory || undefined,
         page,
         limit: PER_PAGE,
     });
     const products = data?.data ?? [];
     const pageCount = data?.pagination.pageCount ?? 1;
 
-    const selectBrand = (id: string) => {
-        setActiveBrand(id);
+    const selectCategory = (id: string) => {
+        setActiveCategory(id);
         setPage(1);
         setDdOpen(false);
     };
@@ -67,7 +70,7 @@ export default function ProductCatalog() {
                     {heading}
                 </h2>
 
-                {/* Mobile / tablet: brand dropdown */}
+                {/* Mobile / tablet: category dropdown */}
                 <div className="relative w-full max-w-[320px] lg:hidden">
                     <button
                         type="button"
@@ -98,9 +101,9 @@ export default function ProductCatalog() {
                             <li>
                                 <button
                                     type="button"
-                                    onClick={() => selectBrand('')}
+                                    onClick={() => selectCategory('')}
                                     className={`block w-full px-[16px] py-[10px] text-left text-[15px] font-bold uppercase transition-colors ${
-                                        activeBrand === ''
+                                        activeCategory === ''
                                             ? 'text-taiky-orange'
                                             : 'text-taiky-brown hover:text-taiky-orange'
                                     }`}
@@ -108,18 +111,18 @@ export default function ProductCatalog() {
                                     Tất cả
                                 </button>
                             </li>
-                            {brands.map((brand) => (
-                                <li key={brand.id}>
+                            {categories.map((category) => (
+                                <li key={category.id}>
                                     <button
                                         type="button"
-                                        onClick={() => selectBrand(brand.id)}
+                                        onClick={() => selectCategory(category.id)}
                                         className={`block w-full px-[16px] py-[10px] text-left text-[15px] font-bold uppercase transition-colors ${
-                                            brand.id === activeBrand
+                                            category.id === activeCategory
                                                 ? 'text-taiky-orange'
                                                 : 'text-taiky-brown hover:text-taiky-orange'
                                         }`}
                                     >
-                                        {t(brand.name)}
+                                        {t(category.name)}
                                     </button>
                                 </li>
                             ))}
@@ -127,23 +130,23 @@ export default function ProductCatalog() {
                     )}
                 </div>
 
-                {/* Desktop: brand tabs */}
+                {/* Desktop: category tabs */}
                 <div className="hidden lg:flex w-fit items-center justify-center gap-[48px] border-b border-taiky-lightbrown/40">
                     <button
                         type="button"
-                        onClick={() => selectBrand('')}
-                        className={tabClass(activeBrand === '')}
+                        onClick={() => selectCategory('')}
+                        className={tabClass(activeCategory === '')}
                     >
                         Tất cả
                     </button>
-                    {brands.map((brand) => (
+                    {categories.map((category) => (
                         <button
-                            key={brand.id}
+                            key={category.id}
                             type="button"
-                            onClick={() => selectBrand(brand.id)}
-                            className={tabClass(brand.id === activeBrand)}
+                            onClick={() => selectCategory(category.id)}
+                            className={tabClass(category.id === activeCategory)}
                         >
-                            {t(brand.name)}
+                            {t(category.name)}
                         </button>
                     ))}
                 </div>
@@ -164,12 +167,12 @@ export default function ProductCatalog() {
                             emptyText="Chưa có sản phẩm cho thương hiệu này."
                         />
                         {products.length > 0 && (
-                            <div className="grid w-full animate-fade-rise grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[24px] gap-y-[40px]">
+                            <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[24px] gap-y-[40px]">
                                 {products.map((p) => {
                                     const card = toProductCard(p);
                                     return <ProductItem key={card.id} {...card} />;
                                 })}
-                            </div>
+                            </RevealStagger>
                         )}
                     </>
                 )}

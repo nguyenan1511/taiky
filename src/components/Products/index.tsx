@@ -1,8 +1,9 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import Container from '../Container';
 import ProductCard from './ProductCard';
+import ProductCardSkeleton from './ProductCardSkeleton';
 import ListState from '../ListState';
-import { useBrands, useProducts, usePage } from '../../lib/api/queries';
+import { useCategories, useProducts, usePage } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
@@ -20,7 +21,7 @@ function visibleFor(width: number) {
 }
 
 export default function Products() {
-    const [activeBrand, setActiveBrand] = useState(''); // '' = all brands
+    const [activeCategory, setActiveCategory] = useState(''); // '' = all categories
     const [ddOpen, setDdOpen] = useState(false);
 
     // HOME page CMS: section 2 = ticker line, section 3 = heading.
@@ -28,16 +29,16 @@ export default function Products() {
     const tickerHtml = pageSection(homePage?.data, '2')?.content;
     const heading = pageSection(homePage?.data, '3')?.title || 'SẢN PHẨM';
 
-    // Brand tabs + products from the API (same source as the /products catalog).
-    const { data: brandsData } = useBrands();
-    const brandTabs = [
+    // Category tabs + products from the API (same source as the /products catalog).
+    const { data: categoriesData } = useCategories();
+    const categoryTabs = [
         { id: '', label: 'Tất cả' },
-        ...(brandsData?.data ?? []).map((b) => ({ id: b.id, label: t(b.name) })),
+        ...(categoriesData?.data ?? []).map((c) => ({ id: c.id, label: t(c.name) })),
     ];
-    const activeLabel = brandTabs.find((b) => b.id === activeBrand)?.label ?? 'Tất cả';
+    const activeLabel = categoryTabs.find((c) => c.id === activeCategory)?.label ?? 'Tất cả';
 
     const { data, isLoading, isError, refetch } = useProducts({
-        brands: activeBrand || undefined,
+        categories: activeCategory || undefined,
         limit: LIMIT,
     });
     const cards = (data?.data ?? []).map((p) => ({
@@ -102,12 +103,12 @@ export default function Products() {
         });
     };
 
-    const selectBrand = (id: string) => {
-        setActiveBrand(id);
+    const selectCategory = (id: string) => {
+        setActiveCategory(id);
         setDdOpen(false);
     };
 
-    const tabActive = (id: string) => id === activeBrand;
+    const tabActive = (id: string) => id === activeCategory;
 
     return (
         <section
@@ -135,7 +136,7 @@ export default function Products() {
                     </p>
                 )}
 
-                {/* Heading + brand selector */}
+                {/* Heading + category selector */}
                 <div className="flex flex-col items-center gap-[28px] lg:gap-[40px] mb-[32px] lg:mb-[40px]">
                     <h2 className="font-stamp font-normal text-[32px] leading-[34px] lg:text-[48px] lg:leading-[48px] text-taiky-orange uppercase whitespace-nowrap">
                         {heading}
@@ -169,11 +170,11 @@ export default function Products() {
                         </button>
                         {ddOpen && (
                             <ul className="absolute left-0 right-0 z-20 mt-[6px] max-h-[280px] overflow-auto rounded-[8px] bg-taiky-bg shadow-card-hover">
-                                {brandTabs.map((tab) => (
+                                {categoryTabs.map((tab) => (
                                     <li key={tab.id || 'all'}>
                                         <button
                                             type="button"
-                                            onClick={() => selectBrand(tab.id)}
+                                            onClick={() => selectCategory(tab.id)}
                                             className={`block w-full px-[16px] py-[10px] text-left text-[15px] font-bold uppercase transition-colors ${
                                                 tabActive(tab.id)
                                                     ? 'text-taiky-orange'
@@ -190,10 +191,10 @@ export default function Products() {
 
                     {/* Desktop: tab row */}
                     <div className="hidden lg:flex flex-wrap items-start justify-center gap-[40px] relative">
-                        {brandTabs.map((tab) => (
+                        {categoryTabs.map((tab) => (
                             <button
                                 key={tab.id || 'all'}
-                                onClick={() => selectBrand(tab.id)}
+                                onClick={() => selectCategory(tab.id)}
                                 className={`relative shrink-0 pb-[6px] bg-transparent border-none cursor-pointer font-bold text-[20px] leading-6 whitespace-nowrap transition-colors duration-[250ms] ease-linear ${
                                     tabActive(tab.id) ? 'text-taiky-orange' : 'text-taiky-brown'
                                 }`}
@@ -209,16 +210,26 @@ export default function Products() {
                     </div>
                 </div>
 
-                <ListState
-                    loading={isLoading}
-                    error={isError}
-                    empty={!isLoading && cards.length === 0}
-                    onRetry={() => refetch()}
-                    emptyText="Chưa có sản phẩm cho thương hiệu này."
-                />
+                {/* Loading: skeleton cards (matches the visible card count) */}
+                {isLoading && (
+                    <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] px-0 lg:px-[80px]">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <ProductCardSkeleton key={i} />
+                        ))}
+                    </div>
+                )}
+
+                {!isLoading && (
+                    <ListState
+                        error={isError}
+                        empty={cards.length === 0}
+                        onRetry={() => refetch()}
+                        emptyText="Chưa có sản phẩm cho thương hiệu này."
+                    />
+                )}
 
                 {/* Carousel */}
-                {cards.length > 0 && (
+                {!isLoading && cards.length > 0 && (
                     <div className="relative flex items-start justify-between gap-[8px] lg:gap-0 px-0 lg:px-[80px]">
                         <button
                             onClick={() => slide(-1)}

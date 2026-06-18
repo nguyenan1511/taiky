@@ -1,4 +1,5 @@
 import Container from '../Container';
+import RevealStagger from '../RevealStagger';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
@@ -43,20 +44,22 @@ export default function QualityCertifications() {
                     </p>
                 )}
 
-                <ul className="mt-[12px] lg:mt-[20px] flex w-full flex-wrap items-center justify-center gap-x-[28px] gap-y-[24px] lg:gap-x-[56px] lg:gap-y-[32px]">
+                <RevealStagger
+                    step={80}
+                    className="mt-[12px] lg:mt-[20px] flex w-full flex-wrap items-center justify-center gap-x-[28px] gap-y-[24px] lg:gap-x-[56px] lg:gap-y-[32px]"
+                >
                     {CERTIFICATIONS.map(({ src, alt }) => (
-                        <li key={src}>
-                            <img
-                                src={src}
-                                alt={alt}
-                                width={230}
-                                height={230}
-                                loading="lazy"
-                                className="block h-[100px] w-[100px] lg:h-[150px] lg:w-[150px] object-contain"
-                            />
-                        </li>
+                        <img
+                            key={src}
+                            src={src}
+                            alt={alt}
+                            width={230}
+                            height={230}
+                            loading="lazy"
+                            className="block h-[100px] w-[100px] lg:h-[150px] lg:w-[150px] object-contain"
+                        />
                     ))}
-                </ul>
+                </RevealStagger>
             </Container>
         </section>
     );

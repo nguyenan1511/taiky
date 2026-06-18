@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 import { ReadyContext } from './context/ready';
 import { usePage } from './lib/api/queries';
+import { usePageMeta } from './hooks/usePageMeta';
 import { PAGE, type PageCode } from './lib/api/pages';
 import Home from './pages/Home';
 import Story from './pages/Story';
@@ -43,6 +44,9 @@ export default function App() {
     // Fetch this route's page content; the loader hides only once it has settled.
     const pageCode = PATH_TO_PAGE[location.pathname] ?? PAGE.HOME;
     const pageQuery = usePage(pageCode);
+
+    // SEO: drive <title> + description + OG/Twitter tags from the page's CMS meta.
+    usePageMeta(pageQuery.data?.data);
 
     // Wait for the page content AND every other query the route fired
     // (products, brands, timeline, news, settings…) to finish before hiding.

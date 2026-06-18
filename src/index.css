@@ -73,3 +73,14 @@ body {
 .event-hero-swiper .swiper-pagination {
     bottom: 22px !important;
 }
+
+/* Event hero — the active slide's image zooms + caption rises in (re-fires on
+   each slide change). Gated on `.is-ready` so the first one plays after the
+   preloader. Reuses the hero-zoom / hero-rise keyframes from the Tailwind config. */
+.event-hero-swiper.is-ready .swiper-slide-active .hero-banner-img {
+    animation: hero-zoom 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.event-hero-swiper.is-ready .swiper-slide-active .hero-banner-caption {
+    animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}

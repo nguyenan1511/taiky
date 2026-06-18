@@ -48,6 +48,16 @@ export default {
                     '0%': { opacity: '0', transform: 'translateX(48px)' },
                     '100%': { opacity: '1', transform: 'translateX(0)' },
                 },
+                // Banner hero: text rises in (staggered) + image fades while
+                // easing out of a slight zoom.
+                'hero-rise': {
+                    '0%': { opacity: '0', transform: 'translateY(24px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+                'hero-zoom': {
+                    '0%': { opacity: '0', transform: 'scale(1.08)' },
+                    '100%': { opacity: '1', transform: 'scale(1)' },
+                },
                 // Preloader logo motion (staged):
                 //  1. emblem rises + un-clips from the bottom (ink-fill feel)
                 //  2. wordmark wipes in left→right
@@ -87,6 +97,8 @@ export default {
                 'fade-rise': 'fade-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'enter-left': 'enter-left 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'enter-right': 'enter-right 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both',
+                'hero-rise': 'hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
+                'hero-zoom': 'hero-zoom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
                 // Logo: reveal (once) → breathe (after, looping)
                 'logo-emblem': 'reveal-up 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'logo-wordmark': 'reveal-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both',

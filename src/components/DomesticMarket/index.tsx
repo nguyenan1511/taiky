@@ -1,6 +1,7 @@
 import Container from '../Container';
 import ListState from '../ListState';
 import Skeleton from '../Skeleton';
+import RevealStagger from '../RevealStagger';
 import { useMarkets } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 
@@ -58,7 +59,10 @@ export default function DomesticMarket() {
 
                 {/* Rows 1-2: 6 logos each. Row 3: the remaining ones, centered. */}
                 {firstRows.length > 0 && (
-                    <div className="mt-[24px] grid w-full animate-fade-rise grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 place-items-center gap-x-[20px] lg:gap-x-[40px] gap-y-[16px] lg:gap-y-[10px]">
+                    <RevealStagger
+                        step={60}
+                        className="mt-[24px] grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 place-items-center gap-x-[20px] lg:gap-x-[40px] gap-y-[16px] lg:gap-y-[10px]"
+                    >
                         {firstRows.map((logo) => (
                             <div
                                 className="bg-taiky-bg w-full max-w-[197px] h-[100px] lg:h-[140px] flex justify-center items-center"
@@ -72,7 +76,7 @@ export default function DomesticMarket() {
                                 />
                             </div>
                         ))}
-                    </div>
+                    </RevealStagger>
                 )}
                 {lastRow.length > 0 && (
                     <div className="mt-[18px] flex flex-wrap items-center justify-center gap-x-[20px] lg:gap-x-[40px] gap-y-[16px]">

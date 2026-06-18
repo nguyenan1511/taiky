@@ -1,6 +1,7 @@
 import Container from '../Container';
 import ListState from '../ListState';
 import Skeleton from '../Skeleton';
+import RevealStagger from '../RevealStagger';
 import { usePartners } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 
@@ -40,7 +41,10 @@ export default function EnterpriseCustomers() {
                             onRetry={() => refetch()}
                         />
                         {logos.length > 0 && (
-                            <div className="mt-[24px] flex animate-fade-rise flex-wrap items-center justify-center gap-x-[28px] lg:gap-x-[40px] gap-y-[24px] lg:gap-y-[32px]">
+                            <RevealStagger
+                                step={60}
+                                className="mt-[24px] flex flex-wrap items-center justify-center gap-x-[28px] lg:gap-x-[40px] gap-y-[24px] lg:gap-y-[32px]"
+                            >
                                 {logos.map((logo) => (
                                     <img
                                         key={logo.id}
@@ -50,7 +54,7 @@ export default function EnterpriseCustomers() {
                                         className="h-[56px] w-auto object-contain lg:h-auto lg:w-auto"
                                     />
                                 ))}
-                            </div>
+                            </RevealStagger>
                         )}
                     </>
                 )}

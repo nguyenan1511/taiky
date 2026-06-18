@@ -15,6 +15,7 @@
 import { useGrownUps, usePage } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { CanvasMilestone, MobileMilestone } from './Milestone';
 
 const imgMapLine = '/images/map-line.webp';
 
@@ -91,27 +92,38 @@ const MILESTONES: Milestone[] = [
     },
 ];
 
-type MilestoneContent = Pick<Milestone, 'year' | 'title' | 'subtitle' | 'image'>;
+type MilestoneContent = Pick<Milestone, 'year' | 'title' | 'subtitle' | 'image'> & {
+    imageMb: string;
+};
 
 export default function Timeline() {
+    // `/grown-ups` returns a bare array (no pagination envelope).
     const { data } = useGrownUps();
     const apiItems = data?.data ?? [];
-
     // ABOUT-US page CMS section 4: heading + label.
     const { data: page } = usePage(PAGE.ABOUT_US);
     const s4 = pageSection(page?.data, '4');
     const heading = s4?.title || 'QUÁ TRÌNH PHÁT TRIỂN';
     const label = s4?.label || 'TAKYFOOD';
 
-    // API content if available, else the built-in fallback content.
+    // API content if available (sorted by `sort`), else the built-in fallback.
     const content: MilestoneContent[] = apiItems.length
-        ? apiItems.map((g) => ({
-              year: t(g.year),
-              title: t(g.title),
-              subtitle: t(g.description),
-              image: img(g.image),
-          }))
-        : MILESTONES.map(({ year, title, subtitle, image }) => ({ year, title, subtitle, image }));
+        ? [...apiItems]
+              .sort((a, b) => a.sort - b.sort)
+              .map((g) => ({
+                  year: t(g.year),
+                  title: t(g.title),
+                  subtitle: t(g.description),
+                  image: img(g.image),
+                  imageMb: img(g.imageMb) || img(g.image),
+              }))
+        : MILESTONES.map(({ year, title, subtitle, image }) => ({
+              year,
+              title,
+              subtitle,
+              image,
+              imageMb: image,
+          }));
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg pt-[40px] z-10">
@@ -153,26 +165,7 @@ export default function Timeline() {
                         const c = content[i];
                         if (!c) return null;
                         return (
-                            <div key={i}>
-                                <img
-                                    src={c.image}
-                                    alt={`TAKYfood ${c.year}`}
-                                    className={`absolute ${imgPos}`}
-                                />
-                                <div className={`absolute ${textPos}`}>
-                                    <p className="font-stamp text-[44px] leading-[44px] text-taiky-orange">
-                                        {c.year}
-                                    </p>
-                                    <p className="mt-[10px] font-sans font-bold text-[18px] leading-[24px] text-taiky-brown">
-                                        {c.title}
-                                    </p>
-                                    {c.subtitle && (
-                                        <p className="mt-[6px] font-sans text-[14px] leading-[20px] text-taiky-lightbrown">
-                                            {c.subtitle}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                            <CanvasMilestone key={i} data={c} imgPos={imgPos} textPos={textPos} />
                         );
                     })}
                 </div>
@@ -180,26 +173,8 @@ export default function Timeline() {
 
             {/* Mobile / tablet (<1304px): vertical stacked timeline */}
             <ol className="min-[1304px]:hidden relative z-10 mx-auto flex max-w-[420px] flex-col gap-[40px] px-[24px] pb-[40px] pt-[12px]">
-                {content.map(({ year, title, subtitle, image }, i) => (
-                    <li key={i} className="flex flex-col items-center gap-[12px] text-center">
-                        <img
-                            src={image}
-                            alt={`TAKYfood ${year}`}
-                            loading="lazy"
-                            className="w-full max-w-[320px] h-auto rounded-[12px]"
-                        />
-                        <p className="font-stamp text-[40px] leading-[40px] text-taiky-orange">
-                            {year}
-                        </p>
-                        <p className="font-sans font-bold text-[16px] leading-[22px] text-taiky-brown">
-                            {title}
-                        </p>
-                        {subtitle && (
-                            <p className="font-sans text-[13px] leading-[19px] text-taiky-lightbrown">
-                                {subtitle}
-                            </p>
-                        )}
-                    </li>
+                {content.map((c, i) => (
+                    <MobileMilestone key={i} data={c} />
                 ))}
             </ol>
         </section>

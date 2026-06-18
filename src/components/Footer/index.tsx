@@ -41,7 +41,7 @@ export default function Footer() {
 
             {/* Main content — orange backdrop; on mobile it spans from below the
                 logo to the bottom so it covers the taller stacked content. */}
-            <div className="bg-taiky-footerbg absolute w-screen bottom-0 left-0 top-[120px] lg:top-auto lg:h-[300px]"></div>
+            <div className="bg-taiky-footerbg absolute w-screen bottom-0 left-0 top-[120px] lg:top-auto h-[500px] xl:h-[300px]"></div>
 
             <Container className="px-6 sm:px-8 md:px-[80px] py-8 flex flex-wrap items-start justify-between gap-8 relative z-10 pt-[48px] lg:pt-[80px]">
                 {/* Left: company info */}

@@ -123,25 +123,36 @@ export interface ApiGrownUp {
     updatedAt: string;
 }
 
-/**
- * `GET /culinary` — recipe / "Ẩm thực" item. The endpoint is in the Postman
- * collection but not yet deployed (returns 404), so fields beyond the common
- * pattern are tentative; widen this once the live shape is known.
- */
+/** `GET /culinary` — recipe / "Ẩm thực" item. */
 export interface ApiCulinary {
     id: string;
     name: Localized;
     image: LocalizedImage;
-    imageMb?: LocalizedImage;
+    imageMb: LocalizedImage;
     description?: Localized;
     sort?: number;
     active?: boolean;
-    categories?: string[];
-    /** Recipe meta — exact field names TBD once the endpoint is live. */
-    people?: string;
-    time?: string;
+    /** Recipe meta. */
+    servings?: number;
+    cookingTime?: string;
     difficulty?: string;
+    categories?: string[];
     createdAt?: string;
+}
+
+/** `GET /banners` — a hero banner scoped to a page (the `page` field, e.g. "NEWS"). */
+export interface ApiBanner {
+    id: string;
+    title: Localized;
+    content: Localized;
+    link: string;
+    page: string;
+    image: LocalizedImage;
+    imageMb: LocalizedImage;
+    sort: number;
+    active: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 /** One section block of a CMS page (`GET /pages/:code`). */

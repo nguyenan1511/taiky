@@ -9,10 +9,9 @@ const imgDecorBottomRight = '/images/decor-foodbowls-2.png';
 export default function KitchenCorner() {
     // HOME page CMS section 5: tree image + "GÓC BẾP" heading.
     const { data } = usePage(PAGE.HOME);
-    const s5 = pageSection(data?.data, '5');
-    const heading = s5?.title || 'GÓC BẾP CỦA TAIKYFOOD';
-    const hasImage = Boolean(s5?.image || s5?.imageMb);
+    const s4 = pageSection(data?.data, '4');
 
+    const hasImage = Boolean(s4?.image || s4?.imageMb);
 
     return (
         <section id="goc-am-thuc" className="relative w-full overflow-hidden bg-taiky-bg">
@@ -28,8 +27,8 @@ export default function KitchenCorner() {
                     {/* Tree (CMS image, else local fallback) */}
                     {hasImage ? (
                         <BannerImage
-                            image={s5?.image}
-                            imageMb={s5?.imageMb}
+                            image={s4?.image}
+                            imageMb={s4?.imageMb}
                             alt="50 năm TAIKYFOOD"
                             className="w-full max-w-[420px] h-auto lg:w-auto lg:max-w-[900px]"
                         />
@@ -41,11 +40,6 @@ export default function KitchenCorner() {
                         />
                     )}
                 </div>
-
-                {/* GÓC BẾP heading */}
-                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[30px] lg:text-[48px] lg:leading-[48px] text-taiky-orange uppercase text-center mb-[26px]">
-                    {heading}
-                </h2>
             </div>
         </section>
     );

@@ -4,6 +4,7 @@ import NewsItem from '../NewsItem';
 import NewsCardSkeleton from '../NewsItem/Skeleton';
 import Pagination from '../Pagination';
 import ListState from '../ListState';
+import RevealStagger from '../RevealStagger';
 import { useNews, useNewsCategories } from '../../lib/api/queries';
 import { t, toNewsCard } from '../../lib/api/helpers';
 
@@ -157,12 +158,12 @@ export default function NewsList() {
                             emptyText="Chưa có tin tức cho mục này."
                         />
                         {articles.length > 0 && (
-                            <div className="grid w-full animate-fade-rise grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">
+                            <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">
                                 {articles.map((n) => {
                                     const card = toNewsCard(n);
                                     return <NewsItem key={card.id} {...card} />;
                                 })}
-                            </div>
+                            </RevealStagger>
                         )}
                     </>
                 )}

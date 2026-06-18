@@ -9,7 +9,6 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
-
 const imgDecorTopleft = '/images/decor-orange.png';
 const imgDecorBottomRight = '/images/decor-foodbowls-2.png';
 const imgMainCore = '/images/corevalue.png';
@@ -22,8 +21,6 @@ export default function CoreValues() {
     const s2 = pageSection(data?.data, '2');
     const hasImage = Boolean(s3?.image || s3?.imageMb);
     const hasImageS2 = Boolean(s2?.image || s2?.imageMb);
-
-    console.log('🚀data---->', data);
 
     return (
         <>

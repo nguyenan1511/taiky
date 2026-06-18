@@ -2,6 +2,7 @@ import Container from '../Container';
 import ProductItem from '../ProductItem';
 import ProductCardSkeleton from '../ProductItem/Skeleton';
 import ListState from '../ListState';
+import RevealStagger from '../RevealStagger';
 import { useFeaturedProducts, usePage } from '../../lib/api/queries';
 import { toProductCard } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
@@ -69,12 +70,12 @@ export default function FeaturedProducts() {
                             onRetry={() => refetch()}
                         />
                         {products.length > 0 && (
-                            <div className="grid w-full animate-fade-rise grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px]">
+                            <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px]">
                                 {products.map((p) => {
                                     const card = toProductCard(p);
                                     return <ProductItem key={card.id} {...card} />;
                                 })}
-                            </div>
+                            </RevealStagger>
                         )}
                     </>
                 )}
