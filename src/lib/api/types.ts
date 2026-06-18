@@ -62,6 +62,8 @@ export interface ApiProduct {
 export interface ApiNews {
     id: string;
     name: Localized;
+    /** URL slug (present on the detail response; derive from `name.non` otherwise). */
+    slug?: any;
     image: LocalizedImage;
     imageMb: LocalizedImage;
     sort: number;
@@ -69,6 +71,11 @@ export interface ApiNews {
     label: string;
     publishDate: string;
     description: Localized;
+    /** Full article body (HTML), present on the detail response. */
+    content?: Localized | null;
+    metaTitle?: Localized;
+    metaDescription?: Localized;
+    metaImage?: LocalizedImage;
     categories: string[];
     createdAt: string;
     metadata?: {

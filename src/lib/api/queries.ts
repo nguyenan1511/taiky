@@ -22,6 +22,7 @@ export const qk = {
     categories: ['categories'] as const,
     news: (params?: QueryParams) => ['news', params] as const,
     newsCategories: ['news-categories'] as const,
+    newsDetail: (slug: string) => ['news-detail', slug] as const,
     partners: ['partners'] as const,
     markets: ['markets'] as const,
     settings: ['settings'] as const,
@@ -97,6 +98,14 @@ export function useNewsCategories() {
                 limit: 100,
                 page: 1,
             }),
+    });
+}
+
+export function useNewsDetail(slug: string) {
+    return useQuery({
+        queryKey: qk.newsDetail(slug),
+        queryFn: () => api.get<ItemResponse<ApiNews>>(`/api/v1/frontend/news/${slug}`),
+        enabled: Boolean(slug),
     });
 }
 

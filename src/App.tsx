@@ -13,6 +13,7 @@ import Story from './pages/Story';
 import Products from './pages/Products';
 import Food from './pages/Food';
 import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 import Distribution from './pages/Distribution';
 
 // Don't let the browser restore the old scroll position on reload — we always
@@ -42,11 +43,13 @@ export default function App() {
     const isFirstLoad = useRef(true);
 
     // Fetch this route's page content; the loader hides only once it has settled.
+    const knownPage = location.pathname in PATH_TO_PAGE;
     const pageCode = PATH_TO_PAGE[location.pathname] ?? PAGE.HOME;
     const pageQuery = usePage(pageCode);
 
-    // SEO: drive <title> + description + OG/Twitter tags from the page's CMS meta.
-    usePageMeta(pageQuery.data?.data);
+    // SEO: drive <title> + OG/Twitter from the page's CMS meta — but only for the
+    // known top-level pages. Dynamic routes (e.g. /news/:slug) set their own meta.
+    usePageMeta(knownPage ? pageQuery.data?.data : undefined);
 
     // Wait for the page content AND every other query the route fired
     // (products, brands, timeline, news, settings…) to finish before hiding.
@@ -81,6 +84,7 @@ export default function App() {
                     <Route path="/products" element={<Products />} />
                     <Route path="/food" element={<Food />} />
                     <Route path="/news" element={<News />} />
+                    <Route path="/news/:slug" element={<NewsDetail />} />
                     <Route path="/distribution" element={<Distribution />} />
                 </Routes>
                 <Footer />

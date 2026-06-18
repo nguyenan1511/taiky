@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import type { ApiPage } from '../lib/api/types';
 
 /**
- * Drives the document <head> for SEO from a page's CMS meta
- * (`metaTitle` / `metaDescription` / `metaImage`): sets the title, description,
- * and Open Graph / Twitter tags. Existing tags are updated in place; missing
- * ones are created. No-ops until the page data is available.
+ * Drives the document <head> for SEO: title + description + Open Graph / Twitter
+ * tags. Existing tags are updated in place; missing ones are created.
+ *  - `useDocumentMeta` — generic, takes resolved title/description/image.
+ *  - `usePageMeta` — convenience wrapper for a CMS page (`/pages/:code`).
  */
 
 const DEFAULT_TITLE = 'TAKYfood';
@@ -20,20 +20,17 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
     el.setAttribute('content', content);
 }
 
-export function usePageMeta(page?: ApiPage) {
-    useEffect(() => {
-        if (!page) return;
+type Meta = { title?: string; description?: string; image?: string };
 
-        const title = page.metaTitle?.vi || DEFAULT_TITLE;
-        const description = page.metaDescription?.vi || '';
-        const image = page.metaImage?.vi || '';
-        const url = window.location.href;
+export function useDocumentMeta({ title, description = '', image = '' }: Meta, enabled = true) {
+    useEffect(() => {
+        if (!enabled || !title) return;
 
         document.title = title;
         upsertMeta('name', 'description', description);
 
         upsertMeta('property', 'og:type', 'website');
-        upsertMeta('property', 'og:url', url);
+        upsertMeta('property', 'og:url', window.location.href);
         upsertMeta('property', 'og:title', title);
         upsertMeta('property', 'og:description', description);
 
@@ -45,5 +42,16 @@ export function usePageMeta(page?: ApiPage) {
             upsertMeta('property', 'og:image', image);
             upsertMeta('name', 'twitter:image', image);
         }
-    }, [page]);
+    }, [enabled, title, description, image]);
+}
+
+export function usePageMeta(page?: ApiPage) {
+    useDocumentMeta(
+        {
+            title: page?.metaTitle?.vi || DEFAULT_TITLE,
+            description: page?.metaDescription?.vi || '',
+            image: page?.metaImage?.vi || '',
+        },
+        Boolean(page)
+    );
 }

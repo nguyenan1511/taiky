@@ -25,6 +25,11 @@ export function toProductCard(p: ApiProduct): Product & { id: string } {
     };
 }
 
+/** URL slug for a news item — the backend `slug`, else `name.non` kebab-cased. */
+export function newsSlug(n: ApiNews): string {
+    return (n.slug?.vi || '').trim().replace(/\s+/g, '-');
+}
+
 /** Map a backend news item onto the shared NewsItem view-model. */
 export function toNewsCard(n: ApiNews): NewsArticle & { id: string } {
     return {
@@ -33,6 +38,7 @@ export function toNewsCard(n: ApiNews): NewsArticle & { id: string } {
         tag: n.label || '',
         title: t(n.name),
         date: n.publishDate || '',
+        url: `/news/${newsSlug(n)}`,
     };
 }
 

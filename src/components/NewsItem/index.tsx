@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export type NewsArticle = {
     image: string;
     tag: string;
@@ -8,14 +10,14 @@ export type NewsArticle = {
 
 /**
  * News card — article image above a tag, title and date. The whole card is one
- * clickable link. Hover (Warm Heritage Tactile motion, size-stable): a light
- * sheen sweeps across the image, a warm orange shadow glows in, and an orange
- * underline wipes in under the title. Nothing resizes or shifts.
+ * clickable link to the article (`/news/:slug`). Hover (Warm Heritage Tactile
+ * motion, size-stable): a light sheen sweeps across the image, a warm orange
+ * shadow glows in, and the title turns orange. Nothing resizes or shifts.
  */
 export default function NewsItem({ image, tag, title, date, url = '#' }: NewsArticle) {
     return (
-        <a
-            href={url}
+        <Link
+            to={url}
             className="group flex flex-col rounded-[8px] outline-none focus-visible:ring-2 focus-visible:ring-taiky-orange focus-visible:ring-offset-2 focus-visible:ring-offset-taiky-bg"
         >
             <div className="relative overflow-hidden rounded-[8px] shadow-card transition-shadow duration-[450ms] ease-brand group-hover:shadow-card-hover">
@@ -36,6 +38,6 @@ export default function NewsItem({ image, tag, title, date, url = '#' }: NewsArt
                 {title}
             </h3>
             <span className="mt-[10px] text-[13px] text-taiky-lightbrown">{date}</span>
-        </a>
+        </Link>
     );
 }
