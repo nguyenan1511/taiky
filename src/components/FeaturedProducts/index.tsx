@@ -82,7 +82,7 @@ export default function FeaturedProducts() {
 
                 <button
                     type="button"
-                    className="mt-[12px] inline-flex items-center justify-center bg-taiky-yellow px-[48px] py-[14px]"
+                    className="mt-[12px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[48px] py-[14px]"
                 >
                     <span className="font-bold text-[16px] leading-6 text-taiky-brown uppercase tracking-[0.04em]">
                         Xem tất cả

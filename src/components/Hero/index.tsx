@@ -62,7 +62,7 @@ export default function Hero() {
 
                         <a
                             href={link}
-                            className="flex items-center justify-center px-[40px] py-[12px] drop-shadow-[2px_4px_2px_rgba(0,0,0,0.5)] bg-taiky-yellow"
+                            className="flex items-center justify-center px-[40px] py-[12px] drop-shadow-[2px_4px_2px_rgba(0,0,0,0.5)] btn-cta bg-taiky-yellow"
                         >
                             <span className="font-bold text-taiky-brown text-[16px] leading-6 whitespace-nowrap [word-break:break-word]">
                                 XEM CHI TIẾT

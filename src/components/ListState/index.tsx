@@ -35,7 +35,7 @@ export default function ListState({
                         <button
                             type="button"
                             onClick={onRetry}
-                            className="bg-taiky-yellow px-[28px] py-[10px] text-[14px] font-bold uppercase tracking-[0.04em] text-taiky-brown transition hover:opacity-90"
+                            className="btn-cta bg-taiky-yellow px-[28px] py-[10px] text-[14px] font-bold uppercase tracking-[0.04em] text-taiky-brown"
                         >
                             Thử lại
                         </button>

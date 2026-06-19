@@ -11,6 +11,7 @@ import { PAGE, type PageCode } from './lib/api/pages';
 import Home from './pages/Home';
 import Story from './pages/Story';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import Food from './pages/Food';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
@@ -82,6 +83,7 @@ export default function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/story" element={<Story />} />
                     <Route path="/products" element={<Products />} />
+                    <Route path="/products/:slug" element={<ProductDetail />} />
                     <Route path="/food" element={<Food />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/news/:slug" element={<NewsDetail />} />

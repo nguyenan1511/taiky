@@ -27,7 +27,7 @@ export default function RecipeItem({ title, people, time, difficulty, image, url
                     src={image}
                     alt={title}
                     loading="lazy"
-                    className="aspect-[416/300] w-full object-cover"
+                    className="aspect-[416/300] w-full object-cover transition-transform duration-[600ms] ease-brand group-hover:scale-[1.06]"
                 />
                 {/* Light sheen sweep — size-stable hover signature */}
                 <span

@@ -18,6 +18,7 @@ import type {
 /** Centralized query keys so caches stay consistent across the app. */
 export const qk = {
     products: (params?: QueryParams) => ['products', params] as const,
+    productDetail: (slug: string) => ['product-detail', slug] as const,
     brands: ['brands'] as const,
     categories: ['categories'] as const,
     news: (params?: QueryParams) => ['news', params] as const,
@@ -56,6 +57,14 @@ export function useProducts(filters: ProductFilters = {}) {
 
 export function useFeaturedProducts(limit = 4) {
     return useProducts({ isHighlight: true, limit });
+}
+
+export function useProductDetail(slug: string) {
+    return useQuery({
+        queryKey: qk.productDetail(slug),
+        queryFn: () => api.get<ItemResponse<ApiProduct>>(`/api/v1/frontend/products/${slug}`),
+        enabled: Boolean(slug),
+    });
 }
 
 export function useBrands() {

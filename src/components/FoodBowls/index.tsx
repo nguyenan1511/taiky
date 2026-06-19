@@ -58,7 +58,7 @@ export default function FoodBowls() {
                     </div>
                 )}
                 <div className="flex justify-center my-[40px] relative z-10">
-                    <button className="px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] font-bold text-[14px] lg:text-[16px] leading-6 uppercase text-taiky-orange border-[2px] border-taiky-orange bg-transparent">
+                    <button className="btn-cta-outline px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] font-bold text-[14px] lg:text-[16px] leading-6 uppercase text-taiky-orange border-[2px] border-taiky-orange bg-transparent">
                         XEM CHI TIẾT
                     </button>
                 </div>

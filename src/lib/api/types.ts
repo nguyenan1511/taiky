@@ -39,23 +39,39 @@ export interface Taxonomy {
     createdAt: string;
 }
 
+export interface NutritionRow {
+    label: string;
+    value: string;
+}
+
 export interface ApiProduct {
     id: string;
     name: Localized;
+    /** URL slug, e.g. { vi: "bot-banh-xeo-400g" }. */
+    slug?: Localized;
     image: LocalizedImage;
     imageMb: LocalizedImage;
-    link?: { vi?: string | null };
+    /** Extra gallery image URLs (plain strings). */
+    galleries?: string[];
     sort: number;
     active: boolean;
     description: Localized;
+    /** Full description body (HTML), on the detail response. */
+    content?: Localized | null;
+    metaTitle?: Localized;
+    metaDescription?: Localized;
+    metaImage?: LocalizedImage;
     linkShoppe: string;
     linkTiktok: string;
     isHighlight: boolean;
-    categories: Taxonomy[];
-    brands: Taxonomy[];
-    lines: Taxonomy[];
-    volumes: Taxonomy[];
-    flavors: Taxonomy[];
+    /** Quy cách (packaging). */
+    specification?: string;
+    /** Trọng lượng. */
+    weight?: string;
+    /** Hạn sử dụng. */
+    expiry?: string;
+    nutrition?: { title: string; ingredients: NutritionRow[] };
+    categories: Array<Taxonomy | string>;
     createdAt: string;
 }
 

@@ -108,15 +108,19 @@ export default function NewsDetail() {
                         <h1 className="mt-[12px] text-center font-stamp font-normal tracking-brand text-[28px] leading-[34px] lg:text-[40px] lg:leading-[46px] text-taiky-orange uppercase">
                             {t(article.name)}
                         </h1>
+                        <p className="mt-[24px] text-center text-[20px] leading-[26px] text-taiky-brown">
+                            {t(article.description)}
+                        </p>
+                        <div className="flex justify-center items-center my-[40px]">
+                            <span className="w-[100px] h-[2px] bg-taiky-orange block"></span>
+                        </div>
                         {article.content && t(article.content) ? (
                             <div
                                 className={`mt-[24px] lg:mt-[32px] ${PROSE}`}
                                 dangerouslySetInnerHTML={{ __html: t(article.content) }}
                             />
                         ) : (
-                            <p className="mt-[24px] text-center text-[15px] leading-[26px] text-taiky-lightbrown">
-                                {t(article.description)}
-                            </p>
+                            <></>
                         )}
                     </Reveal>
                 </Container>

@@ -74,7 +74,7 @@ export default function FoodHero() {
                             <a
                                 href={s1?.link || '#'}
                                 style={riseStyle('0.38s')}
-                                className={`mt-[20px] lg:mt-[30px] inline-flex items-center justify-center bg-taiky-yellow px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] ${riseClass}`}
+                                className={`mt-[20px] lg:mt-[30px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] ${riseClass}`}
                             >
                                 <span className="font-bold text-[14px] lg:text-[16px] leading-6 text-taiky-brown uppercase">
                                     Xem chi tiết

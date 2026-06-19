@@ -133,7 +133,7 @@ export default function ConsultForm() {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className="mx-auto mt-[8px] bg-taiky-yellow px-[36px] py-[12px] text-[15px] font-bold text-taiky-brown transition hover:opacity-90 disabled:opacity-60"
+                            className="mx-auto mt-[8px] btn-cta bg-taiky-yellow px-[36px] py-[12px] text-[15px] font-bold text-taiky-brown disabled:opacity-60"
                         >
                             {isPending ? 'Đang gửi…' : 'Gửi thông tin'}
                         </button>

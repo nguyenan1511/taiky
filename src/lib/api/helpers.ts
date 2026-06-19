@@ -13,15 +13,21 @@ export function img(value?: LocalizedImage | null): string {
     return value?.vi ?? value?.en ?? '';
 }
 
+/** URL slug for a product — the backend `slug`, else `name.non` kebab-cased. */
+export function productSlug(p: ApiProduct): string {
+    return (p.slug?.vi || p.name.non || p.name.vi || '').trim().replace(/\s+/g, '-');
+}
+
 /** Map a backend product onto the shared ProductItem view-model. */
 export function toProductCard(p: ApiProduct): Product & { id: string } {
     return {
         id: p.id,
         name: t(p.name),
-        weight: t(p.volumes?.[0]?.name),
+        weight: p.weight || '',
         image: img(p.image),
         shopeeUrl: p.linkShoppe || undefined,
         tiktokUrl: p.linkTiktok || undefined,
+        url: `/products/${productSlug(p)}`,
     };
 }
 

@@ -32,7 +32,8 @@ export default function TodayEat() {
     const count = recipes.length;
     const recipe = count ? recipes[index % count] : undefined;
     const go = (delta: number) => {
-        if (count) setIndex((i) => (i + delta + count) % count);
+        if (!count) return;
+        setIndex((i) => (i + delta + count) % count);
     };
 
     // FOOD page CMS section 2: heading + subtitle.
@@ -104,46 +105,66 @@ export default function TodayEat() {
                                 </svg>
                             </button>
 
-                            {/* Slide — stacks on mobile; fixed height on desktop */}
-                            <div className="flex flex-col lg:grid lg:h-[450px] lg:grid-cols-2 overflow-hidden rounded-md">
-                                {/* Lined-paper info panel */}
-                                <div className="relative order-2 lg:order-none">
-                                    <img
-                                        src={imgBg}
-                                        alt=""
-                                        className="absolute inset-0 h-full w-full object-cover"
-                                    />
-                                    <div className="relative z-10 flex h-full flex-col justify-center px-[24px] py-[28px] lg:px-[48px] lg:py-[56px]">
-                                        <h3 className="text-[20px] leading-[26px] lg:text-[28px] lg:leading-[34px] font-bold text-taiky-brown">
-                                            {recipe.title}
-                                        </h3>
-                                        <RecipeMeta
-                                            people={recipe.people}
-                                            time={recipe.time}
-                                            difficulty={recipe.difficulty}
-                                            className="mt-[16px] lg:mt-[20px] gap-x-[20px] lg:gap-x-[28px] text-[13px] lg:text-[15px]"
+                            {/* Slide — stacks on mobile; fixed height on desktop. Keyed by
+                                index so the banner-style animations replay on each change:
+                                the photo zooms in and the panel text staggers up. The viewport
+                                clips the image zoom so nothing overflows. */}
+                            <div className="overflow-hidden rounded-md">
+                                <div
+                                    key={index}
+                                    className="flex flex-col lg:grid lg:h-[450px] lg:grid-cols-2"
+                                >
+                                    {/* Lined-paper info panel */}
+                                    <div className="relative order-2 lg:order-none">
+                                        <img
+                                            src={imgBg}
+                                            alt=""
+                                            className="absolute inset-0 h-full w-full object-cover"
                                         />
-                                        <p className="mt-[16px] lg:mt-[24px] max-w-[460px] text-[14px] leading-[22px] lg:text-[16px] lg:leading-[26px] text-taiky-brown">
-                                            {recipe.description}
-                                        </p>
-                                        <button
-                                            type="button"
-                                            className="mt-[20px] lg:mt-[32px] w-fit bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
-                                        >
-                                            <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
-                                                Xem chi tiết
-                                            </span>
-                                        </button>
+                                        <div className="relative z-10 flex h-full flex-col justify-center px-[24px] py-[28px] lg:px-[48px] lg:py-[56px]">
+                                            <h3
+                                                style={{ animationDelay: '0.1s' }}
+                                                className="animate-hero-rise text-[20px] leading-[26px] lg:text-[28px] lg:leading-[34px] font-bold text-taiky-brown"
+                                            >
+                                                {recipe.title}
+                                            </h3>
+                                            <div
+                                                style={{ animationDelay: '0.2s' }}
+                                                className="animate-hero-rise"
+                                            >
+                                                <RecipeMeta
+                                                    people={recipe.people}
+                                                    time={recipe.time}
+                                                    difficulty={recipe.difficulty}
+                                                    className="mt-[16px] lg:mt-[20px] gap-x-[20px] lg:gap-x-[28px] text-[13px] lg:text-[15px]"
+                                                />
+                                            </div>
+                                            <p
+                                                style={{ animationDelay: '0.3s' }}
+                                                className="animate-hero-rise mt-[16px] lg:mt-[24px] max-w-[460px] text-[14px] leading-[22px] lg:text-[16px] lg:leading-[26px] text-taiky-brown"
+                                            >
+                                                {recipe.description}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                style={{ animationDelay: '0.4s' }}
+                                                className="animate-hero-rise mt-[20px] lg:mt-[32px] w-fit btn-cta bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
+                                            >
+                                                <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
+                                                    Xem chi tiết
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Dish photo */}
-                                <div className="relative order-1 lg:order-none">
-                                    <img
-                                        src={recipe.image}
-                                        alt={recipe.title}
-                                        className="h-[220px] w-full object-cover lg:h-full"
-                                    />
+                                    {/* Dish photo — zooms in like a banner */}
+                                    <div className="relative order-1 lg:order-none overflow-hidden">
+                                        <img
+                                            src={recipe.image}
+                                            alt={recipe.title}
+                                            className="animate-hero-zoom h-[220px] w-full object-cover lg:h-full"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

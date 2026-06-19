@@ -1,9 +1,13 @@
+import { Link } from 'react-router-dom';
+
 export type Product = {
     name: string;
     weight: string;
     image: string;
     shopeeUrl?: string;
     tiktokUrl?: string;
+    /** Detail-page link (`/products/:slug`). */
+    url?: string;
 };
 
 /** Shopee "bag" mark. */
@@ -36,7 +40,14 @@ function TiktokIcon() {
     );
 }
 
-export default function ProductItem({ name, weight, image, shopeeUrl, tiktokUrl }: Product) {
+export default function ProductItem({
+    name,
+    weight,
+    image,
+    shopeeUrl,
+    tiktokUrl,
+    url = '#',
+}: Product) {
     return (
         <article className="group flex flex-col rounded-[16px] border border-taiky-lightbrown/30 bg-[#F3E9DC] p-[20px] shadow-card transition-[box-shadow,border-color] duration-[450ms] ease-brand hover:border-taiky-orange/50 hover:shadow-card-hover">
             {/* Social links */}
@@ -58,19 +69,21 @@ export default function ProductItem({ name, weight, image, shopeeUrl, tiktokUrl 
             </div>
 
             {/* Product image */}
-            <a href="#" className="flex flex-1 items-center justify-center py-[24px]">
+            <Link to={url} className="flex flex-1 items-center justify-center py-[24px]">
                 <img
                     src={image}
                     alt={name}
                     loading="lazy"
                     className="h-[300px] w-auto object-contain"
                 />
-            </a>
+            </Link>
 
             {/* Name + weight */}
-            <h3 className="text-center font-bold text-[20px] leading-[26px] text-taiky-brown transition-colors duration-[450ms] ease-brand group-hover:text-taiky-orange">
-                {name}
-            </h3>
+            <Link to={url}>
+                <h3 className="text-center font-bold text-[20px] leading-[26px] text-taiky-brown transition-colors duration-[450ms] ease-brand group-hover:text-taiky-orange">
+                    {name}
+                </h3>
+            </Link>
             <p className="mt-[10px] text-center text-[15px] leading-[20px] tracking-[0.04em] text-taiky-lightbrown uppercase">
                 {weight}
             </p>

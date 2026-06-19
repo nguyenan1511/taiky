@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shared CTA hover (the yellow "Xem chi tiết" buttons across the site):
+   a light sheen sweeps across, the button lifts with a warm shadow, and it
+   presses on click. Same sheen language as the cards / loader. */
+@layer components {
+    .btn-cta {
+        @apply relative overflow-hidden transition-[transform,box-shadow] duration-[350ms] ease-brand;
+    }
+    /* Sheen — a diagonal highlight parked off the left edge until hover. */
+    .btn-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        transform: translateX(-120%) skewX(-20deg);
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.55) 50%,
+            transparent 100%
+        );
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-cta:hover::before {
+        transform: translateX(120%) skewX(-20deg);
+    }
+    .btn-cta:hover {
+        @apply -translate-y-[2px] shadow-card-hover;
+    }
+    .btn-cta:active {
+        @apply translate-y-0 scale-[0.98];
+    }
+    /* Keep the label above the sheen overlay. */
+    .btn-cta > * {
+        @apply relative z-10;
+    }
+
+    /* Outline CTA (orange border, transparent): fills with orange on hover,
+       lifts with a warm shadow, presses on click. */
+    .btn-cta-outline {
+        @apply transition-[transform,box-shadow,background-color,color] duration-[350ms] ease-brand;
+    }
+    .btn-cta-outline:hover {
+        @apply -translate-y-[2px] bg-taiky-orange text-white shadow-card-hover;
+    }
+    .btn-cta-outline:active {
+        @apply translate-y-0 scale-[0.98];
+    }
+}
+
 /* Accessibility: honor the OS "reduce motion" setting — neutralize all
    animations / transitions so nothing moves for users who opt out. */
 @media (prefers-reduced-motion: reduce) {

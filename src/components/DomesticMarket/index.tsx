@@ -72,7 +72,7 @@ export default function DomesticMarket() {
                                     src={img(logo.image)}
                                     alt={t(logo.name)}
                                     loading="lazy"
-                                    className="max-h-full max-w-full object-contain"
+                                    className="max-h-full max-w-full object-contain transition-transform duration-[400ms] ease-brand hover:scale-[1.08]"
                                 />
                             </div>
                         ))}
@@ -89,7 +89,7 @@ export default function DomesticMarket() {
                                     src={img(logo.image)}
                                     alt={t(logo.name)}
                                     loading="lazy"
-                                    className="max-h-full max-w-full object-contain"
+                                    className="max-h-full max-w-full object-contain transition-transform duration-[400ms] ease-brand hover:scale-[1.08]"
                                 />
                             </div>
                         ))}
