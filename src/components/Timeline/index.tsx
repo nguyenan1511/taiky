@@ -19,12 +19,12 @@ import { CanvasMilestone, MobileMilestone } from './Milestone';
 
 const imgMapLine = '/images/map-line.webp';
 
-const imgDecorTopleft = '/images/decor-foodbowls.png';
-const imgDecorTimeline = '/images/decor-timeline.png';
-const imgDecorTimeline1 = '/images/decor-timeline-1.png';
-const imgDecorTimeline2 = '/images/decor-core-value.png';
-const imgDecorTimeline3 = '/images/decor-products.png';
-const imgDecorTimeline4 = '/images//hero-sketch.png';
+const imgDecorTopleft = '/images/decor-foodbowls.webp';
+const imgDecorTimeline = '/images/decor-timeline.webp';
+const imgDecorTimeline1 = '/images/decor-timeline-1.webp';
+const imgDecorTimeline2 = '/images/decor-core-value.webp';
+const imgDecorTimeline3 = '/images/decor-products.webp';
+const imgDecorTimeline4 = '/images//hero-sketch.webp';
 
 type Milestone = {
     year: string;
@@ -42,7 +42,7 @@ const MILESTONES: Milestone[] = [
         year: '1976',
         title: 'Cơ sở bột năng Tài Ký ra đời',
         subtitle: 'Sản xuất mang tính thủ công và nhân công là các thành viên trong gia đình.',
-        image: '/images/est-1.png',
+        image: '/images/est-1.webp',
         imgPos: 'left-[140px] top-[0] w-[480px]',
         textPos: 'left-[889px] top-[41px] w-[333px]',
     },
@@ -51,42 +51,42 @@ const MILESTONES: Milestone[] = [
         title: 'Biểu tượng “Sư Tử Bay” ra đời',
         subtitle:
             'Là cái tên thân thương mà các tiểu thương vẫn nhớ tới với hình ảnh cùng chiếc xe đạp giao hàng bột năng.',
-        image: '/images/est-2.png',
+        image: '/images/est-2.webp',
         imgPos: 'left-[695px] top-[495px] w-[501px]',
         textPos: 'left-[128px] top-[626px] w-[350px]',
     },
     {
         year: '2004',
         title: 'Thành lập Công ty Cổ Phần Bột - Thực Phẩm Tài Ký',
-        image: '/images/est-3.png',
+        image: '/images/est-3.webp',
         imgPos: 'left-[230px] top-[1084px] w-[525px]',
         textPos: 'left-[923px] top-[1181px] w-[333px]',
     },
     {
         year: '2019',
         title: 'Cơ sở Nhà máy 2',
-        image: '/images/est-4.png',
+        image: '/images/est-4.webp',
         imgPos: 'left-[536px] top-[1550px] w-[491px]',
         textPos: 'left-[224px] top-[1605px] w-[360px]',
     },
     {
         year: '2021',
         title: '45 năm hình thành và phát triển',
-        image: '/images/est-5.png',
+        image: '/images/est-5.webp',
         imgPos: 'left-[95px] top-[2082px] w-[542px]',
         textPos: 'left-[756px] top-[2119px] w-[333px]',
     },
     {
         year: '2022',
         title: 'TAKYfood đạt Thương Hiệu Quốc Gia Việt Nam',
-        image: '/images/est-6.png',
+        image: '/images/est-6.webp',
         imgPos: 'left-[619px] top-[2466px] w-[538px]',
         textPos: 'left-[245px] top-[2533px] w-[333px]',
     },
     {
         year: '2026',
         title: 'Hành trình 50 năm - khoai và bột',
-        image: '/images/est-7.png',
+        image: '/images/est-7.webp',
         imgPos: 'left-[152px] top-[2875px] w-[582px]',
         textPos: 'left-[801px] top-[2975px] w-[333px]',
     },

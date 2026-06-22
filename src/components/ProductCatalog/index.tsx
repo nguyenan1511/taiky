@@ -17,7 +17,7 @@ import { PAGE, pageSection } from '../../lib/api/pages';
 
 const PER_PAGE = 8;
 
-const imgDecor = '/images/decor-timeline-1.png';
+const imgDecor = '/images/decor-timeline-1.webp';
 const imgSketch = '/images/decor-bottom-catalog.jpg';
 
 export default function ProductCatalog() {

@@ -3,7 +3,8 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
-const imgThumb = '/images/bg-video.png';
+const imgThumb = '/images/bg-video.webp';
+const imgThumbMb = '/images/bg-video-mb.jpg';
 const FALLBACK_VIDEO_ID = 'APd6J4EM5NU';
 
 /** Build a YouTube embed (autoplay) URL from a watch / share / embed link. */
@@ -28,7 +29,7 @@ export default function StoryHero() {
 
     return (
         <section className="relative w-full overflow-hidden pt-[80px] lg:pt-[120px]">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[1440/690] overflow-hidden bg-black">
+            <div className="relative w-full aspect-[390/754] lg:aspect-[1440/690] overflow-hidden bg-black">
                 {playing ? (
                     <iframe
                         src={videoSrc}
@@ -52,8 +53,9 @@ export default function StoryHero() {
                                 className="absolute inset-0 h-full w-full object-cover"
                             />
                         ) : (
-                            <img
-                                src={imgThumb}
+                            <BannerImage
+                                image={imgThumb}
+                                imageMb={imgThumbMb}
                                 alt="Trụ sở TAKYfood"
                                 className="absolute inset-0 h-full w-full object-cover"
                             />

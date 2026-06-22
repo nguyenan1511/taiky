@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Container from '../Container';
 import { useScrolled } from './useScrolled';
 
@@ -19,6 +19,9 @@ const NAV_LINKS: NavLink[] = [
 export default function Header() {
     const scrolled = useScrolled();
     const [open, setOpen] = useState(false);
+    const { pathname } = useLocation();
+    // Active when on the page or any of its sub-routes (e.g. /products/:slug).
+    const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`);
 
     return (
         <header
@@ -64,7 +67,10 @@ export default function Header() {
                             <li key={label}>
                                 <Link
                                     to={to}
-                                    className="hover:text-taiky-orange transition-colors whitespace-nowrap"
+                                    aria-current={isActive(to) ? 'page' : undefined}
+                                    className={`transition-colors whitespace-nowrap hover:text-taiky-orange ${
+                                        isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
+                                    }`}
                                 >
                                     {label}
                                 </Link>
@@ -79,7 +85,7 @@ export default function Header() {
                     onClick={() => setOpen((o) => !o)}
                     aria-label={open ? 'Đóng menu' : 'Mở menu'}
                     aria-expanded={open}
-                    className="lg:hidden flex h-[40px] w-[40px] items-center justify-center text-taiky-brown"
+                    className="lg:hidden flex h-[40px] w-[40px] items-center justify-end text-taiky-brown"
                 >
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         {open ? (
@@ -117,7 +123,10 @@ export default function Header() {
                                 <Link
                                     to={to}
                                     onClick={() => setOpen(false)}
-                                    className="block py-[12px] uppercase text-[15px] font-bold text-taiky-brown border-b border-taiky-lightbrown/20 hover:text-taiky-orange transition-colors"
+                                    aria-current={isActive(to) ? 'page' : undefined}
+                                    className={`block border-b border-taiky-lightbrown/20 py-[12px] text-[15px] font-bold uppercase transition-colors hover:text-taiky-orange ${
+                                        isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
+                                    }`}
                                 >
                                     {label}
                                 </Link>

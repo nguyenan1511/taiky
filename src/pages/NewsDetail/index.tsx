@@ -131,7 +131,7 @@ export default function NewsDetail() {
                 <section className="relative w-full overflow-hidden bg-taiky-bg">
                     <Container className="flex flex-col items-center gap-[28px] lg:gap-[36px] py-[40px] lg:py-[60px]">
                         <Reveal>
-                            <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
+                            <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                                 Tin tức liên quan
                             </h2>
                         </Reveal>

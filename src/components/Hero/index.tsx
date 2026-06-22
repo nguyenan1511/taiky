@@ -5,11 +5,12 @@ import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 // Product bags (fallback composition when the CMS banner image is absent)
-const imgBagLeft = '/images/hero-bag-left.png';
-const imgBagRight = '/images/hero-bag-right.png';
-const imgBagFront = '/images/hero-bag-front.png';
-const imgBgBanner = '/images/bg-hero.png';
-const imgSketch = '/images/hero-sketch.png';
+const imgBagLeft = '/images/hero-bag-left.webp';
+const imgBagRight = '/images/hero-bag-right.webp';
+const imgBagFront = '/images/hero-bag-front.webp';
+const imgBgBanner = '/images/bg-hero.webp';
+const imgSketch = '/images/hero-sketch.webp';
+const imgBgBannerMb = '/images/bg-baner-mb.webp';
 
 const FALLBACK_DESC =
     'Dòng sản phẩm Taky hoàn hảo về chất lượng và đột phá trong từng thiết kế bao bì mới. Mỗi tuyệt phẩm đến từ nhãn hàng Taky đều là một sản phẩm quan trọng trong danh mục sản phẩm được ưa thích nhất. Xứng đáng trở thành chuyên gia bột thực phẩm hàng đầu tại Việt Nam.';
@@ -29,8 +30,11 @@ export default function Hero() {
 
     return (
         <section className="relative w-full pt-[96px] lg:pt-[120px] lg:min-h-[710px] flex flex-col justify-end">
-            <div className="absolute top-0 right-0 w-[55%] max-w-[340px] lg:w-auto lg:max-w-none">
+            <div className="absolute top-0 right-0 w-[55%] max-w-[340px] lg:w-auto lg:max-w-none hidden lg:block">
                 <img src={imgBgBanner} alt="bg-banner" className="w-full lg:w-auto" />
+            </div>
+            <div className="absolute top-0 right-0 block lg:hidden">
+                <img src={imgBgBannerMb} alt="bg-banner" className="w-full lg:w-auto" />
             </div>
             {/* Sketch overlay — spans hero→products */}
             <div

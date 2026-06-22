@@ -4,7 +4,7 @@ import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { useReady } from '../../context/ready';
 
-const imgBg = '/images/bg-food.png';
+const imgBg = '/images/bg-food.webp';
 
 /**
  * Food page hero — full-width banner with heading + tagline + CTA overlaid.

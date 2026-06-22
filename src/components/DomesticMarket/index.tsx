@@ -11,8 +11,8 @@ import { img, t } from '../../lib/api/helpers';
  * auto-centers).
  */
 
-const imgSketch = '/images/hero-sketch.png';
-const imgDecor = '/images/decor-products.png';
+const imgSketch = '/images/hero-sketch.webp';
+const imgDecor = '/images/decor-products.webp';
 
 export default function DomesticMarket() {
     const { data, isLoading, isError, refetch } = useMarkets();
@@ -29,7 +29,7 @@ export default function DomesticMarket() {
                 <img src={imgDecor} alt="bg-banner" />
             </div>
             <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px] relative z-10">
-                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
+                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                     THỊ TRƯỜNG NỘI ĐỊA
                 </h2>
                 <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">

@@ -2,7 +2,7 @@ import Container from '../Container';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection, type PageCode } from '../../lib/api/pages';
 
-const imgBgPhoto = '/images/commitment-bg.png';
+const imgBgPhoto = '/images/commitment-bg.webp';
 
 type CommitmentProps = {
     /** Which CMS page + section holds this page's commitment block. */

@@ -3,7 +3,7 @@ import Container from '../Container';
 import { useSettings, useSubmitSubscriber } from '../../lib/api/queries';
 
 const imgLogoMain = '/images/footer-logo-main.svg';
-const imgBg = '/images/bg-ft.png';
+const imgBg = '/images/bg-ft.webp';
 
 // Shown until settings load (and as a fallback if the request fails).
 const FALLBACK = {
@@ -41,9 +41,9 @@ export default function Footer() {
 
             {/* Main content — orange backdrop; on mobile it spans from below the
                 logo to the bottom so it covers the taller stacked content. */}
-            <div className="bg-taiky-footerbg absolute w-screen bottom-0 left-0 top-[120px] lg:top-auto h-[500px] xl:h-[300px]"></div>
+            <div className="bg-taiky-footerbg absolute w-screen bottom-0 left-0 lg:top-auto h-[700px] md:h-[450px] xl:h-[300px]"></div>
 
-            <Container className="px-6 sm:px-8 md:px-[80px] py-8 flex flex-wrap items-start justify-between gap-8 relative z-10 pt-[48px] lg:pt-[80px]">
+            <Container className="px-6 sm:px-8 md:px-[80px] py-8 flex flex-wrap items-start justify-between gap-8 relative z-10 pt-[48px] lg:pt-[80px] bg-taiky-footerbg md:bg-inherit">
                 {/* Left: company info */}
                 <div className="flex flex-col gap-[22px] max-w-[461px] min-w-[240px]">
                     <h3 className="font-bold text-white text-[20px] leading-6 uppercase">

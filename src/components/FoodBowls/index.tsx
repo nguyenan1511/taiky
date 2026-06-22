@@ -3,11 +3,11 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
-const img1 = '/images/food-img-1.png';
-const img2 = '/images/food-img-2.png';
-const img3 = '/images/food-img-3.png';
-const img4 = '/images/food-img-4.png';
-const img5 = '/images/food-img-5.png';
+const img1 = '/images/food-img-1.webp';
+const img2 = '/images/food-img-2.webp';
+const img3 = '/images/food-img-3.webp';
+const img4 = '/images/food-img-4.webp';
+const img5 = '/images/food-img-5.webp';
 
 export default function FoodBowls() {
     // HOME page CMS section 4: the bowls composition image.

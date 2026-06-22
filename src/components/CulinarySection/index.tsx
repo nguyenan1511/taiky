@@ -50,7 +50,7 @@ export default function CulinarySection({ category }: { category: Taxonomy }) {
         <section className="relative w-full overflow-hidden bg-taiky-bg">
             <Container className="flex flex-col gap-[24px] lg:gap-[38px] py-[40px]">
                 <div className="relative flex items-center justify-center">
-                    <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
+                    <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                         {t(category.name)}
                     </h2>
                     <MoreLink className="hidden lg:flex absolute right-0" />

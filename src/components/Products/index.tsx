@@ -8,7 +8,7 @@ import { img, t } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 const imgArrow = '/images/prod-arrow.svg';
-const imgDecor = '/images/decor-products.png';
+const imgDecor = '/images/decor-products.webp';
 
 const CARD_GAP = 16;
 const LIMIT = 12;

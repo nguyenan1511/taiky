@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Container from '../Container';
 import RecipeMeta from '../RecipeMeta';
 import ListState from '../ListState';
@@ -14,8 +14,8 @@ import { PAGE, pageSection } from '../../lib/api/pages';
  */
 
 const imgBg = '/images/bg-eat.jpg';
-const imgDecorTopleft = '/images/decor-foodbowls.png';
-const imgDecorTopRight = '/images/decor-core-value.png';
+const imgDecorTopleft = '/images/decor-foodbowls.webp';
+const imgDecorTopRight = '/images/decor-core-value.webp';
 
 export default function TodayEat() {
     const [index, setIndex] = useState(0);
@@ -36,6 +36,18 @@ export default function TodayEat() {
         setIndex((i) => (i + delta + count) % count);
     };
 
+    // Mobile swipe: swipe left → next, swipe right → prev.
+    const touchStartX = useRef<number | null>(null);
+    const onTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
+    const onTouchEnd = (e: React.TouchEvent) => {
+        if (touchStartX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+        touchStartX.current = null;
+    };
+
     // FOOD page CMS section 2: heading + subtitle.
     const { data: page } = usePage(PAGE.FOOD);
     const s2 = pageSection(page?.data, '2');
@@ -43,10 +55,10 @@ export default function TodayEat() {
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
-            <div className="absolute top-0 left-0 translate-x-[-30%]">
+            <div className="absolute top-0 left-0 translate-x-[-30%] hidden lg:block">
                 <img src={imgDecorTopleft} alt="bg-banner" />
             </div>
-            <div className="absolute top-[60px] right-0 mix-blend-color-burn">
+            <div className="absolute top-[60px] right-0 mix-blend-color-burn hidden lg:block">
                 <img src={imgDecorTopRight} alt="bg-banner" />
             </div>
             <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px] lg:py-[60px] relative z-10">
@@ -66,8 +78,8 @@ export default function TodayEat() {
                     </p>
                 )}
 
-                {/* Slider */}
-                <div className="relative w-full px-[36px] lg:px-[60px] pt-[20px]">
+                {/* Slider — arrows on desktop; swipe left/right on mobile */}
+                <div className="relative w-full px-0 lg:px-[60px] pt-[20px]">
                     {isLoading ? (
                         <div className="flex flex-col lg:grid lg:h-[450px] lg:grid-cols-2 overflow-hidden rounded-md">
                             <Skeleton className="order-2 lg:order-none h-[220px] lg:h-full w-full" />
@@ -87,7 +99,7 @@ export default function TodayEat() {
                                 type="button"
                                 onClick={() => go(-1)}
                                 aria-label="Công thức trước"
-                                className="absolute left-0 top-1/2 flex h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
+                                className="absolute left-0 top-1/2 hidden h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80 lg:flex"
                             >
                                 <svg
                                     width="34"
@@ -109,7 +121,11 @@ export default function TodayEat() {
                                 index so the banner-style animations replay on each change:
                                 the photo zooms in and the panel text staggers up. The viewport
                                 clips the image zoom so nothing overflows. */}
-                            <div className="overflow-hidden rounded-md">
+                            <div
+                                className="overflow-hidden rounded-md lg:[touch-action:auto] [touch-action:pan-y]"
+                                onTouchStart={onTouchStart}
+                                onTouchEnd={onTouchEnd}
+                            >
                                 <div
                                     key={index}
                                     className="flex flex-col lg:grid lg:h-[450px] lg:grid-cols-2"
@@ -173,7 +189,7 @@ export default function TodayEat() {
                                 type="button"
                                 onClick={() => go(1)}
                                 aria-label="Công thức sau"
-                                className="absolute right-0 top-1/2 flex h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80"
+                                className="absolute right-0 top-1/2 hidden h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80 lg:flex"
                             >
                                 <svg
                                     width="34"

@@ -9,11 +9,11 @@ import { PAGE, pageSection } from '../../lib/api/pages';
  */
 
 const CERTIFICATIONS = [
-    { src: '/images/cer-1.png', alt: 'FDA Approved' },
-    { src: '/images/cer-2.png', alt: 'HALAL' },
-    { src: '/images/cer-3.png', alt: 'ISO 22000' },
-    { src: '/images/cer-4.png', alt: 'HACCP Certified' },
-    { src: '/images/cer-5.png', alt: 'Hàng Việt Nam chất lượng cao' },
+    { src: '/images/cer-1.webp', alt: 'FDA Approved' },
+    { src: '/images/cer-2.webp', alt: 'HALAL' },
+    { src: '/images/cer-3.webp', alt: 'ISO 22000' },
+    { src: '/images/cer-4.webp', alt: 'HACCP Certified' },
+    { src: '/images/cer-5.webp', alt: 'Hàng Việt Nam chất lượng cao' },
 ];
 
 export default function QualityCertifications() {

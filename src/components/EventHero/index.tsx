@@ -21,8 +21,8 @@ type Slide = { id: string; image: string; imageMb: string; title: string };
 const FALLBACK_SLIDES: Slide[] = [
     {
         id: 'fallback-1',
-        image: '/images/bg-video.png',
-        imageMb: '/images/bg-video.png',
+        image: '/images/bg-video.webp',
+        imageMb: '/images/bg-video-mb.jpg',
         title: 'TAKYFOOD TẠI VIETNAM FOODEXPO - TRIỂN LÃM QUỐC TẾ LỚN NHẤT NGÀNH CÔNG NGHIỆP THỰC PHẨM VIỆT NAM 2026',
     },
     {

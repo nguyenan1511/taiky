@@ -2,9 +2,9 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
-const imgTree = '/images/kitchen-tree.png';
-const imgDecorTopleft = '/images/decor-foodbowls.png';
-const imgDecorBottomRight = '/images/decor-foodbowls-2.png';
+const imgTree = '/images/kitchen-tree.webp';
+const imgDecorTopleft = '/images/decor-foodbowls.webp';
+const imgDecorBottomRight = '/images/decor-foodbowls-2.webp';
 
 export default function KitchenCorner() {
     // HOME page CMS section 5: tree image + "GÓC BẾP" heading.

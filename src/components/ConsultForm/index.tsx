@@ -11,8 +11,8 @@ import { useSubmitContact } from '../../lib/api/queries';
 
 const imgBg = '/images/bg-form.jpg';
 
-const imgDecorTimeline1 = '/images/decor-timeline-1.png';
-const imgDecorFormLeft = '/images/decor-form-left.png';
+const imgDecorTimeline1 = '/images/decor-timeline-1.webp';
+const imgDecorFormLeft = '/images/decor-form-left.webp';
 
 const fieldClass =
     'w-full border-0 border-b border-taiky-lightbrown/50 bg-transparent pb-[8px] text-[16px] text-taiky-brown outline-none transition-colors placeholder:uppercase placeholder:tracking-[0.04em] placeholder:text-taiky-lightbrown focus:border-taiky-orange';
@@ -51,7 +51,7 @@ export default function ConsultForm() {
 
     return (
         <section className="relative w-full overflow-visible bg-taiky-bg pb-[60px]">
-            <div className="absolute top-[-300px] left-0 mix-blend-color-burn">
+            <div className="absolute top-[-300px] left-0 mix-blend-color-burn hidden lg:block">
                 <img src={imgDecorTimeline1} alt="bg-banner" />
             </div>
 

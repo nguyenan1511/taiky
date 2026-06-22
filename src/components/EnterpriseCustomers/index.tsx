@@ -17,7 +17,7 @@ export default function EnterpriseCustomers() {
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
             <Container className="flex flex-col items-center gap-[16px] lg:gap-[20px] py-[40px]">
-                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
+                <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
                     KHÁCH HÀNG DOANH NGHIỆP (OEM/ODM)
                 </h2>
                 <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] font-bold tracking-[0.04em] text-taiky-lightbrown uppercase">
@@ -46,13 +46,14 @@ export default function EnterpriseCustomers() {
                                 className="mt-[24px] flex flex-wrap items-center justify-center gap-x-[28px] lg:gap-x-[40px] gap-y-[24px] lg:gap-y-[32px]"
                             >
                                 {logos.map((logo) => (
-                                    <img
-                                        key={logo.id}
-                                        src={img(logo.image)}
-                                        alt={t(logo.name)}
-                                        loading="lazy"
-                                        className="h-[56px] w-auto object-contain lg:h-auto lg:w-auto"
-                                    />
+                                    <div className="w-[165px] aspect-[165/117]" key={logo.id}>
+                                        <img
+                                            src={img(logo.image)}
+                                            alt={t(logo.name)}
+                                            loading="lazy"
+                                            className="w-full object-contain lg:h-auto lg:w-auto"
+                                        />
+                                    </div>
                                 ))}
                             </RevealStagger>
                         )}

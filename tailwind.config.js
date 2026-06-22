@@ -58,6 +58,11 @@ export default {
                     '0%': { opacity: '0', transform: 'scale(1.08)' },
                     '100%': { opacity: '1', transform: 'scale(1)' },
                 },
+                // Chat panel popping up from the launcher (bottom-right origin).
+                'chat-pop': {
+                    '0%': { opacity: '0', transform: 'translateY(16px) scale(0.96)' },
+                    '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                },
                 // Preloader logo motion (staged):
                 //  1. emblem rises + un-clips from the bottom (ink-fill feel)
                 //  2. wordmark wipes in left→right
@@ -99,6 +104,7 @@ export default {
                 'enter-right': 'enter-right 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both',
                 'hero-rise': 'hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'hero-zoom': 'hero-zoom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
+                'chat-pop': 'chat-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both',
                 // Logo: reveal (once) → breathe (after, looping)
                 'logo-emblem': 'reveal-up 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'logo-wordmark': 'reveal-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both',

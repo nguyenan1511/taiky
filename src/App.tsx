@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+import ChatWidget from './components/ChatWidget';
 import { ReadyContext } from './context/ready';
 import { usePage } from './lib/api/queries';
 import { usePageMeta } from './hooks/usePageMeta';
@@ -91,6 +92,7 @@ export default function App() {
                 </Routes>
                 <Footer />
             </div>
+            <ChatWidget />
         </ReadyContext.Provider>
     );
 }
