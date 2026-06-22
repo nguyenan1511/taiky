@@ -13,7 +13,7 @@ import { PAGE, pageSection } from '../../lib/api/pages';
  * the dish photo.
  */
 
-const imgBg = '/images/bg-eat.jpg';
+const imgBg = '/images/bg-eat.webp';
 const imgDecorTopleft = '/images/decor-foodbowls.webp';
 const imgDecorTopRight = '/images/decor-core-value.webp';
 

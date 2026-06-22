@@ -22,13 +22,13 @@ const FALLBACK_SLIDES: Slide[] = [
     {
         id: 'fallback-1',
         image: '/images/bg-video.webp',
-        imageMb: '/images/bg-video-mb.jpg',
+        imageMb: '/images/bg-video-mb.webp',
         title: 'TAKYFOOD TẠI VIETNAM FOODEXPO - TRIỂN LÃM QUỐC TẾ LỚN NHẤT NGÀNH CÔNG NGHIỆP THỰC PHẨM VIỆT NAM 2026',
     },
     {
         id: 'fallback-2',
-        image: '/images/bg-product.jpg',
-        imageMb: '/images/bg-product.jpg',
+        image: '/images/bg-product.webp',
+        imageMb: '/images/bg-product.webp',
         title: 'TAKYFOOD RA MẮT BỘ SƯU TẬP BỘT THỰC PHẨM MỚI - ĐẬM CHẤT BẢN VIỆT 2026',
     },
 ];

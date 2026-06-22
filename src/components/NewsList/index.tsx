@@ -16,7 +16,7 @@ import { t, toNewsCard } from '../../lib/api/helpers';
 
 const PER_PAGE = 9;
 
-const imgSketch = '/images/decor-bottom-catalog.jpg';
+const imgSketch = '/images/decor-bottom-catalog.webp';
 
 export default function NewsList() {
     // empty category id = "all news"

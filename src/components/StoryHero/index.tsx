@@ -4,7 +4,7 @@ import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 const imgThumb = '/images/bg-video.webp';
-const imgThumbMb = '/images/bg-video-mb.jpg';
+const imgThumbMb = '/images/bg-video-mb.webp';
 const FALLBACK_VIDEO_ID = 'APd6J4EM5NU';
 
 /** Build a YouTube embed (autoplay) URL from a watch / share / embed link. */

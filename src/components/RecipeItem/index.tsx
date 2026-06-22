@@ -1,6 +1,6 @@
 import RecipeMeta from '../RecipeMeta';
 
-const imgBottomBg = '/images/bg-bottom-food.jpg';
+const imgBottomBg = '/images/bg-bottom-food.webp';
 
 export type Recipe = {
     title: string;

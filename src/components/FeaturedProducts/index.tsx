@@ -13,7 +13,7 @@ import { PAGE, pageSection } from '../../lib/api/pages';
  * `GET /products?isHighlight=true`.
  */
 
-const imgBgFeaturedProducts = '/images/bg-prod-spec.jpg';
+const imgBgFeaturedProducts = '/images/bg-prod-spec.webp';
 
 export default function FeaturedProducts() {
     const { data, isLoading, isError, refetch } = useFeaturedProducts(4);

@@ -11,7 +11,7 @@ import { useSettings } from '../../lib/api/queries';
 const imgMessage = '/images/message.svg';
 const imgLogoMain = '/images/logo-main.svg';
 const imgLogoSub = '/images/logo-sub.svg';
-const imgBg = '/images/bg-form.jpg';
+const imgBg = '/images/bg-form.webp';
 
 const QUICK_REPLIES = ['Đơn hàng', 'Sản phẩm', 'Khuyến mãi mới', 'Về TakyFood'];
 

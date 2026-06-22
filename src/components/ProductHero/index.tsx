@@ -4,7 +4,7 @@ import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { useReady } from '../../context/ready';
 
-const imgBg = '/images/bg-product.jpg';
+const imgBg = '/images/bg-product.webp';
 
 /**
  * Product page hero — full-width banner with heading + tagline + CTA overlaid.

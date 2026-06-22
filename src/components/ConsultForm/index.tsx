@@ -3,13 +3,13 @@ import Container from '../Container';
 import { useSubmitContact } from '../../lib/api/queries';
 
 /**
- * "NHẬN THÔNG TIN TƯ VẤN" — consultation form on a parchment panel (bg-form.jpg).
+ * "NHẬN THÔNG TIN TƯ VẤN" — consultation form on a parchment panel (bg-form.webp).
  * Underline-style fields; labels double as placeholders. Submits to
  * `POST /contacts`. The API body is { name, phone, email, message }; the
  * address field has no API counterpart, so it's folded into the message.
  */
 
-const imgBg = '/images/bg-form.jpg';
+const imgBg = '/images/bg-form.webp';
 
 const imgDecorTimeline1 = '/images/decor-timeline-1.webp';
 const imgDecorFormLeft = '/images/decor-form-left.webp';
