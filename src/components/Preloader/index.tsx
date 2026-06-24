@@ -108,12 +108,6 @@ export default function Preloader({
                         height={70}
                         className="block h-[40px] w-auto animate-logo-wordmark"
                     />
-
-                    {/* Warm sheen crossing the mark once it's revealed */}
-                    <span
-                        aria-hidden="true"
-                        className="pointer-events-none absolute inset-y-0 left-0 w-[40%] bg-gradient-to-r from-transparent via-white/55 to-transparent animate-logo-sheen"
-                    />
                 </div>
 
                 {/* Warm sweeping loader line */}

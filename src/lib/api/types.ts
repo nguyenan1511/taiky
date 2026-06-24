@@ -161,6 +161,7 @@ export interface ApiCulinary {
     difficulty?: string;
     categories?: string[];
     createdAt?: string;
+    link: string;
 }
 
 /** `GET /banners` — a hero banner scoped to a page (the `page` field, e.g. "NEWS"). */

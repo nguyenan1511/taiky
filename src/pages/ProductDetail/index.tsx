@@ -69,6 +69,9 @@ export default function ProductDetail() {
     const ready = useReady();
     const { slug = '' } = useParams();
     const [active, setActive] = useState(0);
+    // Direction of the last gallery change, so the new image slides in from
+    // the side the user navigated toward (next ⇒ +1, prev ⇒ -1).
+    const [dir, setDir] = useState<1 | -1>(1);
 
     const { data, isLoading, isError, refetch } = useProductDetail(slug);
     const product = data?.data;
@@ -122,8 +125,15 @@ export default function ProductDetail() {
 
     const gallery = [img(product.image), ...(product.galleries ?? [])].filter(Boolean);
     const mainImage = gallery[active] ?? gallery[0] ?? img(product.image);
-    const step = (delta: number) =>
-        gallery.length && setActive((i) => (i + delta + gallery.length) % gallery.length);
+    const step = (delta: 1 | -1) => {
+        if (!gallery.length) return;
+        setDir(delta);
+        setActive((i) => (i + delta + gallery.length) % gallery.length);
+    };
+    const goTo = (i: number) => {
+        setDir(i >= active ? 1 : -1);
+        setActive(i);
+    };
 
     const specs = [
         { label: 'Quy cách', value: product.specification },
@@ -144,16 +154,21 @@ export default function ProductDetail() {
                                     type="button"
                                     onClick={() => step(-1)}
                                     aria-label="Ảnh trước"
-                                    className="shrink-0 text-taiky-orange transition hover:opacity-70"
+                                    className="shrink-0 flex h-[44px] w-[44px] items-center justify-center rounded-full text-taiky-orange transition-transform duration-300 ease-brand hover:scale-110 hover:bg-taiky-orange/10 active:scale-90"
                                 >
                                     <Chevron dir="left" />
                                 </button>
                             )}
                             <div className="flex-1 overflow-hidden rounded-[12px]">
                                 <img
+                                    key={active}
                                     src={mainImage}
                                     alt={t(product.name)}
-                                    className="aspect-square w-full object-contain"
+                                    className={`aspect-square w-full object-contain ${
+                                        dir === 1
+                                            ? 'animate-img-swap-next'
+                                            : 'animate-img-swap-prev'
+                                    }`}
                                 />
                             </div>
                             {gallery.length > 1 && (
@@ -161,7 +176,7 @@ export default function ProductDetail() {
                                     type="button"
                                     onClick={() => step(1)}
                                     aria-label="Ảnh sau"
-                                    className="shrink-0 text-taiky-orange transition hover:opacity-70"
+                                    className="shrink-0 flex h-[44px] w-[44px] items-center justify-center rounded-full text-taiky-orange transition-transform duration-300 ease-brand hover:scale-110 hover:bg-taiky-orange/10 active:scale-90"
                                 >
                                     <Chevron dir="right" />
                                 </button>
@@ -174,12 +189,12 @@ export default function ProductDetail() {
                                     <button
                                         key={src}
                                         type="button"
-                                        onClick={() => setActive(i)}
+                                        onClick={() => goTo(i)}
                                         aria-label={`Ảnh ${i + 1}`}
-                                        className={`h-[64px] w-[64px] overflow-hidden rounded-[8px] border-2 transition ${
+                                        className={`h-[64px] w-[64px] overflow-hidden rounded-[8px] ring-2 ring-offset-2 ring-offset-taiky-bg transition-all duration-300 ease-brand ${
                                             i === active
-                                                ? 'border-taiky-orange'
-                                                : 'border-transparent opacity-70 hover:opacity-100'
+                                                ? 'scale-105 ring-taiky-orange'
+                                                : 'ring-transparent opacity-60 hover:scale-105 hover:opacity-100'
                                         }`}
                                     >
                                         <img
@@ -286,10 +301,23 @@ export default function ProductDetail() {
             {related.length > 0 && (
                 <section className="relative w-full overflow-hidden bg-taiky-bg">
                     <Container className="flex flex-col items-center gap-[20px] py-[40px] lg:py-[60px]">
-                        <Reveal>
-                            <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[34px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase text-center">
+                        <Reveal className="flex flex-col items-center gap-[16px] lg:gap-[20px] text-center">
+                            <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[34px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase">
                                 Sản phẩm liên quan
                             </h2>
+                            <p className="max-w-[900px] text-[15px] leading-[24px] lg:text-[20px] lg:leading-[32px] text-taiky-lightbrown uppercase font-bold">
+                                Khám phá{' '}
+                                <span className="font-bold text-taiky-brown">
+                                    nguồn nguyên liệu tự nhiên
+                                </span>{' '}
+                                được tuyển chọn,
+                                <br />
+                                giúp bạn dễ dàng chế biến nên những{' '}
+                                <span className="font-bold text-taiky-brown">
+                                    món ngon đầy cảm hứng
+                                </span>{' '}
+                                mỗi ngày.
+                            </p>
                         </Reveal>
                         <RevealStagger className="mt-[12px] grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px]">
                             {related.map((card) => (

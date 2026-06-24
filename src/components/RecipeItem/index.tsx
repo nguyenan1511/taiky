@@ -17,9 +17,13 @@ export type Recipe = {
  * highlights the title.
  */
 export default function RecipeItem({ title, people, time, difficulty, image, url = '#' }: Recipe) {
+    // Recipe links point to external pages — open them in a new tab.
+    const external = Boolean(url) && url !== '#';
     return (
         <a
             href={url}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noreferrer' : undefined}
             className="group block overflow-hidden rounded-[8px] shadow-card outline-none transition-shadow duration-[450ms] ease-brand hover:shadow-card-hover focus-visible:ring-2 focus-visible:ring-taiky-orange focus-visible:ring-offset-2 focus-visible:ring-offset-taiky-bg"
         >
             <div className="relative overflow-hidden">
@@ -27,7 +31,7 @@ export default function RecipeItem({ title, people, time, difficulty, image, url
                     src={image}
                     alt={title}
                     loading="lazy"
-                    className="aspect-[416/300] w-full object-cover transition-transform duration-[600ms] ease-brand group-hover:scale-[1.06]"
+                    className="aspect-[9/16] w-full object-cover transition-transform duration-[600ms] ease-brand group-hover:scale-[1.06]"
                 />
                 {/* Light sheen sweep — size-stable hover signature */}
                 <span

@@ -63,6 +63,35 @@ export default {
                     '0%': { opacity: '0', transform: 'translateY(16px) scale(0.96)' },
                     '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
                 },
+                // Product gallery image swap — new image slides in from the
+                // side the user navigated toward (next ⇒ enters from the right),
+                // "focusing in" out of a soft blur for a premium feel.
+                'img-swap-next': {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateX(40px) scale(0.94)',
+                        filter: 'blur(10px)',
+                    },
+                    '55%': { filter: 'blur(0)' },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateX(0) scale(1)',
+                        filter: 'blur(0)',
+                    },
+                },
+                'img-swap-prev': {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateX(-40px) scale(0.94)',
+                        filter: 'blur(10px)',
+                    },
+                    '55%': { filter: 'blur(0)' },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateX(0) scale(1)',
+                        filter: 'blur(0)',
+                    },
+                },
                 // Preloader logo motion (staged):
                 //  1. emblem rises + un-clips from the bottom (ink-fill feel)
                 //  2. wordmark wipes in left→right
@@ -105,6 +134,8 @@ export default {
                 'hero-rise': 'hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'hero-zoom': 'hero-zoom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'chat-pop': 'chat-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both',
+                'img-swap-next': 'img-swap-next 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
+                'img-swap-prev': 'img-swap-prev 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
                 // Logo: reveal (once) → breathe (after, looping)
                 'logo-emblem': 'reveal-up 1.1s cubic-bezier(0.22, 1, 0.36, 1) both',
                 'logo-wordmark': 'reveal-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both',

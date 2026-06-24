@@ -80,7 +80,7 @@ export default function CoreValues() {
                 <Container>
                     <div className="relative mx-auto">
                         {/* Heading — centered above the dome */}
-                        <h2 className="font-stamp font-normal text-center tracking-brand text-[28px] leading-[32px] lg:text-[48px] lg:leading-[48px] text-taiky-orange uppercase">
+                        <h2 className="font-stamp font-normal text-center tracking-brand my-[20px] text-[28px] leading-[32px] lg:text-[48px] lg:leading-[48px] text-taiky-orange uppercase">
                             GIÁ TRỊ CỐT LÕI
                         </h2>
                     </div>

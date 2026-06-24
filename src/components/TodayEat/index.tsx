@@ -28,9 +28,12 @@ export default function TodayEat() {
         difficulty: c.difficulty || '',
         description: t(c.description),
         image: img(c.image),
+        link: c.link || '',
     }));
     const count = recipes.length;
     const recipe = count ? recipes[index % count] : undefined;
+
+    console.log('🚀recipe---->', recipe);
     const go = (delta: number) => {
         if (!count) return;
         setIndex((i) => (i + delta + count) % count);
@@ -161,15 +164,17 @@ export default function TodayEat() {
                                             >
                                                 {recipe.description}
                                             </p>
-                                            <button
-                                                type="button"
+                                            <a
+                                                href={recipe.link || undefined}
+                                                target={recipe.link ? '_blank' : undefined}
+                                                rel={recipe.link ? 'noreferrer' : undefined}
                                                 style={{ animationDelay: '0.4s' }}
-                                                className="animate-hero-rise mt-[20px] lg:mt-[32px] w-fit btn-cta bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
+                                                className="animate-hero-rise mt-[20px] lg:mt-[32px] inline-block w-fit btn-cta bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
                                             >
                                                 <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
                                                     Xem chi tiết
                                                 </span>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
 

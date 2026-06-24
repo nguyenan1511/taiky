@@ -57,5 +57,6 @@ export function toRecipeCard(c: ApiCulinary): Recipe & { id: string } {
         time: c.cookingTime || '',
         difficulty: c.difficulty || '',
         image: img(c.image),
+        url: c.link || undefined,
     };
 }

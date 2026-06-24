@@ -151,7 +151,7 @@ export default function Timeline() {
                 <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase mb-[12px] lg:mb-[20px]">
                     {heading}
                 </h2>
-                <p className="font-stamp text-[28px] leading-[28px] lg:text-[40px] lg:leading-[32px] text-taiky-brown uppercase">
+                <p className="font-stamp text-[28px] leading-[28px] lg:text-[40px] lg:leading-[32px] text-taiky-orange uppercase">
                     {label}
                 </p>
             </div>
