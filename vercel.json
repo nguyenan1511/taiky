@@ -1,3 +1,12 @@
 {
-    "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+    "rewrites": [
+        { "source": "/products/:slug", "destination": "/api/ssr?type=product&slug=:slug" },
+        { "source": "/news/:slug", "destination": "/api/ssr?type=news&slug=:slug" },
+        { "source": "/(.*)", "destination": "/index.html" }
+    ],
+    "functions": {
+        "api/ssr.js": {
+            "includeFiles": "dist/index.html"
+        }
+    }
 }

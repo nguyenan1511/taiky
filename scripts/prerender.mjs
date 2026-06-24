@@ -10,6 +10,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { injectMeta } from './seo-meta.mjs';
 
 const API = (process.env.VITE_API_BASE_URL || 'https://taiky-api-2026.vercel.app').replace(
     /\/$/,
@@ -29,41 +30,6 @@ const ROUTES = {
 };
 
 const template = readFileSync(join(DIST, 'index.html'), 'utf8');
-
-const esc = (s = '') =>
-    String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-
-function injectMeta(html, { title, description, image, url }) {
-    let out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
-
-    const setAttr = (attr, key, content) => {
-        const re = new RegExp(`(<meta\\s+${attr}="${key}"[^>]*\\scontent=")[^"]*(")`, 'i');
-        if (re.test(out)) {
-            out = out.replace(re, `$1${esc(content)}$2`);
-        } else {
-            out = out.replace(
-                '</head>',
-                `    <meta ${attr}="${key}" content="${esc(content)}" />\n</head>`
-            );
-        }
-    };
-
-    setAttr('name', 'description', description);
-    setAttr('property', 'og:title', title);
-    setAttr('property', 'og:description', description);
-    setAttr('property', 'og:url', url);
-    setAttr('name', 'twitter:title', title);
-    setAttr('name', 'twitter:description', description);
-    if (image) {
-        setAttr('property', 'og:image', image);
-        setAttr('name', 'twitter:image', image);
-    }
-    return out;
-}
 
 async function fetchMeta(code) {
     try {
