@@ -17,13 +17,49 @@ import { useDocumentMeta } from '../../hooks/usePageMeta';
  * QUAN" related grid.
  */
 
+// Styling for arbitrary HTML coming back from the CMS rich-text editor. Editors
+// emit a wide tag set, so every element a WYSIWYG can produce is covered here.
+// Uses brand tokens + responsive (mobile-first → lg:) sizing; no inline styles.
 const PROSE =
-    'text-left [&_p]:mb-[14px] [&_p]:text-[14px] [&_p]:leading-[24px] [&_p]:text-taiky-darkbrown ' +
-    '[&_h2]:mt-[20px] [&_h2]:mb-[10px] [&_h2]:font-bold [&_h2]:text-[18px] [&_h2]:text-taiky-brown ' +
-    '[&_h3]:mt-[16px] [&_h3]:mb-[8px] [&_h3]:font-bold [&_h3]:text-taiky-brown ' +
-    '[&_b]:text-taiky-brown [&_strong]:text-taiky-brown ' +
-    '[&_ul]:my-[10px] [&_ul]:list-disc [&_ul]:pl-[22px] [&_li]:mb-[6px] [&_li]:text-taiky-darkbrown ' +
-    '[&_img]:my-[16px] [&_img]:mx-auto [&_img]:rounded-[8px]';
+    // Base container: wrap long words/URLs so nothing overflows the column.
+    'text-left text-taiky-darkbrown break-words ' +
+    // Paragraphs
+    '[&_p]:mb-[14px] [&_p]:text-[14px] [&_p]:leading-[24px] lg:[&_p]:text-[16px] lg:[&_p]:leading-[28px] ' +
+    '[&_p:last-child]:mb-0 ' +
+    // Headings
+    '[&_h1]:mt-[28px] [&_h1]:mb-[12px] [&_h1]:font-bold [&_h1]:text-[22px] [&_h1]:leading-[30px] lg:[&_h1]:text-[28px] lg:[&_h1]:leading-[36px] [&_h1]:text-taiky-brown ' +
+    '[&_h2]:mt-[24px] [&_h2]:mb-[10px] [&_h2]:font-bold [&_h2]:text-[18px] [&_h2]:leading-[26px] lg:[&_h2]:text-[22px] lg:[&_h2]:leading-[30px] [&_h2]:text-taiky-brown ' +
+    '[&_h3]:mt-[20px] [&_h3]:mb-[8px] [&_h3]:font-bold [&_h3]:text-[16px] [&_h3]:leading-[24px] lg:[&_h3]:text-[18px] lg:[&_h3]:leading-[26px] [&_h3]:text-taiky-brown ' +
+    '[&_h4]:mt-[16px] [&_h4]:mb-[8px] [&_h4]:font-bold [&_h4]:text-[15px] lg:[&_h4]:text-[16px] [&_h4]:text-taiky-brown ' +
+    '[&_h5]:mt-[16px] [&_h5]:mb-[6px] [&_h5]:font-bold [&_h5]:text-[14px] [&_h5]:uppercase [&_h5]:tracking-[0.04em] [&_h5]:text-taiky-brown ' +
+    '[&_h6]:mt-[16px] [&_h6]:mb-[6px] [&_h6]:font-bold [&_h6]:text-[13px] [&_h6]:uppercase [&_h6]:tracking-[0.04em] [&_h6]:text-taiky-lightbrown ' +
+    // Inline emphasis
+    '[&_b]:font-bold [&_b]:text-taiky-brown [&_strong]:font-bold [&_strong]:text-taiky-brown ' +
+    '[&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_del]:line-through ' +
+    '[&_mark]:bg-taiky-yellow/40 [&_mark]:px-[2px] [&_mark]:text-taiky-darkbrown ' +
+    '[&_small]:text-[12px] [&_small]:text-taiky-lightbrown ' +
+    '[&_sub]:align-sub [&_sub]:text-[0.75em] [&_sup]:align-super [&_sup]:text-[0.75em] ' +
+    // Links
+    '[&_a]:font-medium [&_a]:text-taiky-orange [&_a]:underline [&_a]:underline-offset-2 [&_a]:transition-colors hover:[&_a]:text-taiky-brown ' +
+    // Lists (ordered, unordered, nested)
+    '[&_ul]:my-[12px] [&_ul]:list-disc [&_ul]:pl-[22px] ' +
+    '[&_ol]:my-[12px] [&_ol]:list-decimal [&_ol]:pl-[22px] ' +
+    '[&_li]:mb-[6px] [&_li]:text-[14px] [&_li]:leading-[24px] lg:[&_li]:text-[16px] lg:[&_li]:leading-[28px] [&_li]:text-taiky-darkbrown ' +
+    '[&_li>ul]:my-[6px] [&_li>ol]:my-[6px] [&_ul_ul]:list-[circle] ' +
+    // Blockquote
+    '[&_blockquote]:my-[16px] [&_blockquote]:border-l-4 [&_blockquote]:border-taiky-orange [&_blockquote]:pl-[16px] [&_blockquote]:italic [&_blockquote]:text-taiky-brown ' +
+    // Code (inline + block)
+    '[&_code]:rounded-[4px] [&_code]:bg-taiky-cream [&_code]:px-[6px] [&_code]:py-[2px] [&_code]:text-[13px] [&_code]:text-taiky-brown ' +
+    '[&_pre]:my-[16px] [&_pre]:overflow-x-auto [&_pre]:rounded-[8px] [&_pre]:bg-taiky-darkbrown [&_pre]:p-[16px] [&_pre]:text-[13px] [&_pre]:leading-[20px] ' +
+    '[&_pre]:text-taiky-bg [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-inherit ' +
+    // Tables
+    '[&_table]:my-[16px] [&_table]:w-full [&_table]:border-collapse [&_table]:text-[14px] ' +
+    '[&_th]:border [&_th]:border-taiky-lightbrown/40 [&_th]:bg-taiky-cream [&_th]:px-[12px] [&_th]:py-[8px] [&_th]:text-left [&_th]:font-bold [&_th]:text-taiky-brown ' +
+    '[&_td]:border [&_td]:border-taiky-lightbrown/40 [&_td]:px-[12px] [&_td]:py-[8px] [&_td]:text-taiky-darkbrown ' +
+    // Media + dividers
+    '[&_img]:my-[16px] [&_img]:mx-auto [&_img]:max-w-full [&_img]:rounded-[8px] ' +
+    '[&_figure]:my-[16px] [&_figcaption]:mt-[8px] [&_figcaption]:text-center [&_figcaption]:text-[13px] [&_figcaption]:text-taiky-lightbrown ' +
+    '[&_hr]:my-[24px] [&_hr]:border-t [&_hr]:border-taiky-lightbrown/40';
 
 function ShopeeIcon() {
     return (
