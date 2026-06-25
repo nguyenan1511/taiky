@@ -82,6 +82,9 @@ export interface ApiNews {
     slug?: any;
     image: LocalizedImage;
     imageMb: LocalizedImage;
+    /** Optional dedicated hero banner (detail response); falls back to nothing when null. */
+    banner?: LocalizedImage;
+    bannerMb?: LocalizedImage;
     sort: number;
     active: boolean;
     label: string;

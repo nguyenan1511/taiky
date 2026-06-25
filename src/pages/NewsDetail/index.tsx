@@ -43,6 +43,10 @@ export default function NewsDetail() {
         Boolean(article)
     );
 
+    // Hero banner: prefer the dedicated banner fields, hide the hero when absent.
+    const banner = img(article?.banner);
+    const bannerMb = img(article?.bannerMb) || banner;
+
     // Related news (exclude the current article).
     const { data: relatedData } = useNews({ limit: 6 });
     const related = (relatedData?.data ?? [])
@@ -82,23 +86,29 @@ export default function NewsDetail() {
 
     return (
         <main className="relative">
-            {/* Hero */}
-            <section className="relative w-full overflow-hidden pt-[80px] lg:pt-[120px]">
-                <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1440/620]">
-                    <BannerImage
-                        image={img(article.image)}
-                        imageMb={img(article.imageMb) || img(article.image)}
-                        alt={t(article.name)}
-                        className={`absolute inset-0 h-full w-full object-cover ${
-                            ready ? 'animate-hero-zoom' : 'opacity-0'
-                        }`}
-                    />
-                </div>
-            </section>
+            {/* Hero — only when a dedicated banner image is provided */}
+            {banner && (
+                <section className="relative w-full overflow-hidden pt-[80px] lg:pt-[120px]">
+                    <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1440/620]">
+                        <BannerImage
+                            image={banner}
+                            imageMb={bannerMb}
+                            alt={t(article.name)}
+                            className={`absolute inset-0 h-full w-full object-cover ${
+                                ready ? 'animate-hero-zoom' : 'opacity-0'
+                            }`}
+                        />
+                    </div>
+                </section>
+            )}
 
             {/* Article */}
             <section className="relative w-full bg-taiky-bg">
-                <Container className="max-w-[886px] py-[40px] lg:py-[60px]">
+                <Container
+                    className={`max-w-[886px] pb-[40px] lg:pb-[60px] ${
+                        banner ? 'pt-[40px] lg:pt-[60px]' : 'pt-[120px] lg:pt-[160px]'
+                    }`}
+                >
                     <Reveal>
                         {article.publishDate && (
                             <p className="text-center text-[14px] font-bold tracking-[0.06em] text-taiky-orange">
