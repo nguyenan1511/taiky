@@ -174,6 +174,8 @@ export interface CulinaryFilters {
     page?: number;
     limit?: number;
     categories?: string;
+    /** Recipe difficulty filter, e.g. "Dễ". */
+    difficulty?: string;
 }
 
 export function useCulinary(filters: CulinaryFilters = {}) {

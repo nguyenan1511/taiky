@@ -20,7 +20,7 @@ const imgDecorTopRight = '/images/decor-core-value.webp';
 export default function TodayEat() {
     const [index, setIndex] = useState(0);
 
-    const { data, isLoading, isError, refetch } = useCulinary({ limit: 10 });
+    const { data, isLoading, isError, refetch } = useCulinary({ limit: 10, difficulty: 'Dễ' });
     const recipes = (data?.data ?? []).map((c) => ({
         title: t(c.name),
         people: c.servings != null ? `${c.servings} Người` : '',
@@ -33,7 +33,6 @@ export default function TodayEat() {
     const count = recipes.length;
     const recipe = count ? recipes[index % count] : undefined;
 
-    console.log('🚀recipe---->', recipe);
     const go = (delta: number) => {
         if (!count) return;
         setIndex((i) => (i + delta + count) % count);
