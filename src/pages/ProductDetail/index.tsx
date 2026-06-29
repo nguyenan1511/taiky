@@ -20,7 +20,7 @@ import { useDocumentMeta } from '../../hooks/usePageMeta';
 // Styling for arbitrary HTML coming back from the CMS rich-text editor. Editors
 // emit a wide tag set, so every element a WYSIWYG can produce is covered here.
 // Uses brand tokens + responsive (mobile-first → lg:) sizing; no inline styles.
-const PROSE =
+export const PROSE =
     // Base container: wrap long words/URLs so nothing overflows the column.
     'text-left text-taiky-darkbrown break-words ' +
     // Paragraphs
@@ -252,9 +252,10 @@ export default function ProductDetail() {
                         <h1 className="font-stamp font-normal tracking-brand text-[28px] leading-[34px] lg:text-[40px] lg:leading-[46px] text-taiky-orange uppercase">
                             {t(product.name)}
                         </h1>
-                        <p className="mt-[16px] text-[15px] leading-[24px] text-taiky-darkbrown">
-                            {t(product.description)}
-                        </p>
+                        <div
+                            className={`mt-[16px] ${PROSE}`}
+                            dangerouslySetInnerHTML={{ __html: t(product.description) }}
+                        />
 
                         {specs.length > 0 && (
                             <dl className="mt-[24px] flex flex-col gap-[12px] text-[15px]">

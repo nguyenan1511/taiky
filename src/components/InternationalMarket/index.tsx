@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import Container from '../Container';
+import { usePage } from '../../lib/api/queries';
+import { PAGE, pageSection } from '../../lib/api/pages';
 
 /**
  * "THỊ TRƯỜNG QUỐC TẾ" — export markets: an interactive world map above a
@@ -60,6 +62,11 @@ function RegionRow({ name, count, countries }: Region) {
 export default function InternationalMarket() {
     const [hovered, setHovered] = useState<string | null>(null);
 
+    // DISTRIBUTION page, section "2" = "Thị trường quốc tế" (heading + subtitle).
+    const { data: page } = usePage(PAGE.DISTRIBUTION);
+    const s2 = pageSection(page?.data, '2');
+    const heading = s2?.title || 'THỊ TRƯỜNG QUỐC TẾ';
+
     // Offscreen canvas per layer for pixel-alpha hit-testing.
     const samplers = useRef<
         Record<string, { ctx: CanvasRenderingContext2D; w: number; h: number }>
@@ -108,12 +115,19 @@ export default function InternationalMarket() {
             </div>
             <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px]">
                 <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
-                    THỊ TRƯỜNG QUỐC TẾ
+                    {heading}
                 </h2>
-                <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
-                    Chúng tôi đã xuất khẩu đến{' '}
-                    <span className="font-bold text-taiky-brown">59 quốc gia</span>
-                </p>
+                {s2?.content ? (
+                    <div
+                        className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase [&_b]:font-bold [&_b]:text-taiky-brown"
+                        dangerouslySetInnerHTML={{ __html: s2.content }}
+                    />
+                ) : (
+                    <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
+                        Chúng tôi đã xuất khẩu đến{' '}
+                        <span className="font-bold text-taiky-brown">59 quốc gia</span>
+                    </p>
+                )}
 
                 {/* World map — 5 full-frame layers; hover detected by pixel alpha so
                     the exact continent under the cursor highlights. */}
