@@ -80,11 +80,11 @@ export default function ProductItem({
 
             {/* Name + weight */}
             <Link to={url}>
-                <h3 className="text-center font-bold text-[20px] leading-[26px] text-taiky-brown transition-colors duration-[450ms] ease-brand group-hover:text-taiky-orange">
+                <h3 className="text-center font-bold min-h-[52px] text-[20px] leading-[26px] text-taiky-brown transition-colors duration-[450ms] ease-brand group-hover:text-taiky-orange">
                     {name}
                 </h3>
             </Link>
-            <p className="mt-[10px] text-center text-[15px] leading-[20px] tracking-[0.04em] text-taiky-lightbrown uppercase">
+            <p className="mt-[10px] text-center text-[15px] font-semibold min-h-[20px] leading-[20px] tracking-[0.04em] text-taiky-lightbrown uppercase">
                 {weight}
             </p>
         </article>
