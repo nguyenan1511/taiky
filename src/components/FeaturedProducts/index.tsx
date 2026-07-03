@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Container from '../Container';
 import ProductItem from '../ProductItem';
 import ProductCardSkeleton from '../ProductItem/Skeleton';
@@ -8,16 +9,26 @@ import { toProductCard } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 /**
- * "SẢN PHẨM NỔI BẬT" — featured products: intro copy, a row of 4 product cards
- * and a "XEM TẤT CẢ" CTA. Cards use the shared ProductItem component, fed by
- * `GET /products?isHighlight=true`.
+ * "SẢN PHẨM NỔI BẬT" — featured products: intro copy, a grid of product cards
+ * and a "XEM TẤT CẢ" load-more CTA. Cards use the shared ProductItem component,
+ * fed by `GET /products?isHighlight=true`. Clicking the CTA grows the requested
+ * limit by one page; the button hides once every highlight is loaded.
  */
+
+const PAGE_SIZE = 4;
 
 const imgBgFeaturedProducts = '/images/bg-prod-spec.webp';
 
 export default function FeaturedProducts() {
-    const { data, isLoading, isError, refetch } = useFeaturedProducts(4);
+    // How many highlights to request; grows by PAGE_SIZE each "Xem tất cả" click.
+    const [limit, setLimit] = useState(PAGE_SIZE);
+
+    const { data, isLoading, isFetching, isError, refetch } = useFeaturedProducts(limit);
     const products = data?.data ?? [];
+
+    // Total highlights available on the server; used to know when to stop.
+    const total = data?.pagination.total ?? 0;
+    const hasMore = products.length < total;
 
     // PRODUCT page CMS section 2: heading + intro copy.
     const { data: page } = usePage(PAGE.PRODUCT);
@@ -80,14 +91,18 @@ export default function FeaturedProducts() {
                     </>
                 )}
 
-                <button
-                    type="button"
-                    className="mt-[12px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[48px] py-[14px]"
-                >
-                    <span className="font-bold text-[16px] leading-6 text-taiky-brown uppercase tracking-[0.04em]">
-                        Xem tất cả
-                    </span>
-                </button>
+                {hasMore && (
+                    <button
+                        type="button"
+                        onClick={() => setLimit((n) => n + PAGE_SIZE)}
+                        disabled={isFetching}
+                        className="mt-[12px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[48px] py-[14px] disabled:opacity-60"
+                    >
+                        <span className="font-bold text-[16px] leading-6 text-taiky-brown uppercase tracking-[0.04em]">
+                            {isFetching ? 'Đang tải...' : 'Xem tất cả'}
+                        </span>
+                    </button>
+                )}
             </Container>
         </section>
     );

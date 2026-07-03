@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export type Product = {
     img: string;
     /** Supports `\n` for a two-line product name (rendered via whitespace-pre-line). */
@@ -6,7 +8,7 @@ export type Product = {
 };
 
 type ProductCardProps = Product & {
-    /** Link target for the CTA. Defaults to "#". */
+    /** Detail-page route for the CTA (e.g. `/products/:slug`). Defaults to "#". */
     href?: string;
     /** CTA label. Defaults to "Xem chi tiết". */
     ctaLabel?: string;
@@ -47,12 +49,12 @@ export default function ProductCard({
 
             <p className="font-normal text-[12px] leading-4 text-taiky-darkbrown">{desc}</p>
 
-            <a
-                href={href}
+            <Link
+                to={href}
                 className="font-bold text-[20px] leading-6 text-taiky-yellow transition-opacity hover:underline hover:opacity-80"
             >
                 {ctaLabel}
-            </a>
+            </Link>
         </article>
     );
 }

@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import ListState from '../ListState';
 import { useCategories, useProducts, usePage } from '../../lib/api/queries';
-import { img, t } from '../../lib/api/helpers';
+import { img, t, productSlug } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
 const imgArrow = '/images/prod-arrow.svg';
@@ -41,10 +41,13 @@ export default function Products() {
         categories: activeCategory || undefined,
         limit: LIMIT,
     });
+
+    
     const cards = (data?.data ?? []).map((p) => ({
         img: img(p.image),
         title: t(p.name),
         desc: t(p.description),
+        href: `/products/${productSlug(p)}`,
     }));
 
     const COPY = cards.length; // one full set; we render 3 sets for looping
@@ -230,7 +233,7 @@ export default function Products() {
 
                 {/* Carousel */}
                 {!isLoading && cards.length > 0 && (
-                    <div className="relative flex items-start justify-between gap-[8px] lg:gap-0 px-0 lg:px-[80px]">
+                    <div className="relative flex items-start justify-between gap-[8px] lg:gap-[16px] px-0 lg:px-[80px]">
                         <button
                             onClick={() => slide(-1)}
                             aria-label="Sản phẩm trước"

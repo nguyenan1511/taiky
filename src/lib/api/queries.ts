@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import { api, type QueryParams } from './client';
 import type {
     ApiBanner,
@@ -52,6 +52,9 @@ export function useProducts(filters: ProductFilters = {}) {
     return useQuery({
         queryKey: qk.products(params),
         queryFn: () => api.get<ListResponse<ApiProduct>>('/api/v1/frontend/products', params),
+        // Keep the prior results on screen while a new page / larger limit loads
+        // (smooth pagination + "load more", no skeleton flash between fetches).
+        placeholderData: keepPreviousData,
     });
 }
 
