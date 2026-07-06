@@ -253,7 +253,7 @@ export default function ProductDetail() {
                             {t(product.name)}
                         </h1>
                         <div
-                            className={`mt-[16px] ${PROSE}`}
+                            className={`mt-[16px] text-justify ${PROSE}`}
                             dangerouslySetInnerHTML={{ __html: t(product.description) }}
                         />
 
