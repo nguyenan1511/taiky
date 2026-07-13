@@ -1,11 +1,13 @@
 import Container from '../Container';
 import RevealStagger from '../RevealStagger';
-import { usePage } from '../../lib/api/queries';
+import { useCertificates, usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { img, t } from '../../lib/api/helpers';
 
 /**
- * "CHỨNG NHẬN CHẤT LƯỢNG" — quality-certification badges
- * (FDA · HALAL · ISO 22000 · HACCP · Hàng Việt Nam chất lượng cao).
+ * "CHỨNG NHẬN CHẤT LƯỢNG" — quality-certification badges from `GET /certificates`
+ * (FDA · HALAL · ISO 22000 · HACCP · Hàng Việt Nam chất lượng cao). Falls back to
+ * the bundled badges while the request is in flight or if it returns nothing.
  */
 
 const CERTIFICATIONS = [
@@ -21,6 +23,23 @@ export default function QualityCertifications() {
     const { data } = usePage(PAGE.ABOUT_US);
     const s5 = pageSection(data?.data, '5');
     const heading = s5?.title || 'CHỨNG NHẬN CHẤT LƯỢNG';
+
+    // Certification badges from the API; fall back to the bundled set when empty.
+    const { data: certData } = useCertificates();
+    const apiCerts = (certData?.data ?? []).map((c) => ({
+        key: c.id,
+        src: img(c.image),
+        alt: t(c.name),
+        files: c.certificateFiles ?? [],
+    }));
+    const certifications = apiCerts.length
+        ? apiCerts
+        : CERTIFICATIONS.map((c) => ({ key: c.src, files: [] as string[], ...c }));
+
+    // Clicking a badge opens every attached document — one new tab per URL.
+    const openFiles = (files: string[]) => {
+        files.forEach((url) => window.open(url, '_blank', 'noopener,noreferrer'));
+    };
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
@@ -48,17 +67,32 @@ export default function QualityCertifications() {
                     step={80}
                     className="mt-[12px] lg:mt-[20px] flex w-full flex-wrap items-center justify-center gap-x-[28px] gap-y-[24px] lg:gap-x-[56px] lg:gap-y-[32px]"
                 >
-                    {CERTIFICATIONS.map(({ src, alt }) => (
-                        <img
-                            key={src}
-                            src={src}
-                            alt={alt}
-                            width={230}
-                            height={230}
-                            loading="lazy"
-                            className="block h-[100px] w-[100px] lg:h-[150px] lg:w-[150px] object-contain"
-                        />
-                    ))}
+                    {certifications.map(({ key, src, alt, files }) => {
+                        const image = (
+                            <img
+                                src={src}
+                                alt={alt}
+                                width={230}
+                                height={230}
+                                loading="lazy"
+                                className="block h-[100px] w-[100px] lg:h-[150px] lg:w-[150px] object-contain"
+                            />
+                        );
+
+                        if (files.length === 0) return <div key={key}>{image}</div>;
+
+                        return (
+                            <button
+                                key={key}
+                                type="button"
+                                onClick={() => openFiles(files)}
+                                aria-label={`Xem chứng nhận ${alt}`}
+                                className="block cursor-pointer transition-transform duration-[300ms] ease-brand hover:scale-[1.06]"
+                            >
+                                {image}
+                            </button>
+                        );
+                    })}
                 </RevealStagger>
             </Container>
         </section>

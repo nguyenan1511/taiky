@@ -4,6 +4,7 @@ import Skeleton from '../Skeleton';
 import RevealStagger from '../RevealStagger';
 import { useMarkets } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
+import type { ApiLogo } from '../../lib/api/types';
 
 /**
  * "THỊ TRƯỜNG NỘI ĐỊA" — domestic distribution: intro copy + a centered grid
@@ -13,6 +14,35 @@ import { img, t } from '../../lib/api/helpers';
 
 const imgSketch = '/images/hero-sketch.webp';
 const imgDecor = '/images/decor-products.webp';
+
+/**
+ * A single market logo. When the logo carries a `shoppingPage` URL it becomes a
+ * link that opens the storefront in a new tab; otherwise it's a plain image.
+ */
+function LogoMedia({ logo }: { logo: ApiLogo }) {
+    const image = (
+        <img
+            src={img(logo.image)}
+            alt={t(logo.name)}
+            loading="lazy"
+            className="max-h-full max-w-full object-contain transition-transform duration-[400ms] ease-brand hover:scale-[1.08]"
+        />
+    );
+
+    if (!logo.shoppingPage) return image;
+
+    return (
+        <a
+            href={logo.shoppingPage}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t(logo.name)}
+            className="flex h-full w-full items-center justify-center"
+        >
+            {image}
+        </a>
+    );
+}
 
 export default function DomesticMarket() {
     const { data, isLoading, isError, refetch } = useMarkets();
@@ -68,12 +98,7 @@ export default function DomesticMarket() {
                                 className="bg-taiky-bg w-full max-w-[197px] h-[100px] lg:h-[140px] flex justify-center items-center"
                                 key={logo.id}
                             >
-                                <img
-                                    src={img(logo.image)}
-                                    alt={t(logo.name)}
-                                    loading="lazy"
-                                    className="max-h-full max-w-full object-contain transition-transform duration-[400ms] ease-brand hover:scale-[1.08]"
-                                />
+                                <LogoMedia logo={logo} />
                             </div>
                         ))}
                     </RevealStagger>
@@ -85,12 +110,7 @@ export default function DomesticMarket() {
                                 className="bg-taiky-bg w-[140px] sm:w-[180px] lg:w-[197px] h-[100px] lg:h-[140px] flex justify-center items-center"
                                 key={logo.id}
                             >
-                                <img
-                                    src={img(logo.image)}
-                                    alt={t(logo.name)}
-                                    loading="lazy"
-                                    className="max-h-full max-w-full object-contain transition-transform duration-[400ms] ease-brand hover:scale-[1.08]"
-                                />
+                                <LogoMedia logo={logo} />
                             </div>
                         ))}
                     </div>

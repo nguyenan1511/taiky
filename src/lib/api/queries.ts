@@ -2,6 +2,7 @@ import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import { api, type QueryParams } from './client';
 import type {
     ApiBanner,
+    ApiCertificate,
     ApiCulinary,
     ApiGrownUp,
     ApiLogo,
@@ -26,6 +27,7 @@ export const qk = {
     newsDetail: (slug: string) => ['news-detail', slug] as const,
     partners: ['partners'] as const,
     markets: ['markets'] as const,
+    certificates: ['certificates'] as const,
     settings: ['settings'] as const,
     banners: ['banners'] as const,
     grownUps: ['grown-ups'] as const,
@@ -136,6 +138,19 @@ export function useMarkets() {
         queryKey: qk.markets,
         queryFn: () =>
             api.get<ListResponse<ApiLogo>>('/api/v1/frontend/markets', { limit: 100, page: 1 }),
+    });
+}
+
+// --- Quality certifications -----------------------------------------------
+
+export function useCertificates() {
+    return useQuery({
+        queryKey: qk.certificates,
+        queryFn: () =>
+            api.get<ListResponse<ApiCertificate>>('/api/v1/frontend/certificates', {
+                limit: 100,
+                page: 1,
+            }),
     });
 }
 

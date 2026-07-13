@@ -2,15 +2,18 @@ import type { ApiCulinary, ApiNews, ApiProduct, Localized, LocalizedImage } from
 import type { Product } from '../../components/ProductItem';
 import type { NewsArticle } from '../../components/NewsItem';
 import type { Recipe } from '../../components/RecipeItem';
+import { getLang } from '../../context/language';
 
-/** Resolve a localized text field, preferring Vietnamese. */
+/** Resolve a localized text field for the active language, then fall back. */
 export function t(value?: Localized | null): string {
-    return value?.vi ?? value?.en ?? '';
+    const lang = getLang();
+    return value?.[lang] ?? value?.vi ?? value?.en ?? '';
 }
 
-/** Resolve a localized image URL, preferring Vietnamese then English. */
+/** Resolve a localized image URL for the active language, then fall back. */
 export function img(value?: LocalizedImage | null): string {
-    return value?.vi ?? value?.en ?? '';
+    const lang = getLang();
+    return value?.[lang] ?? value?.vi ?? value?.en ?? '';
 }
 
 /** URL slug for a product — the backend `slug`, else `name.non` kebab-cased. */

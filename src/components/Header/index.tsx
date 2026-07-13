@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Container from '../Container';
+import ProductsMegaMenu from './ProductsMegaMenu';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useScrolled } from './useScrolled';
 
 const imgLogoMain = '/images/logo-main.svg';
@@ -22,6 +24,22 @@ export default function Header() {
     const { pathname } = useLocation();
     // Active when on the page or any of its sub-routes (e.g. /products/:slug).
     const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`);
+
+    // Desktop "Sản phẩm" mega menu — open on hover, with a small close delay so
+    // the mouse can travel from the nav link down into the panel without closing.
+    const [megaOpen, setMegaOpen] = useState(false);
+    const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const openMega = () => {
+        if (closeTimer.current) clearTimeout(closeTimer.current);
+        setMegaOpen(true);
+    };
+    const scheduleCloseMega = () => {
+        closeTimer.current = setTimeout(() => setMegaOpen(false), 120);
+    };
+    const closeMegaNow = () => {
+        if (closeTimer.current) clearTimeout(closeTimer.current);
+        setMegaOpen(false);
+    };
 
     return (
         <header
@@ -60,24 +78,35 @@ export default function Header() {
                     </Link>
                 </div>
 
-                {/* Right: desktop nav links */}
-                <nav aria-label="Điều hướng chính" className="hidden lg:block">
-                    <ul className="flex items-center gap-5 uppercase text-[16px] leading-6 text-taiky-brown font-bold">
-                        {NAV_LINKS.map(({ label, to }) => (
-                            <li key={label}>
-                                <Link
-                                    to={to}
-                                    aria-current={isActive(to) ? 'page' : undefined}
-                                    className={`transition-colors whitespace-nowrap hover:text-taiky-orange ${
-                                        isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
-                                    }`}
-                                >
-                                    {label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+                {/* Right: desktop nav links + language switcher */}
+                <div className="hidden lg:flex items-center gap-6">
+                    <nav aria-label="Điều hướng chính">
+                        <ul className="flex items-center gap-5 uppercase text-[16px] leading-6 text-taiky-brown font-bold">
+                            {NAV_LINKS.map(({ label, to }) => {
+                                const isProducts = to === '/products';
+                                return (
+                                    <li
+                                        key={label}
+                                        onMouseEnter={isProducts ? openMega : closeMegaNow}
+                                        onMouseLeave={isProducts ? scheduleCloseMega : undefined}
+                                    >
+                                        <Link
+                                            to={to}
+                                            aria-current={isActive(to) ? 'page' : undefined}
+                                            aria-expanded={isProducts ? megaOpen : undefined}
+                                            className={`transition-colors whitespace-nowrap hover:text-taiky-orange ${
+                                                isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
+                                            }`}
+                                        >
+                                            {label}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </nav>
+                    <LanguageSwitcher />
+                </div>
 
                 {/* Right: mobile hamburger */}
                 <button
@@ -107,10 +136,29 @@ export default function Header() {
                 </button>
             </Container>
 
+            {/* Desktop "Sản phẩm" mega menu — full-width panel below the header.
+                The pt keeps its hitbox flush with the header so the hover
+                doesn't break while the cursor moves down into it. */}
+            <div
+                onMouseEnter={openMega}
+                onMouseLeave={scheduleCloseMega}
+                className={`hidden lg:block absolute left-0 right-0 top-full pt-[10px] transition-[opacity,transform,visibility] duration-200 ease-out ${
+                    megaOpen
+                        ? 'visible translate-y-0 opacity-100'
+                        : 'invisible pointer-events-none -translate-y-2 opacity-0'
+                }`}
+            >
+                <Container className="px-[72px]">
+                    <div className="rounded-[16px] bg-taiky-bg/95 p-[28px] shadow-card-hover backdrop-blur-md">
+                        <ProductsMegaMenu onNavigate={closeMegaNow} />
+                    </div>
+                </Container>
+            </div>
+
             {/* Mobile menu panel */}
             <div
                 className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
-                    open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+                    open ? 'max-h-[460px] opacity-100' : 'max-h-0 opacity-0'
                 }`}
             >
                 <nav
@@ -133,6 +181,12 @@ export default function Header() {
                             </li>
                         ))}
                     </ul>
+                    <div className="flex items-center gap-[10px] px-[20px] py-[16px]">
+                        <span className="text-[15px] font-bold uppercase text-taiky-lightbrown">
+                            Ngôn ngữ:
+                        </span>
+                        <LanguageSwitcher variant="inline" />
+                    </div>
                 </nav>
             </div>
         </header>

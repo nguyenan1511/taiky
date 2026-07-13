@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 import ChatWidget from './components/ChatWidget';
 import { ReadyContext } from './context/ready';
+import { useLanguage } from './context/language';
 import { usePage } from './lib/api/queries';
 import { usePageMeta } from './hooks/usePageMeta';
 import { PAGE, type PageCode } from './lib/api/pages';
@@ -40,6 +41,7 @@ const PATH_TO_PAGE: Record<string, PageCode> = {
 
 export default function App() {
     const location = useLocation();
+    const { lang } = useLanguage();
     const [ready, setReady] = useState(false);
     // True until the very first load finishes; route changes use the shorter time.
     const isFirstLoad = useRef(true);
@@ -78,7 +80,9 @@ export default function App() {
                 dataReady={dataReady}
                 onDone={handleDone}
             />
-            <div className="relative min-h-screen font-sans">
+            {/* Keyed on language so every t()/img() call re-resolves on switch
+                (data comes from the React Query cache — no refetch). */}
+            <div key={lang} className="relative min-h-screen font-sans">
                 <Header />
                 <Routes location={location}>
                     <Route path="/" element={<Home />} />

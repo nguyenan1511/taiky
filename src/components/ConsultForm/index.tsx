@@ -3,6 +3,15 @@ import Container from '../Container';
 import { useSubmitContact } from '../../lib/api/queries';
 
 /**
+ * Surface the backend's error message verbatim (e.g. `"phone" must be a phone
+ * number`), falling back to a generic message for network / non-API failures.
+ */
+function errorMessage(error: unknown): string {
+    const message = error instanceof Error ? error.message : '';
+    return message || 'Gửi thông tin thất bại. Vui lòng thử lại.';
+}
+
+/**
  * "NHẬN THÔNG TIN TƯ VẤN" — consultation form on a parchment panel (bg-form.webp).
  * Underline-style fields; labels double as placeholders. Submits to
  * `POST /contacts`. The API body is { name, phone, email, message }; the
@@ -21,7 +30,7 @@ const EMPTY_FORM = { name: '', phone: '', email: '', address: '', message: '' };
 
 export default function ConsultForm() {
     const [form, setForm] = useState(EMPTY_FORM);
-    const { mutate, isPending, isSuccess, isError, reset } = useSubmitContact();
+    const { mutate, isPending, isSuccess, isError, error, reset } = useSubmitContact();
 
     const update =
         (field: keyof typeof form) =>
@@ -77,6 +86,21 @@ export default function ConsultForm() {
                             NHẬN THÔNG TIN TƯ VẤN
                         </h2>
 
+                        <div className="flex flex-col items-center gap-[6px] text-[14px] font-bold text-taiky-brown sm:flex-row sm:justify-center sm:gap-[24px]">
+                            <a
+                                href="mailto:contact@takyfood.com.vn"
+                                className="transition-colors hover:text-taiky-orange"
+                            >
+                                Email: contact@takyfood.com.vn
+                            </a>
+                            <a
+                                href="tel:19006108,802"
+                                className="transition-colors hover:text-taiky-orange"
+                            >
+                                Hotline: 19006108 - Ext: 802
+                            </a>
+                        </div>
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-[56px] gap-y-[28px] lg:gap-y-[36px] font-bold">
                             <input
                                 className={fieldClass}
@@ -126,7 +150,7 @@ export default function ConsultForm() {
                         )}
                         {isError && (
                             <p className="text-center text-[15px] font-bold text-red-600">
-                                Gửi thông tin thất bại. Vui lòng thử lại.
+                                {errorMessage(error)}
                             </p>
                         )}
 

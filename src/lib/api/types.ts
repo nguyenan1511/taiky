@@ -109,6 +109,20 @@ export interface ApiLogo {
     image: LocalizedImage;
     sort: number;
     active: boolean;
+    /** Optional storefront URL; when present the logo links out to it (new tab). */
+    shoppingPage?: string;
+    createdAt: string;
+}
+
+/** `GET /certificates` — a quality-certification badge + its downloadable files. */
+export interface ApiCertificate {
+    id: string;
+    name: Localized;
+    image: LocalizedImage;
+    /** Certificate document URLs; clicking the badge opens each in a new tab. */
+    certificateFiles?: string[];
+    sort: number;
+    active: boolean;
     createdAt: string;
 }
 

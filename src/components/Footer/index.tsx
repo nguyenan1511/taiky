@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { useSettings, useSubmitSubscriber } from '../../lib/api/queries';
 
@@ -12,6 +13,58 @@ const FALLBACK = {
     phone: '19006108',
     email: 'contact@takyfood.com.vn',
 };
+
+// "TAKYfood" wordmark — "food" in brand orange (reused in the nav heading + copyright).
+const Wordmark = () => (
+    <>
+        TAKYfood
+    </>
+);
+
+// Group the hotline digits in 4s for readability, e.g. "19006108" → "1900 6108".
+const formatPhone = (p: string) => p.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+// Keep the last two words together so a lone final word (e.g. "Nam") doesn't
+// orphan onto its own line.
+const noOrphan = (s: string) => s.replace(/ (\S+)\s*$/, ' $1');
+
+// "Giới thiệu về TAKYfood" column — each item routes to its page.
+// "Tuyển dụng" points to the recruitment page on the main takyfood.com.vn site.
+const INTRO_LINKS: Array<{ label: string; to: string }> = [
+    { label: 'Sản phẩm', to: '/products' },
+    { label: 'Tin tức - Sự kiện', to: '/news' },
+    { label: 'Phân Phối', to: '/distribution' },
+    { label: 'Góc ẩm thực', to: '/food' },
+    { label: 'Tuyển dụng', to: 'https://www.takyfood.com.vn/vn/tuyen-dung.html' },
+];
+
+// Support column — the policy pages hosted on the main takyfood.com.vn site.
+const SUPPORT_LINKS: Array<{ label: string; to: string }> = [
+    { label: 'Chính sách đổi trả', to: 'https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html' },
+    { label: 'Chính sách bảo mật', to: 'https://www.takyfood.com.vn/vn/chinh-sach-bao-mat.html' },
+    {
+        label: 'Chính sách thanh toán',
+        to: 'https://www.takyfood.com.vn/vn/chinh-sach-thanh-toan.html',
+    },
+];
+
+// A footer nav entry. External URLs open in a new tab; internal paths use the
+// router; an empty destination renders plain (non-clickable) text.
+function NavItem({ label, to }: { label: string; to: string }) {
+    if (!to) return <span className="cursor-default">{label}</span>;
+    if (/^https?:\/\//.test(to)) {
+        return (
+            <a href={to} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                {label}
+            </a>
+        );
+    }
+    return (
+        <Link to={to} className="hover:underline">
+            {label}
+        </Link>
+    );
+}
 
 export default function Footer() {
     const { data: settingsData } = useSettings();
@@ -50,8 +103,8 @@ export default function Footer() {
                         {companyName}
                     </h3>
                     <div className="flex flex-col gap-3 font-bold text-white text-[14px] leading-6">
-                        <p className="whitespace-pre-wrap">Địa chỉ: {address}</p>
-                        <p>Hotline: {phone}</p>
+                        <p className="whitespace-pre-wrap">Địa chỉ: {noOrphan(address)}</p>
+                        <p>Hotline: {formatPhone(phone)} - Ext: 802</p>
                         <p>Email: {email}</p>
                     </div>
                     {/* Newsletter */}
@@ -88,33 +141,19 @@ export default function Footer() {
                 <div className="flex flex-wrap items-start gap-x-[24px] gap-y-[28px] lg:gap-[60px]">
                     {/* Nav col 1 */}
                     <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
-                        <p className="text-[16px] mb-2">Giới thiệu về TAKYFood</p>
-                        {[
-                            'Sản phẩm',
-                            'Tin tức - Sự kiện',
-                            'Phân Phối',
-                            'Góc ẩm thực',
-                            'Tuyển dụng',
-                        ].map((item) => (
-                            <a key={item} href="#" className="hover:underline">
-                                {item}
-                            </a>
+                        <Link to="/story" className="text-[16px] mb-2 hover:underline">
+                            Giới thiệu về <Wordmark />
+                        </Link>
+                        {INTRO_LINKS.map((item) => (
+                            <NavItem key={item.label} {...item} />
                         ))}
                     </div>
 
                     {/* Nav col 2 */}
                     <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
                         <p className="text-[16px] mb-2">Hỗ trợ khách hàng</p>
-                        {[
-                            'Chính sách bảo hành & dịch vụ',
-                            'Chính sách bảo mật',
-                            'Quy trình khảo sát & lắp đặt',
-                            'Hướng dẫn đăng ký hợp tác',
-                            'FAQ – Câu hỏi thường gặp',
-                        ].map((item) => (
-                            <a key={item} href="#" className="hover:underline">
-                                {item}
-                            </a>
+                        {SUPPORT_LINKS.map((item) => (
+                            <NavItem key={item.label} {...item} />
                         ))}
                     </div>
 
@@ -145,18 +184,25 @@ export default function Footer() {
 
             <div className="flex justify-center w-full relative z-10">
                 <div className="mx-8 md:mx-[80px] w-full border-t border-white/30 py-6 text-center font-montserrat font-normal text-white text-[16px] leading-[22px]">
-                    Copyright © 2026 Taiki Food | All Rights Reserved |{' '}
-                    <a href="#" className="underline">
+                    Copyright © 2026 <Wordmark /> | All Rights Reserved |{' '}
+                    <a
+                        href="https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:opacity-90"
+                    >
                         Terms and Conditions
                     </a>{' '}
                     |{' '}
-                    <a href="#" className="underline">
+                    <a
+                        href="https://www.takyfood.com.vn/vn/chinh-sach-bao-mat.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:opacity-90"
+                    >
                         Privacy Policy
                     </a>{' '}
-                    |{' '}
-                    <a href="#" className="underline">
-                        Sitemap
-                    </a>
+                    | <span className="underline">Sitemap</span>
                 </div>
             </div>
         </footer>
