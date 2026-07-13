@@ -100,7 +100,7 @@ export default function ProductsMegaMenu({ onNavigate }: { onNavigate: () => voi
                             return (
                                 <Link
                                     key={card.id}
-                                    to={card.url}
+                                    to={card.url ?? '#'}
                                     onClick={onNavigate}
                                     className="group flex items-center gap-[12px] rounded-[10px] p-[8px] transition-colors hover:bg-taiky-cream"
                                 >
