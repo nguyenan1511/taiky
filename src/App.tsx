@@ -18,6 +18,9 @@ import Food from './pages/Food';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Distribution from './pages/Distribution';
+import TermsOfUse from './pages/TermsOfUse';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import CookiePolicy from './pages/CookiePolicy';
 
 // Don't let the browser restore the old scroll position on reload — we always
 // start at the top (behind the loading screen).
@@ -93,6 +96,9 @@ export default function App() {
                     <Route path="/news" element={<News />} />
                     <Route path="/news/:slug" element={<NewsDetail />} />
                     <Route path="/distribution" element={<Distribution />} />
+                    <Route path="/terms-of-use" element={<TermsOfUse />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/cookie-policy" element={<CookiePolicy />} />
                 </Routes>
                 <Footer />
             </div>

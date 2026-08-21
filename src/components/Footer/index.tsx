@@ -41,7 +41,8 @@ const INTRO_LINKS: Array<{ label: string; to: string }> = [
 // Support column — the policy pages hosted on the main takyfood.com.vn site.
 const SUPPORT_LINKS: Array<{ label: string; to: string }> = [
     { label: 'Chính sách đổi trả', to: 'https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html' },
-    { label: 'Chính sách bảo mật', to: 'https://www.takyfood.com.vn/vn/chinh-sach-bao-mat.html' },
+    { label: 'Chính sách bảo mật', to: '/privacy-policy' },
+    { label: 'Chính sách Cookie', to: '/cookie-policy' },
     {
         label: 'Chính sách thanh toán',
         to: 'https://www.takyfood.com.vn/vn/chinh-sach-thanh-toan.html',
@@ -185,23 +186,17 @@ export default function Footer() {
             <div className="flex justify-center w-full relative z-10">
                 <div className="mx-8 md:mx-[80px] w-full border-t border-white/30 py-6 text-center font-montserrat font-normal text-white text-[16px] leading-[22px]">
                     Copyright © 2026 <Wordmark /> | All Rights Reserved |{' '}
-                    <a
-                        href="https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:opacity-90"
-                    >
+                    <Link to="/terms-of-use" className="underline hover:opacity-90">
                         Terms and Conditions
-                    </a>{' '}
+                    </Link>{' '}
                     |{' '}
-                    <a
-                        href="https://www.takyfood.com.vn/vn/chinh-sach-bao-mat.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:opacity-90"
-                    >
+                    <Link to="/privacy-policy" className="underline hover:opacity-90">
                         Privacy Policy
-                    </a>{' '}
+                    </Link>{' '}
+                    |{' '}
+                    <Link to="/cookie-policy" className="underline hover:opacity-90">
+                        Cookie Policy
+                    </Link>{' '}
                     | <span className="underline">Sitemap</span>
                 </div>
             </div>
