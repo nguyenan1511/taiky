@@ -15,11 +15,7 @@ const FALLBACK = {
 };
 
 // "TAKYfood" wordmark — "food" in brand orange (reused in the nav heading + copyright).
-const Wordmark = () => (
-    <>
-        TAKYfood
-    </>
-);
+const Wordmark = () => <>TAKYfood</>;
 
 // Group the hotline digits in 4s for readability, e.g. "19006108" → "1900 6108".
 const formatPhone = (p: string) => p.replace(/(\d{4})(?=\d)/g, '$1 ');
@@ -197,7 +193,6 @@ export default function Footer() {
                     <Link to="/cookie-policy" className="underline hover:opacity-90">
                         Cookie Policy
                     </Link>{' '}
-                    | <span className="underline">Sitemap</span>
                 </div>
             </div>
         </footer>
