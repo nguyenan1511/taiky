@@ -10,6 +10,7 @@ import { useProductDetail, useProducts } from '../../lib/api/queries';
 import { img, t, toProductCard } from '../../lib/api/helpers';
 import { useReady } from '../../context/ready';
 import { useDocumentMeta } from '../../hooks/usePageMeta';
+import { useUi } from '../../content/ui';
 
 /**
  * Product detail page (`/products/:slug`) — image gallery + info (specs, shop
@@ -103,6 +104,8 @@ function Chevron({ dir }: { dir: 'left' | 'right' }) {
 
 export default function ProductDetail() {
     const ready = useReady();
+    const uiRoot = useUi();
+    const ui = uiRoot.productDetail;
     const { slug = '' } = useParams();
     const [active, setActive] = useState(0);
     // Direction of the last gallery change, so the new image slides in from
@@ -152,7 +155,7 @@ export default function ProductDetail() {
                         error={isError}
                         empty={!isError}
                         onRetry={() => refetch()}
-                        emptyText="Không tìm thấy sản phẩm."
+                        emptyText={ui.notFound}
                     />
                 </Container>
             </main>
@@ -172,9 +175,9 @@ export default function ProductDetail() {
     };
 
     const specs = [
-        { label: 'Quy cách', value: product.specification },
-        { label: 'Trọng lượng', value: product.weight },
-        { label: 'Hạn sử dụng', value: product.expiry },
+        { label: ui.specs.specification, value: product.specification },
+        { label: ui.specs.weight, value: product.weight },
+        { label: ui.specs.expiry, value: product.expiry },
     ].filter((s) => s.value);
 
     return (
@@ -189,7 +192,7 @@ export default function ProductDetail() {
                                 <button
                                     type="button"
                                     onClick={() => step(-1)}
-                                    aria-label="Ảnh trước"
+                                    aria-label={ui.galleryPrev}
                                     className="shrink-0 flex h-[44px] w-[44px] items-center justify-center rounded-full text-taiky-orange transition-transform duration-300 ease-brand hover:scale-110 hover:bg-taiky-orange/10 active:scale-90"
                                 >
                                     <Chevron dir="left" />
@@ -211,7 +214,7 @@ export default function ProductDetail() {
                                 <button
                                     type="button"
                                     onClick={() => step(1)}
-                                    aria-label="Ảnh sau"
+                                    aria-label={ui.galleryNext}
                                     className="shrink-0 flex h-[44px] w-[44px] items-center justify-center rounded-full text-taiky-orange transition-transform duration-300 ease-brand hover:scale-110 hover:bg-taiky-orange/10 active:scale-90"
                                 >
                                     <Chevron dir="right" />
@@ -226,7 +229,7 @@ export default function ProductDetail() {
                                         key={src}
                                         type="button"
                                         onClick={() => goTo(i)}
-                                        aria-label={`Ảnh ${i + 1}`}
+                                        aria-label={ui.thumbAria.replace('{n}', String(i + 1))}
                                         className={`h-[64px] w-[64px] overflow-hidden rounded-[8px] ring-2 ring-offset-2 ring-offset-taiky-bg transition-all duration-300 ease-brand ${
                                             i === active
                                                 ? 'scale-105 ring-taiky-orange'
@@ -318,7 +321,7 @@ export default function ProductDetail() {
 
                     <Reveal>
                         <h2 className="font-stamp font-normal tracking-brand text-[24px] leading-[30px] lg:text-[30px] lg:leading-[36px] text-taiky-orange uppercase">
-                            Mô tả sản phẩm
+                            {ui.descHeading}
                         </h2>
                         {product.content && t(product.content) ? (
                             <div
@@ -340,20 +343,20 @@ export default function ProductDetail() {
                     <Container className="flex flex-col items-center gap-[20px] py-[40px] lg:py-[60px]">
                         <Reveal className="flex flex-col items-center gap-[16px] lg:gap-[20px] text-center">
                             <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[34px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase">
-                                Sản phẩm liên quan
+                                {ui.relatedHeading}
                             </h2>
                             <p className="max-w-[900px] text-[15px] leading-[24px] lg:text-[20px] lg:leading-[32px] text-taiky-lightbrown uppercase font-bold">
-                                Khám phá{' '}
+                                {uiRoot.common.discover.p1}
                                 <span className="font-bold text-taiky-brown">
-                                    nguồn nguyên liệu tự nhiên
-                                </span>{' '}
-                                được tuyển chọn,
+                                    {uiRoot.common.discover.b1}
+                                </span>
+                                {uiRoot.common.discover.p2}
                                 <br />
-                                giúp bạn dễ dàng chế biến nên những{' '}
+                                {uiRoot.common.discover.p3}
                                 <span className="font-bold text-taiky-brown">
-                                    món ngon đầy cảm hứng
-                                </span>{' '}
-                                mỗi ngày.
+                                    {uiRoot.common.discover.b2}
+                                </span>
+                                {uiRoot.common.discover.p4}
                             </p>
                         </Reveal>
                         <RevealStagger className="mt-[12px] grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px]">
@@ -365,7 +368,7 @@ export default function ProductDetail() {
                             to="/products"
                             className="mt-[20px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[40px] py-[12px] text-[14px] font-bold uppercase tracking-[0.04em] text-taiky-brown"
                         >
-                            Xem thêm
+                            {uiRoot.common.viewMore}
                         </Link>
                     </Container>
                 </section>

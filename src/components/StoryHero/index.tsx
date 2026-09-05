@@ -2,6 +2,7 @@ import { useState } from 'react';
 import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 const imgThumb = '/images/bg-video.webp';
 const imgThumbMb = '/images/bg-video-mb.webp';
@@ -20,6 +21,7 @@ function youtubeEmbed(url?: string): string {
  */
 export default function StoryHero() {
     const [playing, setPlaying] = useState(false);
+    const ui = useUi().storyHero;
 
     const { data } = usePage(PAGE.ABOUT_US);
     const videoSrc = youtubeEmbed(pageSection(data?.data, '1')?.linkVideo);
@@ -42,21 +44,21 @@ export default function StoryHero() {
                     <button
                         type="button"
                         onClick={() => setPlaying(true)}
-                        aria-label="Phát video"
+                        aria-label={ui.playAria}
                         className="group absolute inset-0 h-full w-full cursor-pointer"
                     >
                         {hasPoster ? (
                             <BannerImage
                                 image={poster?.image}
                                 imageMb={poster?.imageMb}
-                                alt="Trụ sở TAKYfood"
+                                alt={ui.posterAlt}
                                 className="absolute inset-0 h-full w-full object-cover"
                             />
                         ) : (
                             <BannerImage
                                 image={imgThumb}
                                 imageMb={imgThumbMb}
-                                alt="Trụ sở TAKYfood"
+                                alt={ui.posterAlt}
                                 className="absolute inset-0 h-full w-full object-cover"
                             />
                         )}

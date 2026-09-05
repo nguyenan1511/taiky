@@ -7,6 +7,7 @@ import RevealStagger from '../RevealStagger';
 import { useFeaturedProducts, usePage } from '../../lib/api/queries';
 import { toProductCard } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 /**
  * "SẢN PHẨM NỔI BẬT" — featured products: intro copy, a grid of product cards
@@ -20,6 +21,8 @@ const PAGE_SIZE = 4;
 const imgBgFeaturedProducts = '/images/bg-prod-spec.webp';
 
 export default function FeaturedProducts() {
+    const ui = useUi();
+    const d = ui.common.discover;
     // How many highlights to request; grows by PAGE_SIZE each "Xem tất cả" click.
     const [limit, setLimit] = useState(PAGE_SIZE);
 
@@ -33,7 +36,7 @@ export default function FeaturedProducts() {
     // PRODUCT page CMS section 2: heading + intro copy.
     const { data: page } = usePage(PAGE.PRODUCT);
     const s2 = pageSection(page?.data, '2');
-    const heading = s2?.title || 'SẢN PHẨM NỔI BẬT';
+    const heading = s2?.title || ui.featuredProducts.heading;
 
     return (
         <section className="relative w-full bg-taiky-bg overflow-hidden">
@@ -52,17 +55,13 @@ export default function FeaturedProducts() {
                         />
                     ) : (
                         <p className="max-w-[900px] text-[15px] leading-[24px] lg:text-[20px] lg:leading-[32px] text-taiky-lightbrown uppercase font-bold">
-                            Khám phá{' '}
-                            <span className="font-bold text-taiky-brown">
-                                nguồn nguyên liệu tự nhiên
-                            </span>{' '}
-                            được tuyển chọn,
+                            {d.p1}
+                            <span className="font-bold text-taiky-brown">{d.b1}</span>
+                            {d.p2}
                             <br />
-                            giúp bạn dễ dàng chế biến nên những{' '}
-                            <span className="font-bold text-taiky-brown">
-                                món ngon đầy cảm hứng
-                            </span>{' '}
-                            mỗi ngày.
+                            {d.p3}
+                            <span className="font-bold text-taiky-brown">{d.b2}</span>
+                            {d.p4}
                         </p>
                     )}
                 </div>
@@ -99,7 +98,7 @@ export default function FeaturedProducts() {
                         className="mt-[12px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[48px] py-[14px] disabled:opacity-60"
                     >
                         <span className="font-bold text-[16px] leading-6 text-taiky-brown uppercase tracking-[0.04em]">
-                            {isFetching ? 'Đang tải...' : 'Xem tất cả'}
+                            {isFetching ? ui.featuredProducts.loadingMore : ui.featuredProducts.loadMore}
                         </span>
                     </button>
                 )}

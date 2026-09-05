@@ -16,6 +16,7 @@ import { useGrownUps, usePage } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { CanvasMilestone, MobileMilestone } from './Milestone';
+import { useUi } from '../../content/ui';
 
 const imgMapLine = '/images/map-line.webp';
 
@@ -26,10 +27,10 @@ const imgDecorTimeline2 = '/images/decor-core-value.webp';
 const imgDecorTimeline3 = '/images/decor-products.webp';
 const imgDecorTimeline4 = '/images//hero-sketch.webp';
 
+// Layout + year/image for the fallback timeline; the title/subtitle copy comes
+// from `ui.timeline.milestones` (by order) so it can be localized.
 type Milestone = {
     year: string;
-    title: string;
-    subtitle?: string;
     image: string;
     /** Photo / logo placement (includes its width). */
     imgPos: string;
@@ -40,71 +41,66 @@ type Milestone = {
 const MILESTONES: Milestone[] = [
     {
         year: '1976',
-        title: 'Cơ sở bột năng Tài Ký ra đời',
-        subtitle: 'Sản xuất mang tính thủ công và nhân công là các thành viên trong gia đình.',
         image: '/images/est-1.webp',
         imgPos: 'left-[140px] top-[0] w-[480px]',
         textPos: 'left-[889px] top-[41px] w-[333px]',
     },
     {
         year: '1978',
-        title: 'Biểu tượng “Sư Tử Bay” ra đời',
-        subtitle:
-            'Là cái tên thân thương mà các tiểu thương vẫn nhớ tới với hình ảnh cùng chiếc xe đạp giao hàng bột năng.',
         image: '/images/est-2.webp',
         imgPos: 'left-[695px] top-[495px] w-[501px]',
         textPos: 'left-[128px] top-[626px] w-[350px]',
     },
     {
         year: '2004',
-        title: 'Thành lập Công ty Cổ Phần Bột - Thực Phẩm Tài Ký',
         image: '/images/est-3.webp',
         imgPos: 'left-[230px] top-[1084px] w-[525px]',
         textPos: 'left-[923px] top-[1181px] w-[333px]',
     },
     {
         year: '2019',
-        title: 'Cơ sở Nhà máy 2',
         image: '/images/est-4.webp',
         imgPos: 'left-[536px] top-[1550px] w-[491px]',
         textPos: 'left-[224px] top-[1605px] w-[360px]',
     },
     {
         year: '2021',
-        title: '45 năm hình thành và phát triển',
         image: '/images/est-5.webp',
         imgPos: 'left-[95px] top-[2082px] w-[542px]',
         textPos: 'left-[756px] top-[2119px] w-[333px]',
     },
     {
         year: '2022',
-        title: 'TAKYfood đạt Thương Hiệu Quốc Gia Việt Nam',
         image: '/images/est-6.webp',
         imgPos: 'left-[619px] top-[2466px] w-[538px]',
         textPos: 'left-[245px] top-[2533px] w-[333px]',
     },
     {
         year: '2026',
-        title: 'Hành trình 50 năm - khoai và bột',
         image: '/images/est-7.webp',
         imgPos: 'left-[152px] top-[2875px] w-[582px]',
         textPos: 'left-[801px] top-[2975px] w-[333px]',
     },
 ];
 
-type MilestoneContent = Pick<Milestone, 'year' | 'title' | 'subtitle' | 'image'> & {
+type MilestoneContent = {
+    year: string;
+    title: string;
+    subtitle?: string;
+    image: string;
     imageMb: string;
 };
 
 export default function Timeline() {
+    const ui = useUi().timeline;
     // `/grown-ups` returns a bare array (no pagination envelope).
     const { data } = useGrownUps();
     const apiItems = data?.data ?? [];
     // ABOUT-US page CMS section 4: heading + label.
     const { data: page } = usePage(PAGE.ABOUT_US);
     const s4 = pageSection(page?.data, '4');
-    const heading = s4?.title || 'QUÁ TRÌNH PHÁT TRIỂN';
-    const label = s4?.label || 'TAKYFOOD';
+    const heading = s4?.title || ui.heading;
+    const label = s4?.label || ui.label;
 
     // API content if available (sorted by `sort`), else the built-in fallback.
     const content: MilestoneContent[] = apiItems.length
@@ -117,10 +113,10 @@ export default function Timeline() {
                   image: img(g.image),
                   imageMb: img(g.imageMb) || img(g.image),
               }))
-        : MILESTONES.map(({ year, title, subtitle, image }) => ({
+        : MILESTONES.map(({ year, image }, i) => ({
               year,
-              title,
-              subtitle,
+              title: ui.milestones[i]?.title ?? '',
+              subtitle: ui.milestones[i]?.subtitle || undefined,
               image,
               imageMb: image,
           }));

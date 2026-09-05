@@ -5,6 +5,7 @@ import RevealStagger from '../RevealStagger';
 import { useMarkets } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import type { ApiLogo } from '../../lib/api/types';
+import { useUi } from '../../content/ui';
 
 /**
  * "THỊ TRƯỜNG NỘI ĐỊA" — domestic distribution: intro copy + a centered grid
@@ -45,6 +46,7 @@ function LogoMedia({ logo }: { logo: ApiLogo }) {
 }
 
 export default function DomesticMarket() {
+    const ui = useUi().domesticMarket;
     const { data, isLoading, isError, refetch } = useMarkets();
     const logos = data?.data ?? [];
     const firstRows = logos.slice(0, 12);
@@ -60,12 +62,12 @@ export default function DomesticMarket() {
             </div>
             <Container className="flex flex-col items-center gap-[20px] lg:gap-[24px] py-[40px] relative z-10">
                 <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
-                    THỊ TRƯỜNG NỘI ĐỊA
+                    {ui.heading}
                 </h2>
                 <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
-                    Bột thực phẩm từ nguồn{' '}
-                    <span className="font-bold text-taiky-brown">nông sản tự nhiên</span> vì sức
-                    khỏe cộng đồng.
+                    {ui.intro.pre}
+                    <span className="font-bold text-taiky-brown">{ui.intro.highlight}</span>
+                    {ui.intro.post}
                 </p>
 
                 {isLoading && (

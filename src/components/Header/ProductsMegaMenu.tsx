@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCategories, useProducts } from '../../lib/api/queries';
 import { t, toProductCard } from '../../lib/api/helpers';
+import { useUi } from '../../content/ui';
 
 /**
  * Product thumbnail with a graceful fallback: when the URL is missing or fails
@@ -42,6 +43,7 @@ function Thumb({ src, alt }: { src: string; alt: string }) {
  * product→category mapping, so we let it filter).
  */
 export default function ProductsMegaMenu({ onNavigate }: { onNavigate: () => void }) {
+    const ui = useUi().productsMegaMenu;
     const { data: categoriesData } = useCategories();
     const categories = categoriesData?.data ?? [];
 
@@ -90,9 +92,7 @@ export default function ProductsMegaMenu({ onNavigate }: { onNavigate: () => voi
                         ))}
                     </div>
                 ) : products.length === 0 ? (
-                    <p className="text-[15px] font-bold text-taiky-lightbrown">
-                        Chưa có sản phẩm.
-                    </p>
+                    <p className="text-[15px] font-bold text-taiky-lightbrown">{ui.empty}</p>
                 ) : (
                     <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-[16px] gap-y-[8px]">
                         {products.map((p) => {

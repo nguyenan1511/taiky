@@ -7,6 +7,7 @@ import ListState from '../ListState';
 import RevealStagger from '../RevealStagger';
 import { useNews, useNewsCategories } from '../../lib/api/queries';
 import { t, toNewsCard } from '../../lib/api/helpers';
+import { useUi } from '../../content/ui';
 
 /**
  * "TIN TỨC SỰ KIỆN" — news list: category tabs (from `GET /news-categories`),
@@ -19,6 +20,7 @@ const PER_PAGE = 9;
 const imgSketch = '/images/decor-bottom-catalog.webp';
 
 export default function NewsList() {
+    const ui = useUi().newsList;
     // empty category id = "all news"
     const [activeCategory, setActiveCategory] = useState('');
     const [page, setPage] = useState(1);
@@ -28,7 +30,7 @@ export default function NewsList() {
     const categories = catsData?.data ?? [];
     const activeLabel = activeCategory
         ? t(categories.find((c) => c.id === activeCategory)?.name)
-        : 'Tất cả tin tức';
+        : ui.allNews;
 
     const { data, isLoading, isError, refetch } = useNews({
         categories: activeCategory || undefined,
@@ -58,7 +60,7 @@ export default function NewsList() {
             </div>
             <Container className="flex flex-col items-center gap-[24px] lg:gap-[36px] py-[40px] lg:py-[60px] relative z-10">
                 <h2 className="font-stamp font-normal tracking-brand text-[28px] leading-[32px] lg:text-[44px] lg:leading-[48px] text-taiky-orange uppercase text-center">
-                    TIN TỨC SỰ KIỆN
+                    {ui.heading}
                 </h2>
 
                 {/* Mobile / tablet: category dropdown */}
@@ -99,7 +101,7 @@ export default function NewsList() {
                                             : 'text-taiky-brown hover:text-taiky-orange'
                                     }`}
                                 >
-                                    Tất cả tin tức
+                                    {ui.allNews}
                                 </button>
                             </li>
                             {categories.map((category) => (
@@ -128,7 +130,7 @@ export default function NewsList() {
                         onClick={() => selectCategory('')}
                         className={tabClass(activeCategory === '')}
                     >
-                        Tất cả tin tức
+                        {ui.allNews}
                     </button>
                     {categories.map((category) => (
                         <button
@@ -155,7 +157,7 @@ export default function NewsList() {
                             error={isError}
                             empty={articles.length === 0}
                             onRetry={() => refetch()}
-                            emptyText="Chưa có tin tức cho mục này."
+                            emptyText={ui.empty}
                         />
                         {articles.length > 0 && (
                             <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">

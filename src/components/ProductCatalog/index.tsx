@@ -8,6 +8,7 @@ import RevealStagger from '../RevealStagger';
 import { useCategories, useProducts, usePage } from '../../lib/api/queries';
 import { t, toProductCard } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 /**
  * "DANH MỤC SẢN PHẨM" — product catalog: category tabs (from `GET /categories`),
@@ -21,6 +22,7 @@ const imgDecor = '/images/decor-timeline-1.webp';
 const imgSketch = '/images/decor-bottom-catalog.webp';
 
 export default function ProductCatalog() {
+    const ui = useUi();
     // empty category id = "all categories"
     const [activeCategory, setActiveCategory] = useState('');
     const [page, setPage] = useState(1);
@@ -30,11 +32,11 @@ export default function ProductCatalog() {
     const categories = categoriesData?.data ?? [];
     const activeLabel = activeCategory
         ? t(categories.find((c) => c.id === activeCategory)?.name)
-        : 'Tất cả';
+        : ui.common.all;
 
     // PRODUCT page CMS section 3: heading.
     const { data: cmsPage } = usePage(PAGE.PRODUCT);
-    const heading = pageSection(cmsPage?.data, '3')?.title || 'DANH MỤC SẢN PHẨM';
+    const heading = pageSection(cmsPage?.data, '3')?.title || ui.productCatalog.heading;
 
     const { data, isLoading, isError, refetch } = useProducts({
         categories: activeCategory || undefined,
@@ -106,9 +108,9 @@ export default function ProductCatalog() {
                                         activeCategory === ''
                                             ? 'text-taiky-orange'
                                             : 'text-taiky-brown hover:text-taiky-orange'
-                                    }`}
+                                        }`}
                                 >
-                                    Tất cả
+                                    {ui.common.all}
                                 </button>
                             </li>
                             {categories.map((category) => (
@@ -137,7 +139,7 @@ export default function ProductCatalog() {
                         onClick={() => selectCategory('')}
                         className={tabClass(activeCategory === '')}
                     >
-                        Tất cả
+                        {ui.common.all}
                     </button>
                     {categories.map((category) => (
                         <button
@@ -164,7 +166,7 @@ export default function ProductCatalog() {
                             error={isError}
                             empty={products.length === 0}
                             onRetry={() => refetch()}
-                            emptyText="Chưa có sản phẩm cho thương hiệu này."
+                            emptyText={ui.common.emptyProducts}
                         />
                         {products.length > 0 && (
                             <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[24px] gap-y-[40px]">

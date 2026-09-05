@@ -1,12 +1,14 @@
 import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 const imgTree = '/images/kitchen-tree.webp';
 const imgDecorTopleft = '/images/decor-foodbowls.webp';
 const imgDecorBottomRight = '/images/decor-foodbowls-2.webp';
 
 export default function KitchenCorner() {
+    const ui = useUi().kitchenCorner;
     // HOME page CMS section 5: tree image + "GÓC BẾP" heading.
     const { data } = usePage(PAGE.HOME);
     const s4 = pageSection(data?.data, '4');
@@ -29,13 +31,13 @@ export default function KitchenCorner() {
                         <BannerImage
                             image={s4?.image}
                             imageMb={s4?.imageMb}
-                            alt="50 năm TAIKYFOOD"
+                            alt={ui.alt}
                             className="w-full max-w-[420px] h-auto lg:w-auto lg:max-w-[900px]"
                         />
                     ) : (
                         <img
                             src={imgTree}
-                            alt="50 năm TAIKYFOOD"
+                            alt={ui.alt}
                             className="w-full max-w-[420px] h-auto lg:w-auto lg:max-w-none"
                         />
                     )}

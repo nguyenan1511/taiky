@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import Container from '../Container';
 import { useSubmitContact } from '../../lib/api/queries';
+import { useUi } from '../../content/ui';
 
 /**
  * Surface the backend's error message verbatim (e.g. `"phone" must be a phone
  * number`), falling back to a generic message for network / non-API failures.
  */
-function errorMessage(error: unknown): string {
+function errorMessage(error: unknown, fallback: string): string {
     const message = error instanceof Error ? error.message : '';
-    return message || 'Gửi thông tin thất bại. Vui lòng thử lại.';
+    return message || fallback;
 }
 
 /**
@@ -29,6 +30,7 @@ const fieldClass =
 const EMPTY_FORM = { name: '', phone: '', email: '', address: '', message: '' };
 
 export default function ConsultForm() {
+    const ui = useUi().consultForm;
     const [form, setForm] = useState(EMPTY_FORM);
     const { mutate, isPending, isSuccess, isError, error, reset } = useSubmitContact();
 
@@ -44,7 +46,7 @@ export default function ConsultForm() {
         if (isPending) return;
 
         const message = form.address.trim()
-            ? `Địa chỉ: ${form.address.trim()}\n\n${form.message.trim()}`
+            ? `${ui.addressPrefix}${form.address.trim()}\n\n${form.message.trim()}`
             : form.message.trim();
 
         mutate(
@@ -83,7 +85,7 @@ export default function ConsultForm() {
                         onSubmit={handleSubmit}
                     >
                         <h2 className="font-stamp font-normal tracking-brand text-[24px] leading-[30px] lg:text-[36px] lg:leading-[44px] text-taiky-orange uppercase text-center">
-                            NHẬN THÔNG TIN TƯ VẤN
+                            {ui.heading}
                         </h2>
 
                         <div className="flex flex-col items-center gap-[6px] text-[14px] font-bold text-taiky-brown sm:flex-row sm:justify-center sm:gap-[24px]">
@@ -105,7 +107,7 @@ export default function ConsultForm() {
                             <input
                                 className={fieldClass}
                                 type="text"
-                                placeholder="Họ và tên"
+                                placeholder={ui.namePlaceholder}
                                 required
                                 value={form.name}
                                 onChange={update('name')}
@@ -113,7 +115,7 @@ export default function ConsultForm() {
                             <input
                                 className={fieldClass}
                                 type="tel"
-                                placeholder="Số điện thoại"
+                                placeholder={ui.phonePlaceholder}
                                 required
                                 value={form.phone}
                                 onChange={update('phone')}
@@ -121,7 +123,7 @@ export default function ConsultForm() {
                             <input
                                 className={fieldClass}
                                 type="email"
-                                placeholder="Email"
+                                placeholder={ui.emailPlaceholder}
                                 required
                                 value={form.email}
                                 onChange={update('email')}
@@ -129,7 +131,7 @@ export default function ConsultForm() {
                             <input
                                 className={fieldClass}
                                 type="text"
-                                placeholder="Địa chỉ"
+                                placeholder={ui.addressPlaceholder}
                                 value={form.address}
                                 onChange={update('address')}
                             />
@@ -138,19 +140,19 @@ export default function ConsultForm() {
                         <textarea
                             className={`${fieldClass} resize-none font-bold`}
                             rows={3}
-                            placeholder="Nội dung tư vấn"
+                            placeholder={ui.messagePlaceholder}
                             value={form.message}
                             onChange={update('message')}
                         />
 
                         {isSuccess && (
                             <p className="text-center text-[15px] font-bold text-taiky-orange">
-                                Cảm ơn bạn! Chúng tôi đã nhận được thông tin và sẽ liên hệ sớm.
+                                {ui.success}
                             </p>
                         )}
                         {isError && (
                             <p className="text-center text-[15px] font-bold text-red-600">
-                                {errorMessage(error)}
+                                {errorMessage(error, ui.errorFallback)}
                             </p>
                         )}
 
@@ -159,7 +161,7 @@ export default function ConsultForm() {
                             disabled={isPending}
                             className="mx-auto mt-[8px] btn-cta bg-taiky-yellow px-[36px] py-[12px] text-[15px] font-bold text-taiky-brown disabled:opacity-60"
                         >
-                            {isPending ? 'Đang gửi…' : 'Gửi thông tin'}
+                            {isPending ? ui.submitting : ui.submit}
                         </button>
                     </form>
                 </div>

@@ -3,6 +3,7 @@ import type { Product } from '../../components/ProductItem';
 import type { NewsArticle } from '../../components/NewsItem';
 import type { Recipe } from '../../components/RecipeItem';
 import { getLang } from '../../context/language';
+import { getUi } from '../../content/ui';
 
 /** Resolve a localized text field for the active language, then fall back. */
 export function t(value?: Localized | null): string {
@@ -56,7 +57,7 @@ export function toRecipeCard(c: ApiCulinary): Recipe & { id: string } {
     return {
         id: c.id,
         title: t(c.name),
-        people: c.servings != null ? `${c.servings} Người` : '',
+        people: c.servings != null ? `${c.servings}${getUi().common.servingsSuffix}` : '',
         time: c.cookingTime || '',
         difficulty: c.difficulty || '',
         image: img(c.image),

@@ -1,0 +1,648 @@
+{
+  "vi": {
+    "common": {
+      "viewDetails": "Xem chi tiết",
+      "viewMore": "Xem thêm",
+      "all": "Tất cả",
+      "emptyProducts": "Chưa có sản phẩm cho thương hiệu này.",
+      "dishAlt": "Món ăn",
+      "servingsSuffix": " Người",
+      "discover": {
+        "p1": "Khám phá ",
+        "b1": "nguồn nguyên liệu tự nhiên",
+        "p2": " được tuyển chọn,",
+        "p3": "giúp bạn dễ dàng chế biến nên những ",
+        "b2": "món ngon đầy cảm hứng",
+        "p4": " mỗi ngày."
+      }
+    },
+    "header": {
+      "nav": {
+        "story": "Câu chuyện TAKYfood",
+        "products": "sản phẩm",
+        "news": "tin tức sự kiện",
+        "distribution": "phân phối",
+        "food": "góc ẩm thực"
+      },
+      "badgeAlt": "TAKYfood 50 năm",
+      "navAria": "Điều hướng chính",
+      "navAriaMobile": "Điều hướng chính (mobile)",
+      "openMenu": "Mở menu",
+      "closeMenu": "Đóng menu",
+      "languageLabel": "Ngôn ngữ:"
+    },
+    "languageSwitcher": {
+      "choose": "Chọn ngôn ngữ",
+      "comingSoon": "Sắp có"
+    },
+    "productsMegaMenu": {
+      "empty": "Chưa có sản phẩm."
+    },
+    "hero": {
+      "title": "Đậm chất bản Việt",
+      "product": "Bánh TAKY",
+      "description": "Dòng sản phẩm Taky hoàn hảo về chất lượng và đột phá trong từng thiết kế bao bì mới. Mỗi tuyệt phẩm đến từ nhãn hàng Taky đều là một sản phẩm quan trọng trong danh mục sản phẩm được ưa thích nhất. Xứng đáng trở thành chuyên gia bột thực phẩm hàng đầu tại Việt Nam.",
+      "cta": "XEM CHI TIẾT",
+      "bannerAlt": "Bánh Taky"
+    },
+    "products": {
+      "cta": "Xem chi tiết",
+      "heading": "SẢN PHẨM",
+      "prevAria": "Sản phẩm trước",
+      "nextAria": "Sản phẩm sau",
+      "ticker": {
+        "t1": "TÀI KÝ LÀ",
+        "b1": " CHÍNH MÌNH, ",
+        "t2": "SẢN PHẨM LÀ",
+        "b2": " HOÀN HẢO, ",
+        "t3": "KHÁCH HÀNG LÀ ",
+        "b3": "THƯỢNG ĐẾ"
+      }
+    },
+    "productHero": {
+      "title": "SẢN PHẨM",
+      "tagline": {
+        "p1": "Tài Ký là ",
+        "b1": "chính mình",
+        "p2": ", sản phẩm là ",
+        "b2": "hoàn hảo",
+        "p3": ", khách hàng là ",
+        "b3": "thượng đế"
+      }
+    },
+    "featuredProducts": {
+      "heading": "SẢN PHẨM NỔI BẬT",
+      "loadMore": "Xem tất cả",
+      "loadingMore": "Đang tải..."
+    },
+    "productCatalog": {
+      "heading": "DANH MỤC SẢN PHẨM"
+    },
+    "coreValues": {
+      "heading": "GIÁ TRỊ CỐT LÕI",
+      "compositeAlt": "Giá trị cốt lõi TAKYfood",
+      "values": [
+        {
+          "title": "Tôn trọng",
+          "desc": "Tôn trọng thương hiệu TAKYfood. Tôn trọng thành viên TAKYfood. Tôn trọng đối tác, khách hàng. Đó là Tôn trọng chính mình,"
+        },
+        { "title": "An tâm", "desc": "Sản phẩm đáng TIN cậy." },
+        { "title": "Ích lợi", "desc": "Mang lại LỢI ÍCH cho khách hàng và các bên liên quan." },
+        {
+          "title": "Khát vọng",
+          "desc": "KHÁT VỌNG biểu tượng BÁNH VIỆT ẩm thực văn hóa VIỆT NAM vươn ra thế giới."
+        },
+        { "title": "Yên tâm", "desc": "Người CHÍNH TRỰC: trung thực trong lời nói và hành động." }
+      ]
+    },
+    "commitment": {
+      "heading": "CAM KẾT CỦA TÀI KÝ",
+      "fallback": {
+        "pre": "BỘT THỰC PHẨM TỪ NGUỒN ",
+        "highlight": "NÔNG SẢN TỰ NHIÊN",
+        "post": " VÌ SỨC KHỎE CỘNG ĐỒNG."
+      }
+    },
+    "kitchenCorner": {
+      "alt": "50 năm TAIKYFOOD"
+    },
+    "foodBowls": {},
+    "foodHero": {
+      "title": "Cùng Tài Ký khám phá mọi món ngon"
+    },
+    "todayEat": {
+      "heading": "HÔM NAY ĂN GÌ",
+      "subtitle": {
+        "b1": "Bữa ăn gia đình",
+        "text": " thêm trọn vị khi có ",
+        "b2": "TAKYFOOD"
+      },
+      "empty": "Chưa có công thức.",
+      "prevAria": "Công thức trước",
+      "nextAria": "Công thức sau"
+    },
+    "culinarySection": {
+      "empty": "Chưa có công thức cho mục này."
+    },
+    "recipeMeta": {
+      "difficultyLabel": "Độ khó: "
+    },
+    "eventHero": {
+      "slides": [
+        "TAKYFOOD TẠI VIETNAM FOODEXPO - TRIỂN LÃM QUỐC TẾ LỚN NHẤT NGÀNH CÔNG NGHIỆP THỰC PHẨM VIỆT NAM 2026",
+        "TAKYFOOD RA MẮT BỘ SƯU TẬP BỘT THỰC PHẨM MỚI - ĐẬM CHẤT BẢN VIỆT 2026"
+      ]
+    },
+    "storyHero": {
+      "posterAlt": "Trụ sở TAKYfood",
+      "playAria": "Phát video"
+    },
+    "domesticMarket": {
+      "heading": "THỊ TRƯỜNG NỘI ĐỊA",
+      "intro": {
+        "pre": "Bột thực phẩm từ nguồn ",
+        "highlight": "nông sản tự nhiên",
+        "post": " vì sức khỏe cộng đồng."
+      }
+    },
+    "internationalMarket": {
+      "heading": "THỊ TRƯỜNG QUỐC TẾ",
+      "intro": {
+        "pre": "Chúng tôi đã xuất khẩu đến ",
+        "highlight": "59 quốc gia"
+      },
+      "continents": {
+        "americas": "Châu Mỹ",
+        "europe": "Châu Âu",
+        "africa": "Châu Phi",
+        "asia": "Châu Á",
+        "oceania": "Châu Đại Dương"
+      },
+      "regionsLeft": [
+        {
+          "name": "CHÂU Á",
+          "count": 13,
+          "countries": "Campuchia, Lào, Nhật Bản, Hàn Quốc, Đài Loan, Trung Quốc, Philippines, Malaysia, Indonesia, Thái Lan, Ả Rập Saudi, Các Tiểu vương quốc Ả Rập Thống nhất, Uzbekistan"
+        },
+        { "name": "CHÂU ĐẠI DƯƠNG", "count": 3, "countries": "Úc, New Zealand, Fiji" },
+        { "name": "CHÂU MỸ", "count": 3, "countries": "Hoa Kỳ, Canada, Chile" }
+      ],
+      "regionsRight": [
+        {
+          "name": "CHÂU ÂU",
+          "count": 14,
+          "countries": "Nga, Serbia, Hà Lan, Anh, Na Uy, Phần Lan, Ba Lan, Pháp, Đức, Czechia, Đan Mạch, Thụy Điển, Thụy Sĩ, Slovakia"
+        },
+        { "name": "CHÂU PHI", "count": 1, "countries": "Ma Rốc" }
+      ]
+    },
+    "enterpriseCustomers": {
+      "heading": "KHÁCH HÀNG DOANH NGHIỆP (OEM/ODM)",
+      "intro": "Đồng hành sản xuất & phát triển sản phẩm cùng các thương hiệu"
+    },
+    "qualityCertifications": {
+      "heading": "CHỨNG NHẬN CHẤT LƯỢNG",
+      "certAria": "Xem chứng nhận ",
+      "intro": {
+        "p1": "Cam kết ",
+        "b1": "chất lượng cao",
+        "p2": ", nguồn nguyên liệu ",
+        "b2": "minh bạch",
+        "p3": ", ",
+        "b3": "an toàn",
+        "p4": " cho sức khỏe người tiêu dùng."
+      },
+      "fallbackCerts": [
+        "FDA Approved",
+        "HALAL",
+        "ISO 22000",
+        "HACCP Certified",
+        "Hàng Việt Nam chất lượng cao"
+      ]
+    },
+    "timeline": {
+      "heading": "QUÁ TRÌNH PHÁT TRIỂN",
+      "label": "TAKYFOOD",
+      "milestones": [
+        {
+          "title": "Cơ sở bột năng Tài Ký ra đời",
+          "subtitle": "Sản xuất mang tính thủ công và nhân công là các thành viên trong gia đình."
+        },
+        {
+          "title": "Biểu tượng “Sư Tử Bay” ra đời",
+          "subtitle": "Là cái tên thân thương mà các tiểu thương vẫn nhớ tới với hình ảnh cùng chiếc xe đạp giao hàng bột năng."
+        },
+        { "title": "Thành lập Công ty Cổ Phần Bột - Thực Phẩm Tài Ký", "subtitle": "" },
+        { "title": "Cơ sở Nhà máy 2", "subtitle": "" },
+        { "title": "45 năm hình thành và phát triển", "subtitle": "" },
+        { "title": "TAKYfood đạt Thương Hiệu Quốc Gia Việt Nam", "subtitle": "" },
+        { "title": "Hành trình 50 năm - khoai và bột", "subtitle": "" }
+      ]
+    },
+    "newsList": {
+      "heading": "TIN TỨC SỰ KIỆN",
+      "allNews": "Tất cả tin tức",
+      "empty": "Chưa có tin tức cho mục này."
+    },
+    "listState": {
+      "loading": "Đang tải…",
+      "error": "Không tải được dữ liệu. Vui lòng thử lại.",
+      "empty": "Chưa có dữ liệu.",
+      "retry": "Thử lại"
+    },
+    "pagination": {
+      "nav": "Phân trang",
+      "prev": "Trang trước",
+      "next": "Trang sau"
+    },
+    "preloader": {
+      "loading": "Đang tải"
+    },
+    "productItem": {
+      "buyShopee": "Mua {name} trên Shopee",
+      "buyTiktok": "Mua {name} trên TikTok Shop"
+    },
+    "chatWidget": {
+      "dialogAria": "Chat với TAKYfood",
+      "close": "Đóng chat",
+      "greeting1": "Chào bạn, TakyFood luôn sẵn sàng hỗ trợ bạn!",
+      "greeting2": "TakyFood có thể giúp gì cho bạn hôm nay?",
+      "quickReplies": ["Đơn hàng", "Sản phẩm", "Khuyến mãi mới", "Về TakyFood"],
+      "callAria": "Gọi điện",
+      "placeholder": "Nhập tin nhắn dưới 1000 ký tự nhé!",
+      "send": "Gửi",
+      "launcher": "Mở chat hỗ trợ",
+      "launcherAlt": "Chat với TAKYfood"
+    },
+    "consultForm": {
+      "heading": "NHẬN THÔNG TIN TƯ VẤN",
+      "errorFallback": "Gửi thông tin thất bại. Vui lòng thử lại.",
+      "addressPrefix": "Địa chỉ: ",
+      "namePlaceholder": "Họ và tên",
+      "phonePlaceholder": "Số điện thoại",
+      "emailPlaceholder": "Email",
+      "addressPlaceholder": "Địa chỉ",
+      "messagePlaceholder": "Nội dung tư vấn",
+      "success": "Cảm ơn bạn! Chúng tôi đã nhận được thông tin và sẽ liên hệ sớm.",
+      "submitting": "Đang gửi…",
+      "submit": "Gửi thông tin"
+    },
+    "footer": {
+      "company": "CÔNG TY CỔ PHẦN BỘT - THỰC PHẨM TÀI KÝ",
+      "address": "435 Quốc lộ 13, Khu phố 24, Phường Hiệp Bình, TP. Hồ Chí Minh, Việt Nam",
+      "introHeading": "Giới thiệu về ",
+      "supportHeading": "Hỗ trợ khách hàng",
+      "intro": {
+        "products": "Sản phẩm",
+        "news": "Tin tức - Sự kiện",
+        "distribution": "Phân Phối",
+        "food": "Góc ẩm thực",
+        "careers": "Tuyển dụng"
+      },
+      "support": {
+        "returns": "Chính sách đổi trả",
+        "privacy": "Chính sách bảo mật",
+        "cookie": "Chính sách Cookie",
+        "payment": "Chính sách thanh toán"
+      },
+      "addressLabel": "Địa chỉ: ",
+      "hotlineLabel": "Hotline: ",
+      "hotlineExt": " - Ext: 802",
+      "emailLabel": "Email: ",
+      "newsletterPlaceholder": "Email nhận khuyến mãi",
+      "subscribe": "Gửi ngay",
+      "subscribing": "Đang gửi…",
+      "subscribeSuccess": "Đăng ký nhận tin thành công!",
+      "subscribeError": "Đăng ký thất bại. Vui lòng thử lại.",
+      "backToTop": "Lên đầu trang",
+      "copyright": "Copyright © 2026 ",
+      "rights": " | All Rights Reserved | ",
+      "terms": "Terms and Conditions",
+      "privacyLink": "Privacy Policy",
+      "cookieLink": "Cookie Policy"
+    },
+    "productDetail": {
+      "notFound": "Không tìm thấy sản phẩm.",
+      "galleryPrev": "Ảnh trước",
+      "galleryNext": "Ảnh sau",
+      "thumbAria": "Ảnh {n}",
+      "descHeading": "Mô tả sản phẩm",
+      "relatedHeading": "Sản phẩm liên quan",
+      "specs": {
+        "specification": "Quy cách",
+        "weight": "Trọng lượng",
+        "expiry": "Hạn sử dụng"
+      }
+    },
+    "newsDetail": {
+      "notFound": "Không tìm thấy bài viết.",
+      "relatedHeading": "Tin tức liên quan"
+    },
+    "policyPage": {
+      "relatedAria": "Chính sách liên quan"
+    }
+  },
+  "en": {
+    "common": {
+      "viewDetails": "View details",
+      "viewMore": "View more",
+      "all": "All",
+      "emptyProducts": "No products for this brand yet.",
+      "dishAlt": "Dish",
+      "servingsSuffix": " servings",
+      "discover": {
+        "p1": "Discover ",
+        "b1": "natural ingredients",
+        "p2": " that are carefully selected,",
+        "p3": "helping you easily prepare ",
+        "b2": "inspiring delicious dishes",
+        "p4": " every day."
+      }
+    },
+    "header": {
+      "nav": {
+        "story": "TAKYfood Story",
+        "products": "products",
+        "news": "news & events",
+        "distribution": "distribution",
+        "food": "culinary corner"
+      },
+      "badgeAlt": "TAKYfood 50 years",
+      "navAria": "Main navigation",
+      "navAriaMobile": "Main navigation (mobile)",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "languageLabel": "Language:"
+    },
+    "languageSwitcher": {
+      "choose": "Choose language",
+      "comingSoon": "Coming soon"
+    },
+    "productsMegaMenu": {
+      "empty": "No products yet."
+    },
+    "hero": {
+      "title": "Authentically Vietnamese",
+      "product": "TAKY Cakes",
+      "description": "The Taky product line is perfect in quality and groundbreaking in every new packaging design. Each masterpiece from the Taky brand is a key product among the most beloved. Worthy of becoming the leading food-flour expert in Vietnam.",
+      "cta": "VIEW DETAILS",
+      "bannerAlt": "Taky Cakes"
+    },
+    "products": {
+      "cta": "View details",
+      "heading": "PRODUCTS",
+      "prevAria": "Previous products",
+      "nextAria": "Next products",
+      "ticker": {
+        "t1": "TAI KY IS",
+        "b1": " TRUE TO ITSELF, ",
+        "t2": "THE PRODUCT IS",
+        "b2": " PERFECT, ",
+        "t3": "THE CUSTOMER IS ",
+        "b3": "KING"
+      }
+    },
+    "productHero": {
+      "title": "PRODUCTS",
+      "tagline": {
+        "p1": "Tai Ky is ",
+        "b1": "true to itself",
+        "p2": ", the product is ",
+        "b2": "perfect",
+        "p3": ", the customer is ",
+        "b3": "king"
+      }
+    },
+    "featuredProducts": {
+      "heading": "FEATURED PRODUCTS",
+      "loadMore": "View all",
+      "loadingMore": "Loading..."
+    },
+    "productCatalog": {
+      "heading": "PRODUCT CATALOG"
+    },
+    "coreValues": {
+      "heading": "CORE VALUES",
+      "compositeAlt": "TAKYfood core values",
+      "values": [
+        {
+          "title": "Respect",
+          "desc": "Respect the TAKYfood brand. Respect TAKYfood members. Respect partners and customers. That is respecting yourself."
+        },
+        { "title": "Assurance", "desc": "Products you can TRUST." },
+        { "title": "Benefit", "desc": "Bringing BENEFITS to customers and stakeholders." },
+        {
+          "title": "Aspiration",
+          "desc": "The ASPIRATION to make VIETNAMESE CAKES a symbol of Vietnam's culinary culture reaching the world."
+        },
+        { "title": "Integrity", "desc": "A person of INTEGRITY: honest in words and actions." }
+      ]
+    },
+    "commitment": {
+      "heading": "TAI KY'S COMMITMENT",
+      "fallback": {
+        "pre": "FOOD FLOUR FROM ",
+        "highlight": "NATURAL AGRICULTURAL PRODUCE",
+        "post": " FOR COMMUNITY HEALTH."
+      }
+    },
+    "kitchenCorner": {
+      "alt": "TAIKYFOOD 50 years"
+    },
+    "foodBowls": {},
+    "foodHero": {
+      "title": "Explore every delicious dish with Tai Ky"
+    },
+    "todayEat": {
+      "heading": "WHAT TO EAT TODAY",
+      "subtitle": {
+        "b1": "Family meals",
+        "text": " taste complete with ",
+        "b2": "TAKYFOOD"
+      },
+      "empty": "No recipes yet.",
+      "prevAria": "Previous recipe",
+      "nextAria": "Next recipe"
+    },
+    "culinarySection": {
+      "empty": "No recipes for this category yet."
+    },
+    "recipeMeta": {
+      "difficultyLabel": "Difficulty: "
+    },
+    "eventHero": {
+      "slides": [
+        "TAKYFOOD AT VIETNAM FOODEXPO - THE LARGEST INTERNATIONAL EXHIBITION OF VIETNAM'S FOOD INDUSTRY 2026",
+        "TAKYFOOD LAUNCHES A NEW FOOD-FLOUR COLLECTION - AUTHENTICALLY VIETNAMESE 2026"
+      ]
+    },
+    "storyHero": {
+      "posterAlt": "TAKYfood headquarters",
+      "playAria": "Play video"
+    },
+    "domesticMarket": {
+      "heading": "DOMESTIC MARKET",
+      "intro": {
+        "pre": "Food flour from ",
+        "highlight": "natural agricultural produce",
+        "post": " for community health."
+      }
+    },
+    "internationalMarket": {
+      "heading": "INTERNATIONAL MARKET",
+      "intro": {
+        "pre": "We have exported to ",
+        "highlight": "59 countries"
+      },
+      "continents": {
+        "americas": "Americas",
+        "europe": "Europe",
+        "africa": "Africa",
+        "asia": "Asia",
+        "oceania": "Oceania"
+      },
+      "regionsLeft": [
+        {
+          "name": "ASIA",
+          "count": 13,
+          "countries": "Cambodia, Laos, Japan, South Korea, Taiwan, China, Philippines, Malaysia, Indonesia, Thailand, Saudi Arabia, United Arab Emirates, Uzbekistan"
+        },
+        { "name": "OCEANIA", "count": 3, "countries": "Australia, New Zealand, Fiji" },
+        { "name": "AMERICAS", "count": 3, "countries": "United States, Canada, Chile" }
+      ],
+      "regionsRight": [
+        {
+          "name": "EUROPE",
+          "count": 14,
+          "countries": "Russia, Serbia, Netherlands, United Kingdom, Norway, Finland, Poland, France, Germany, Czechia, Denmark, Sweden, Switzerland, Slovakia"
+        },
+        { "name": "AFRICA", "count": 1, "countries": "Morocco" }
+      ]
+    },
+    "enterpriseCustomers": {
+      "heading": "ENTERPRISE CUSTOMERS (OEM/ODM)",
+      "intro": "Partnering in manufacturing & product development with leading brands"
+    },
+    "qualityCertifications": {
+      "heading": "QUALITY CERTIFICATIONS",
+      "certAria": "View certificate ",
+      "intro": {
+        "p1": "Committed to ",
+        "b1": "high quality",
+        "p2": ", ",
+        "b2": "transparent",
+        "p3": " sourcing, ",
+        "b3": "safe",
+        "p4": " for consumers' health."
+      },
+      "fallbackCerts": [
+        "FDA Approved",
+        "HALAL",
+        "ISO 22000",
+        "HACCP Certified",
+        "High-quality Vietnamese Goods"
+      ]
+    },
+    "timeline": {
+      "heading": "GROWTH JOURNEY",
+      "label": "TAKYFOOD",
+      "milestones": [
+        {
+          "title": "The Tai Ky tapioca-flour workshop is founded",
+          "subtitle": "Production was artisanal, with family members as the workforce."
+        },
+        {
+          "title": "The “Flying Lion” emblem is born",
+          "subtitle": "A beloved name that traders still remember, along with the tapioca-flour delivery bicycle."
+        },
+        { "title": "Tai Ky Flour - Food Joint Stock Company is established", "subtitle": "" },
+        { "title": "Factory No. 2", "subtitle": "" },
+        { "title": "45 years of formation and growth", "subtitle": "" },
+        { "title": "TAKYfood earns the Vietnam National Brand", "subtitle": "" },
+        { "title": "A 50-year journey - cassava and flour", "subtitle": "" }
+      ]
+    },
+    "newsList": {
+      "heading": "NEWS & EVENTS",
+      "allNews": "All news",
+      "empty": "No news for this category yet."
+    },
+    "listState": {
+      "loading": "Loading…",
+      "error": "Couldn't load data. Please try again.",
+      "empty": "No data yet.",
+      "retry": "Try again"
+    },
+    "pagination": {
+      "nav": "Pagination",
+      "prev": "Previous page",
+      "next": "Next page"
+    },
+    "preloader": {
+      "loading": "Loading"
+    },
+    "productItem": {
+      "buyShopee": "Buy {name} on Shopee",
+      "buyTiktok": "Buy {name} on TikTok Shop"
+    },
+    "chatWidget": {
+      "dialogAria": "Chat with TAKYfood",
+      "close": "Close chat",
+      "greeting1": "Hi there! TakyFood is always here to help.",
+      "greeting2": "How can TakyFood help you today?",
+      "quickReplies": ["Orders", "Products", "New promotions", "About TakyFood"],
+      "callAria": "Call",
+      "placeholder": "Type a message under 1000 characters!",
+      "send": "Send",
+      "launcher": "Open support chat",
+      "launcherAlt": "Chat with TAKYfood"
+    },
+    "consultForm": {
+      "heading": "GET A CONSULTATION",
+      "errorFallback": "Failed to send. Please try again.",
+      "addressPrefix": "Address: ",
+      "namePlaceholder": "Full name",
+      "phonePlaceholder": "Phone number",
+      "emailPlaceholder": "Email",
+      "addressPlaceholder": "Address",
+      "messagePlaceholder": "Consultation details",
+      "success": "Thank you! We've received your information and will contact you soon.",
+      "submitting": "Sending…",
+      "submit": "Send information"
+    },
+    "footer": {
+      "company": "TAIKY FOOD - FLOUR JOINT STOCK COMPANY",
+      "address": "435 National Highway 13, Quarter 24, Hiep Binh Ward, Ho Chi Minh City, Vietnam",
+      "introHeading": "About ",
+      "supportHeading": "Customer support",
+      "intro": {
+        "products": "Products",
+        "news": "News & Events",
+        "distribution": "Distribution",
+        "food": "Culinary corner",
+        "careers": "Careers"
+      },
+      "support": {
+        "returns": "Return policy",
+        "privacy": "Privacy policy",
+        "cookie": "Cookie policy",
+        "payment": "Payment policy"
+      },
+      "addressLabel": "Address: ",
+      "hotlineLabel": "Hotline: ",
+      "hotlineExt": " - Ext: 802",
+      "emailLabel": "Email: ",
+      "newsletterPlaceholder": "Email for promotions",
+      "subscribe": "Subscribe",
+      "subscribing": "Sending…",
+      "subscribeSuccess": "Subscribed successfully!",
+      "subscribeError": "Subscription failed. Please try again.",
+      "backToTop": "Back to top",
+      "copyright": "Copyright © 2026 ",
+      "rights": " | All Rights Reserved | ",
+      "terms": "Terms and Conditions",
+      "privacyLink": "Privacy Policy",
+      "cookieLink": "Cookie Policy"
+    },
+    "productDetail": {
+      "notFound": "Product not found.",
+      "galleryPrev": "Previous image",
+      "galleryNext": "Next image",
+      "thumbAria": "Image {n}",
+      "descHeading": "Product description",
+      "relatedHeading": "Related products",
+      "specs": {
+        "specification": "Specification",
+        "weight": "Weight",
+        "expiry": "Expiry"
+      }
+    },
+    "newsDetail": {
+      "notFound": "Article not found.",
+      "relatedHeading": "Related news"
+    },
+    "policyPage": {
+      "relatedAria": "Related policies"
+    }
+  }
+}

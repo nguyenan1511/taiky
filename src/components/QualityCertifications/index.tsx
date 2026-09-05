@@ -3,6 +3,7 @@ import RevealStagger from '../RevealStagger';
 import { useCertificates, usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { img, t } from '../../lib/api/helpers';
+import { useUi } from '../../content/ui';
 
 /**
  * "CHỨNG NHẬN CHẤT LƯỢNG" — quality-certification badges from `GET /certificates`
@@ -10,19 +11,21 @@ import { img, t } from '../../lib/api/helpers';
  * the bundled badges while the request is in flight or if it returns nothing.
  */
 
-const CERTIFICATIONS = [
-    { src: '/images/cer-1.webp', alt: 'FDA Approved' },
-    { src: '/images/cer-2.webp', alt: 'HALAL' },
-    { src: '/images/cer-3.webp', alt: 'ISO 22000' },
-    { src: '/images/cer-4.webp', alt: 'HACCP Certified' },
-    { src: '/images/cer-5.webp', alt: 'Hàng Việt Nam chất lượng cao' },
+// Bundled fallback badge images; alt text comes from `ui.qualityCertifications.fallbackCerts`.
+const FALLBACK_CERT_IMAGES = [
+    '/images/cer-1.webp',
+    '/images/cer-2.webp',
+    '/images/cer-3.webp',
+    '/images/cer-4.webp',
+    '/images/cer-5.webp',
 ];
 
 export default function QualityCertifications() {
+    const ui = useUi().qualityCertifications;
     // ABOUT-US page CMS section 5: heading + intro copy.
     const { data } = usePage(PAGE.ABOUT_US);
     const s5 = pageSection(data?.data, '5');
-    const heading = s5?.title || 'CHỨNG NHẬN CHẤT LƯỢNG';
+    const heading = s5?.title || ui.heading;
 
     // Certification badges from the API; fall back to the bundled set when empty.
     const { data: certData } = useCertificates();
@@ -34,7 +37,12 @@ export default function QualityCertifications() {
     }));
     const certifications = apiCerts.length
         ? apiCerts
-        : CERTIFICATIONS.map((c) => ({ key: c.src, files: [] as string[], ...c }));
+        : FALLBACK_CERT_IMAGES.map((src, i) => ({
+              key: src,
+              src,
+              alt: ui.fallbackCerts[i] ?? '',
+              files: [] as string[],
+          }));
 
     // Clicking a badge opens every attached document — one new tab per URL.
     const openFiles = (files: string[]) => {
@@ -55,11 +63,13 @@ export default function QualityCertifications() {
                     />
                 ) : (
                     <p className="max-w-[1140px] text-center font-sans text-[15px] leading-[24px] lg:text-[18px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
-                        Cam kết <span className="font-bold text-taiky-brown">chất lượng cao</span>,
-                        nguồn nguyên liệu{' '}
-                        <span className="font-bold text-taiky-brown">minh bạch</span>,{' '}
-                        <span className="font-bold text-taiky-brown">an toàn</span> cho sức khỏe
-                        người tiêu dùng.
+                        {ui.intro.p1}
+                        <span className="font-bold text-taiky-brown">{ui.intro.b1}</span>
+                        {ui.intro.p2}
+                        <span className="font-bold text-taiky-brown">{ui.intro.b2}</span>
+                        {ui.intro.p3}
+                        <span className="font-bold text-taiky-brown">{ui.intro.b3}</span>
+                        {ui.intro.p4}
                     </p>
                 )}
 
@@ -86,7 +96,7 @@ export default function QualityCertifications() {
                                 key={key}
                                 type="button"
                                 onClick={() => openFiles(files)}
-                                aria-label={`Xem chứng nhận ${alt}`}
+                                aria-label={`${ui.certAria}${alt}`}
                                 className="block cursor-pointer transition-transform duration-[300ms] ease-brand hover:scale-[1.06]"
                             >
                                 {image}

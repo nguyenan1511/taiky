@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { useSettings, useSubmitSubscriber } from '../../lib/api/queries';
+import { useUi } from '../../content/ui';
 
 const imgLogoMain = '/images/footer-logo-main.svg';
 const imgBg = '/images/bg-ft.webp';
 
-// Shown until settings load (and as a fallback if the request fails).
+// Non-localized fallbacks (localized company/address come from the translation file).
 const FALLBACK = {
-    companyName: 'CÔNG TY CỔ PHẦN BỘT - THỰC PHẨM TÀI KÝ',
-    address: '435 Quốc lộ 13, Khu phố 24, Phường Hiệp Bình, TP. Hồ Chí Minh, Việt Nam',
     phone: '19006108',
     email: 'contact@takyfood.com.vn',
 };
@@ -24,26 +23,22 @@ const formatPhone = (p: string) => p.replace(/(\d{4})(?=\d)/g, '$1 ');
 // orphan onto its own line.
 const noOrphan = (s: string) => s.replace(/ (\S+)\s*$/, ' $1');
 
-// "Giới thiệu về TAKYfood" column — each item routes to its page.
-// "Tuyển dụng" points to the recruitment page on the main takyfood.com.vn site.
-const INTRO_LINKS: Array<{ label: string; to: string }> = [
-    { label: 'Sản phẩm', to: '/products' },
-    { label: 'Tin tức - Sự kiện', to: '/news' },
-    { label: 'Phân Phối', to: '/distribution' },
-    { label: 'Góc ẩm thực', to: '/food' },
-    { label: 'Tuyển dụng', to: 'https://www.takyfood.com.vn/vn/tuyen-dung.html' },
-];
+// Intro/support column destinations; labels come from the translation file.
+// "careers"/policy items point to pages on the main takyfood.com.vn site.
+const INTRO_LINKS = [
+    { key: 'products', to: '/products' },
+    { key: 'news', to: '/news' },
+    { key: 'distribution', to: '/distribution' },
+    { key: 'food', to: '/food' },
+    { key: 'careers', to: 'https://www.takyfood.com.vn/vn/tuyen-dung.html' },
+] as const;
 
-// Support column — the policy pages hosted on the main takyfood.com.vn site.
-const SUPPORT_LINKS: Array<{ label: string; to: string }> = [
-    { label: 'Chính sách đổi trả', to: 'https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html' },
-    { label: 'Chính sách bảo mật', to: '/privacy-policy' },
-    { label: 'Chính sách Cookie', to: '/cookie-policy' },
-    {
-        label: 'Chính sách thanh toán',
-        to: 'https://www.takyfood.com.vn/vn/chinh-sach-thanh-toan.html',
-    },
-];
+const SUPPORT_LINKS = [
+    { key: 'returns', to: 'https://www.takyfood.com.vn/vn/chinh-sach-doi-tra.html' },
+    { key: 'privacy', to: '/privacy-policy' },
+    { key: 'cookie', to: '/cookie-policy' },
+    { key: 'payment', to: 'https://www.takyfood.com.vn/vn/chinh-sach-thanh-toan.html' },
+] as const;
 
 // A footer nav entry. External URLs open in a new tab; internal paths use the
 // router; an empty destination renders plain (non-clickable) text.
@@ -64,10 +59,11 @@ function NavItem({ label, to }: { label: string; to: string }) {
 }
 
 export default function Footer() {
+    const ui = useUi().footer;
     const { data: settingsData } = useSettings();
     const s = settingsData?.data;
-    const companyName = s?.companyName || FALLBACK.companyName;
-    const address = s?.address || FALLBACK.address;
+    const companyName = s?.companyName || ui.company;
+    const address = s?.address || ui.address;
     const phone = s?.phone || FALLBACK.phone;
     const email = s?.email || FALLBACK.email;
 
@@ -100,9 +96,19 @@ export default function Footer() {
                         {companyName}
                     </h3>
                     <div className="flex flex-col gap-3 font-bold text-white text-[14px] leading-6">
-                        <p className="whitespace-pre-wrap">Địa chỉ: {noOrphan(address)}</p>
-                        <p>Hotline: {formatPhone(phone)} - Ext: 802</p>
-                        <p>Email: {email}</p>
+                        <p className="whitespace-pre-wrap">
+                            {ui.addressLabel}
+                            {noOrphan(address)}
+                        </p>
+                        <p>
+                            {ui.hotlineLabel}
+                            {formatPhone(phone)}
+                            {ui.hotlineExt}
+                        </p>
+                        <p>
+                            {ui.emailLabel}
+                            {email}
+                        </p>
                     </div>
                     {/* Newsletter */}
                     <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
@@ -112,7 +118,7 @@ export default function Footer() {
                                 required
                                 value={subEmail}
                                 onChange={(e) => setSubEmail(e.target.value)}
-                                placeholder="Email nhận khuyến mãi"
+                                placeholder={ui.newsletterPlaceholder}
                                 className="bg-white px-4 py-[10px] text-[16px] leading-6 w-full min-w-0 sm:w-[240px] outline-none text-taiky-lightbrown"
                             />
                             <button
@@ -120,16 +126,14 @@ export default function Footer() {
                                 disabled={subscribe.isPending}
                                 className="px-4 py-[10px] font-sans text-white text-[16px] leading-6 whitespace-nowrap bg-taiky-footerbg border border-white/40 transition hover:opacity-90 disabled:opacity-60"
                             >
-                                {subscribe.isPending ? 'Đang gửi…' : 'Gửi ngay'}
+                                {subscribe.isPending ? ui.subscribing : ui.subscribe}
                             </button>
                         </div>
                         {subscribe.isSuccess && (
-                            <p className="text-[13px] text-white">Đăng ký nhận tin thành công!</p>
+                            <p className="text-[13px] text-white">{ui.subscribeSuccess}</p>
                         )}
                         {subscribe.isError && (
-                            <p className="text-[13px] text-white/90">
-                                Đăng ký thất bại. Vui lòng thử lại.
-                            </p>
+                            <p className="text-[13px] text-white/90">{ui.subscribeError}</p>
                         )}
                     </form>
                 </div>
@@ -139,18 +143,19 @@ export default function Footer() {
                     {/* Nav col 1 */}
                     <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
                         <Link to="/story" className="text-[16px] mb-2 hover:underline">
-                            Giới thiệu về <Wordmark />
+                            {ui.introHeading}
+                            <Wordmark />
                         </Link>
                         {INTRO_LINKS.map((item) => (
-                            <NavItem key={item.label} {...item} />
+                            <NavItem key={item.key} label={ui.intro[item.key]} to={item.to} />
                         ))}
                     </div>
 
                     {/* Nav col 2 */}
                     <div className="flex flex-col gap-4 font-bold text-white text-[14px] leading-[22px] pt-2 min-w-[140px]">
-                        <p className="text-[16px] mb-2">Hỗ trợ khách hàng</p>
+                        <p className="text-[16px] mb-2">{ui.supportHeading}</p>
                         {SUPPORT_LINKS.map((item) => (
-                            <NavItem key={item.label} {...item} />
+                            <NavItem key={item.key} label={ui.support[item.key]} to={item.to} />
                         ))}
                     </div>
 
@@ -158,7 +163,7 @@ export default function Footer() {
                     <button
                         type="button"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        aria-label="Lên đầu trang"
+                        aria-label={ui.backToTop}
                         className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-md bg-white text-taiky-orange shadow-md transition hover:opacity-90"
                     >
                         <svg
@@ -181,17 +186,19 @@ export default function Footer() {
 
             <div className="flex justify-center w-full relative z-10">
                 <div className="mx-8 md:mx-[80px] w-full border-t border-white/30 py-6 text-center font-montserrat font-normal text-white text-[16px] leading-[22px]">
-                    Copyright © 2026 <Wordmark /> | All Rights Reserved |{' '}
+                    {ui.copyright}
+                    <Wordmark />
+                    {ui.rights}
                     <Link to="/terms-of-use" className="underline hover:opacity-90">
-                        Terms and Conditions
+                        {ui.terms}
                     </Link>{' '}
                     |{' '}
                     <Link to="/privacy-policy" className="underline hover:opacity-90">
-                        Privacy Policy
+                        {ui.privacyLink}
                     </Link>{' '}
                     |{' '}
                     <Link to="/cookie-policy" className="underline hover:opacity-90">
-                        Cookie Policy
+                        {ui.cookieLink}
                     </Link>{' '}
                 </div>
             </div>

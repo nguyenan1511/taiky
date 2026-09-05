@@ -3,6 +3,7 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { useReady } from '../../context/ready';
+import { useUi } from '../../content/ui';
 
 const imgBg = '/images/bg-food.webp';
 
@@ -14,10 +15,12 @@ const imgBg = '/images/bg-food.webp';
  */
 export default function FoodHero() {
     const ready = useReady();
+    const ui = useUi();
     const { data } = usePage(PAGE.FOOD);
     const s1 = pageSection(data?.data, '1');
     const hasBanner = Boolean(s1?.image || s1?.imageMb);
-    const title = s1?.title || 'Cùng Tài Ký khám phá mọi món ngon';
+    const title = s1?.title || ui.foodHero.title;
+    const d = ui.common.discover;
 
     const imageClass = `absolute inset-0 h-full w-full object-cover ${
         ready ? 'animate-hero-zoom' : 'opacity-0'
@@ -60,15 +63,11 @@ export default function FoodHero() {
                                     style={riseStyle('0.24s')}
                                     className={`mt-[16px] lg:mt-[30px] font-semibold text-[15px] leading-[24px] lg:text-[20px] lg:leading-[32px] text-taiky-lightbrown uppercase ${riseClass}`}
                                 >
-                                    Khám phá{' '}
-                                    <span className="font-bold text-taiky-brown">
-                                        nguồn nguyên liệu tự nhiên
-                                    </span>{' '}
-                                    được tuyển chọn, giúp bạn dễ dàng chế biến nên những{' '}
-                                    <span className="font-bold text-taiky-brown">
-                                        món ngon đầy cảm hứng
-                                    </span>{' '}
-                                    mỗi ngày.
+                                    {d.p1}
+                                    <span className="font-bold text-taiky-brown">{d.b1}</span>
+                                    {d.p2} {d.p3}
+                                    <span className="font-bold text-taiky-brown">{d.b2}</span>
+                                    {d.p4}
                                 </p>
                             )}
                             <a
@@ -77,7 +76,7 @@ export default function FoodHero() {
                                 className={`mt-[20px] lg:mt-[30px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] ${riseClass}`}
                             >
                                 <span className="font-bold text-[14px] lg:text-[16px] leading-6 text-taiky-brown uppercase">
-                                    Xem chi tiết
+                                    {ui.common.viewDetails}
                                 </span>
                             </a>
                         </div>

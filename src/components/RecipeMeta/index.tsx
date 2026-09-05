@@ -3,6 +3,8 @@
  * Shared by RecipeItem (cards) and TodayEat (slider).
  */
 
+import { useUi } from '../../content/ui';
+
 const iconPeople = '/images/profile-2user.svg';
 const iconClock = '/images/clock.svg';
 const iconDifficulty = '/images/ForkKnife.svg';
@@ -16,6 +18,7 @@ export type RecipeMetaProps = {
 };
 
 export default function RecipeMeta({ people, time, difficulty, className = '' }: RecipeMetaProps) {
+    const ui = useUi().recipeMeta;
     return (
         <div
             className={`flex flex-wrap items-center gap-x-[18px] gap-y-[8px] text-[13px] text-taiky-brown ${className}`}
@@ -30,7 +33,8 @@ export default function RecipeMeta({ people, time, difficulty, className = '' }:
             </span>
             <span className="flex items-center gap-[6px]">
                 <img src={iconDifficulty} alt="" className="h-[18px] w-[18px]" />
-                Độ khó: {difficulty}
+                {ui.difficultyLabel}
+                {difficulty}
             </span>
         </div>
     );

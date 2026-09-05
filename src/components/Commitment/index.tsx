@@ -1,6 +1,7 @@
 import Container from '../Container';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection, type PageCode } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 const imgBgPhoto = '/images/commitment-bg.webp';
 
@@ -11,10 +12,11 @@ type CommitmentProps = {
 };
 
 export default function Commitment({ pageCode = PAGE.HOME, sectionId = '6' }: CommitmentProps) {
+    const ui = useUi().commitment;
     // Commitment statement comes from the given page's CMS section.
     const { data } = usePage(pageCode);
     const s6 = pageSection(data?.data, sectionId);
-    const heading = s6?.title || 'CAM KẾT CỦA TÀI KÝ';
+    const heading = s6?.title || ui.heading;
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-cream mb-[-80px] lg:mb-[-200px]">
@@ -31,9 +33,9 @@ export default function Commitment({ pageCode = PAGE.HOME, sectionId = '6' }: Co
                     />
                 ) : (
                     <p className="text-center font-sans text-[15px] leading-[24px] lg:text-[18px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
-                        BỘT THỰC PHẨM TỪ NGUỒN
-                        <span className="font-bold text-taiky-brown">NÔNG SẢN TỰ NHIÊN</span>VÌ SỨC
-                        KHỎE CỘNG ĐỒNG.
+                        {ui.fallback.pre}
+                        <span className="font-bold text-taiky-brown">{ui.fallback.highlight}</span>
+                        {ui.fallback.post}
                     </p>
                 )}
             </Container>

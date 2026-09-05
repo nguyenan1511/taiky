@@ -8,6 +8,7 @@ import { useBanners } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import { PAGE } from '../../lib/api/pages';
 import { useReady } from '../../context/ready';
+import { useUi } from '../../content/ui';
 
 /**
  * Event/News hero — full-bleed image carousel (Swiper, fade + autoplay) driven
@@ -17,23 +18,19 @@ import { useReady } from '../../context/ready';
 
 type Slide = { id: string; image: string; imageMb: string; title: string };
 
-// Fallback slides shown until the news feed resolves (or if it's empty).
-const FALLBACK_SLIDES: Slide[] = [
-    {
-        id: 'fallback-1',
-        image: '/images/bg-video.webp',
-        imageMb: '/images/bg-video-mb.webp',
-        title: 'TAKYFOOD TẠI VIETNAM FOODEXPO - TRIỂN LÃM QUỐC TẾ LỚN NHẤT NGÀNH CÔNG NGHIỆP THỰC PHẨM VIỆT NAM 2026',
-    },
-    {
-        id: 'fallback-2',
-        image: '/images/bg-product.webp',
-        imageMb: '/images/bg-product.webp',
-        title: 'TAKYFOOD RA MẮT BỘ SƯU TẬP BỘT THỰC PHẨM MỚI - ĐẬM CHẤT BẢN VIỆT 2026',
-    },
+// Fallback slide assets shown until the news feed resolves (or if it's empty);
+// captions come from the translation file (`ui.eventHero.slides`) by index.
+const FALLBACK_SLIDE_ASSETS = [
+    { id: 'fallback-1', image: '/images/bg-video.webp', imageMb: '/images/bg-video-mb.webp' },
+    { id: 'fallback-2', image: '/images/bg-product.webp', imageMb: '/images/bg-product.webp' },
 ];
 
 export default function EventHero() {
+    const ui = useUi().eventHero;
+    const fallbackSlides: Slide[] = FALLBACK_SLIDE_ASSETS.map((s, i) => ({
+        ...s,
+        title: ui.slides[i] ?? '',
+    }));
     const { data } = useBanners();
     const apiSlides: Slide[] = (data?.data ?? [])
         .filter((b) => b.page === PAGE.NEWS && b.active !== false)
@@ -44,7 +41,7 @@ export default function EventHero() {
             imageMb: img(b.imageMb) || img(b.image),
             title: t(b.title),
         }));
-    const slides = apiSlides.length > 0 ? apiSlides : FALLBACK_SLIDES;
+    const slides = apiSlides.length > 0 ? apiSlides : fallbackSlides;
     const ready = useReady();
 
     return (

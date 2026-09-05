@@ -2,6 +2,7 @@ import Container from '../Container';
 import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 const img1 = '/images/food-img-1.webp';
 const img2 = '/images/food-img-2.webp';
@@ -10,6 +11,7 @@ const img4 = '/images/food-img-4.webp';
 const img5 = '/images/food-img-5.webp';
 
 export default function FoodBowls() {
+    const ui = useUi().common;
     // HOME page CMS section 4: the bowls composition image.
     const { data } = usePage(PAGE.HOME);
     const s5 = pageSection(data?.data, '5');
@@ -29,37 +31,37 @@ export default function FoodBowls() {
                     <BannerImage
                         image={s5?.image}
                         imageMb={s5?.imageMb}
-                        alt="Món ăn"
+                        alt={ui.dishAlt}
                         className="w-full h-auto"
                     />
                 ) : (
                     <div className="relative">
-                        <img src={img1} alt="Món ăn" className="w-full h-auto" />
+                        <img src={img1} alt={ui.dishAlt} className="w-full h-auto" />
                         <img
                             src={img2}
-                            alt="Món ăn"
+                            alt={ui.dishAlt}
                             className="absolute inset-0 h-full w-full object-contain"
                         />
                         <img
                             src={img3}
-                            alt="Món ăn"
+                            alt={ui.dishAlt}
                             className="absolute inset-0 h-full w-full object-contain"
                         />
                         <img
                             src={img4}
-                            alt="Món ăn"
+                            alt={ui.dishAlt}
                             className="absolute inset-0 h-full w-full object-contain"
                         />
                         <img
                             src={img5}
-                            alt="Món ăn"
+                            alt={ui.dishAlt}
                             className="absolute inset-0 h-full w-full object-contain"
                         />
                     </div>
                 )}
                 <div className="flex justify-center my-[40px] relative z-10">
                     <button className="btn-cta-outline px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] font-bold text-[14px] lg:text-[16px] leading-6 uppercase text-taiky-orange border-[2px] border-taiky-orange bg-transparent">
-                        XEM CHI TIẾT
+                        {ui.viewDetails}
                     </button>
                 </div>
             </Container>

@@ -10,6 +10,7 @@ import { useNews, useNewsDetail } from '../../lib/api/queries';
 import { img, t, toNewsCard } from '../../lib/api/helpers';
 import { useReady } from '../../context/ready';
 import { useDocumentMeta } from '../../hooks/usePageMeta';
+import { useUi } from '../../content/ui';
 
 /**
  * News detail page (`/news/:slug`) — full-bleed hero, date + title, the article
@@ -28,6 +29,7 @@ const PROSE =
 
 export default function NewsDetail() {
     const ready = useReady();
+    const ui = useUi().newsDetail;
     const { slug = '' } = useParams();
 
     const { data, isLoading, isError, refetch } = useNewsDetail(slug);
@@ -77,7 +79,7 @@ export default function NewsDetail() {
                         error={isError}
                         empty={!isError}
                         onRetry={() => refetch()}
-                        emptyText="Không tìm thấy bài viết."
+                        emptyText={ui.notFound}
                     />
                 </Container>
             </main>
@@ -142,7 +144,7 @@ export default function NewsDetail() {
                     <Container className="flex flex-col items-center gap-[28px] lg:gap-[36px] py-[40px] lg:py-[60px]">
                         <Reveal>
                             <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
-                                Tin tức liên quan
+                                {ui.relatedHeading}
                             </h2>
                         </Reveal>
                         <RevealStagger className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[24px] gap-y-[44px]">

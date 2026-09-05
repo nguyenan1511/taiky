@@ -6,6 +6,7 @@ import ListState from '../ListState';
 import { useCategories, useProducts, usePage } from '../../lib/api/queries';
 import { img, t, productSlug } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 const imgArrow = '/images/prod-arrow.svg';
 const imgDecor = '/images/decor-products.webp';
@@ -24,18 +25,23 @@ export default function Products() {
     const [activeCategory, setActiveCategory] = useState(''); // '' = all categories
     const [ddOpen, setDdOpen] = useState(false);
 
+    // Static display copy (translatable, non-API).
+    const uiRoot = useUi();
+    const ui = uiRoot.products;
+
     // HOME page CMS: section 2 = ticker line, section 3 = heading.
     const { data: homePage } = usePage(PAGE.HOME);
     const tickerHtml = pageSection(homePage?.data, '2')?.content;
-    const heading = pageSection(homePage?.data, '3')?.title || 'SẢN PHẨM';
+    const heading = pageSection(homePage?.data, '3')?.title || ui.heading;
 
     // Category tabs + products from the API (same source as the /products catalog).
     const { data: categoriesData } = useCategories();
     const categoryTabs = [
-        { id: '', label: 'Tất cả' },
+        { id: '', label: uiRoot.common.all },
         ...(categoriesData?.data ?? []).map((c) => ({ id: c.id, label: t(c.name) })),
     ];
-    const activeLabel = categoryTabs.find((c) => c.id === activeCategory)?.label ?? 'Tất cả';
+    const activeLabel =
+        categoryTabs.find((c) => c.id === activeCategory)?.label ?? uiRoot.common.all;
 
     const { data, isLoading, isError, refetch } = useProducts({
         categories: activeCategory || undefined,
@@ -48,6 +54,7 @@ export default function Products() {
         title: t(p.name),
         desc: t(p.description),
         href: `/products/${productSlug(p)}`,
+        ctaLabel: ui.cta,
     }));
 
     const COPY = cards.length; // one full set; we render 3 sets for looping
@@ -130,12 +137,12 @@ export default function Products() {
                     />
                 ) : (
                     <p className="flex flex-wrap justify-center gap-x-[6px] gap-y-[2px] pb-[40px] lg:pb-[68px] text-center font-bold text-[16px] leading-[22px] lg:text-[24px] lg:leading-[24px] lg:flex-nowrap lg:whitespace-nowrap">
-                        <span className="text-taiky-lightbrown">TÀI KÝ LÀ</span>
-                        <span className="text-taiky-brown">{' CHÍNH MÌNH, '}</span>
-                        <span className="text-taiky-lightbrown">SẢN PHẨM LÀ</span>
-                        <span className="text-taiky-brown">{' HOÀN HẢO, '}</span>
-                        <span className="text-taiky-lightbrown">{'KHÁCH HÀNG LÀ '}</span>
-                        <span className="text-taiky-brown">THƯỢNG ĐẾ</span>
+                        <span className="text-taiky-lightbrown">{ui.ticker.t1}</span>
+                        <span className="text-taiky-brown">{ui.ticker.b1}</span>
+                        <span className="text-taiky-lightbrown">{ui.ticker.t2}</span>
+                        <span className="text-taiky-brown">{ui.ticker.b2}</span>
+                        <span className="text-taiky-lightbrown">{ui.ticker.t3}</span>
+                        <span className="text-taiky-brown">{ui.ticker.b3}</span>
                     </p>
                 )}
 
@@ -227,7 +234,7 @@ export default function Products() {
                         error={isError}
                         empty={cards.length === 0}
                         onRetry={() => refetch()}
-                        emptyText="Chưa có sản phẩm cho thương hiệu này."
+                        emptyText={uiRoot.common.emptyProducts}
                     />
                 )}
 
@@ -236,7 +243,7 @@ export default function Products() {
                     <div className="relative flex items-start justify-between gap-[8px] lg:gap-[16px] px-0 lg:px-[80px]">
                         <button
                             onClick={() => slide(-1)}
-                            aria-label="Sản phẩm trước"
+                            aria-label={ui.prevAria}
                             className="shrink-0 self-start mt-[110px] lg:mt-[138px] hover:opacity-60 active:scale-90 transition"
                         >
                             <img
@@ -273,7 +280,7 @@ export default function Products() {
 
                         <button
                             onClick={() => slide(1)}
-                            aria-label="Sản phẩm sau"
+                            aria-label={ui.nextAria}
                             className="shrink-0 self-start mt-[110px] lg:mt-[138px] hover:opacity-60 active:scale-90 transition"
                         >
                             <img

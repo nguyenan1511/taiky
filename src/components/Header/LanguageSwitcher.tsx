@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LANGUAGE_ENABLED, useLanguage, type Lang } from '../../context/language';
+import { useUi } from '../../content/ui';
 
 const LANGS: Lang[] = ['vi', 'en'];
 const SHORT: Record<Lang, string> = { vi: 'VI', en: 'EN' };
@@ -34,6 +35,7 @@ export default function LanguageSwitcher({
     className?: string;
 }) {
     const { lang, setLang } = useLanguage();
+    const ui = useUi().languageSwitcher;
 
     if (variant === 'inline') {
         return (
@@ -48,7 +50,7 @@ export default function LanguageSwitcher({
                                 disabled={disabled}
                                 onClick={() => setLang(l)}
                                 aria-current={l === lang ? 'true' : undefined}
-                                title={disabled ? 'Sắp có' : undefined}
+                                title={disabled ? ui.comingSoon : undefined}
                                 className={`text-[15px] font-bold uppercase transition-colors ${
                                     disabled
                                         ? 'cursor-not-allowed text-taiky-lightbrown/40'
@@ -66,17 +68,26 @@ export default function LanguageSwitcher({
         );
     }
 
-    return <DropdownSwitcher lang={lang} setLang={setLang} className={className} />;
+    return (
+        <DropdownSwitcher
+            lang={lang}
+            setLang={setLang}
+            className={className}
+            chooseLabel={ui.choose}
+        />
+    );
 }
 
 function DropdownSwitcher({
     lang,
     setLang,
     className,
+    chooseLabel,
 }: {
     lang: Lang;
     setLang: (l: Lang) => void;
     className: string;
+    chooseLabel: string;
 }) {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -104,7 +115,7 @@ function DropdownSwitcher({
                 onClick={() => setOpen((o) => !o)}
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                aria-label="Chọn ngôn ngữ"
+                aria-label={chooseLabel}
                 className="flex items-center gap-[6px] text-[16px] font-bold uppercase text-taiky-brown transition-colors hover:text-taiky-orange"
             >
                 <GlobeIcon />

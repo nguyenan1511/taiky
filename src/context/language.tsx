@@ -10,7 +10,7 @@ export type Lang = 'vi' | 'en';
  * Master switch for the language feature. Off until the backend ships English
  * content — flip to `true` to re-enable the header switcher and EN support.
  */
-export const LANGUAGE_ENABLED = false;
+export const LANGUAGE_ENABLED = true;
 
 const STORAGE_KEY = 'taiky-lang';
 

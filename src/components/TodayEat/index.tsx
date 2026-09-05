@@ -6,6 +6,7 @@ import Skeleton from '../Skeleton';
 import { useCulinary, usePage } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 /**
  * "HÔM NAY ĂN GÌ" — featured-recipe slider from `/culinary`. Each slide is a
@@ -19,11 +20,12 @@ const imgDecorTopRight = '/images/decor-core-value.webp';
 
 export default function TodayEat() {
     const [index, setIndex] = useState(0);
+    const ui = useUi();
 
     const { data, isLoading, isError, refetch } = useCulinary({ limit: 10, difficulty: 'Dễ' });
     const recipes = (data?.data ?? []).map((c) => ({
         title: t(c.name),
-        people: c.servings != null ? `${c.servings} Người` : '',
+        people: c.servings != null ? `${c.servings}${ui.common.servingsSuffix}` : '',
         time: c.cookingTime || '',
         difficulty: c.difficulty || '',
         description: t(c.description),
@@ -53,7 +55,7 @@ export default function TodayEat() {
     // FOOD page CMS section 2: heading + subtitle.
     const { data: page } = usePage(PAGE.FOOD);
     const s2 = pageSection(page?.data, '2');
-    const heading = s2?.title || 'HÔM NAY ĂN GÌ';
+    const heading = s2?.title || ui.todayEat.heading;
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
@@ -75,8 +77,9 @@ export default function TodayEat() {
                     />
                 ) : (
                     <p className="text-center text-[15px] leading-[22px] lg:text-[20px] lg:leading-[28px] tracking-[0.04em] text-taiky-lightbrown uppercase font-bold">
-                        <span className="font-bold text-taiky-brown">Bữa ăn gia đình</span> thêm
-                        trọn vị khi có <span className="font-bold text-taiky-brown">TAKYFOOD</span>
+                        <span className="font-bold text-taiky-brown">{ui.todayEat.subtitle.b1}</span>
+                        {ui.todayEat.subtitle.text}
+                        <span className="font-bold text-taiky-brown">{ui.todayEat.subtitle.b2}</span>
                     </p>
                 )}
 
@@ -92,7 +95,7 @@ export default function TodayEat() {
                             error={isError}
                             empty={!isError}
                             onRetry={() => refetch()}
-                            emptyText="Chưa có công thức."
+                            emptyText={ui.todayEat.empty}
                         />
                     ) : (
                         <>
@@ -100,7 +103,7 @@ export default function TodayEat() {
                             <button
                                 type="button"
                                 onClick={() => go(-1)}
-                                aria-label="Công thức trước"
+                                aria-label={ui.todayEat.prevAria}
                                 className="absolute left-0 top-1/2 hidden h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80 lg:flex"
                             >
                                 <svg
@@ -170,9 +173,9 @@ export default function TodayEat() {
                                                 style={{ animationDelay: '0.4s' }}
                                                 className="animate-hero-rise mt-[20px] lg:mt-[32px] inline-block w-fit btn-cta bg-taiky-yellow px-[28px] py-[12px] lg:px-[36px] lg:py-[14px]"
                                             >
-                                                <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
-                                                    Xem chi tiết
-                                                </span>
+                                <span className="text-[14px] lg:text-[15px] font-bold uppercase tracking-[0.06em] text-taiky-brown">
+                                    {ui.common.viewDetails}
+                                </span>
                                             </a>
                                         </div>
                                     </div>
@@ -192,7 +195,7 @@ export default function TodayEat() {
                             <button
                                 type="button"
                                 onClick={() => go(1)}
-                                aria-label="Công thức sau"
+                                aria-label={ui.todayEat.nextAria}
                                 className="absolute right-0 top-1/2 hidden h-[40px] w-[40px] lg:h-[48px] lg:w-[48px] -translate-y-1/2 items-center justify-center text-taiky-yellow transition hover:opacity-80 lg:flex"
                             >
                                 <svg

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useUi } from '../../content/ui';
 
 /**
  * Brand loading overlay ("Warm Heritage Stamp-Press").
@@ -30,6 +31,7 @@ export default function Preloader({
     minVisibleMs = DEFAULT_MIN_VISIBLE_MS,
     dataReady = true,
 }: PreloaderProps) {
+    const ui = useUi().preloader;
     const [hiding, setHiding] = useState(false);
     const [hidden, setHidden] = useState(false);
     // Fonts loaded AND minimum visible time elapsed.
@@ -81,7 +83,7 @@ export default function Preloader({
         <div
             role="status"
             aria-live="polite"
-            aria-label="Đang tải"
+            aria-label={ui.loading}
             className={`fixed inset-0 z-[100] flex items-center justify-center bg-taiky-bg transition-opacity duration-[600ms] ease-brand ${
                 hiding ? 'pointer-events-none opacity-0' : 'opacity-100'
             }`}

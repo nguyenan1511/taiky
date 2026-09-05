@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { useDocumentMeta } from '../../hooks/usePageMeta';
+import { useUi } from '../../content/ui';
 import type { PolicyDocument, PolicyKey } from '../../content/policies';
 
 type ContentBlock =
@@ -174,6 +175,7 @@ interface PolicyPageProps {
 }
 
 export default function PolicyPage({ policy, metaDescription, relatedLinks = [] }: PolicyPageProps) {
+    const ui = useUi().policyPage;
     useDocumentMeta({ title: `${policy.title} | TAKYfood`, description: metaDescription });
 
     return (
@@ -202,7 +204,7 @@ export default function PolicyPage({ policy, metaDescription, relatedLinks = [] 
 
                     {relatedLinks.length > 0 && (
                         <nav
-                            aria-label="Related policies"
+                            aria-label={ui.relatedAria}
                             className="flex flex-wrap gap-x-6 gap-y-2 border-t border-taiky-lightbrown/30 pt-8 text-[14px] font-bold text-taiky-brown"
                         >
                             {relatedLinks.map((link) => (

@@ -6,6 +6,7 @@ import RevealStagger from '../RevealStagger';
 import { useCulinary } from '../../lib/api/queries';
 import { t, toRecipeCard } from '../../lib/api/helpers';
 import type { Taxonomy } from '../../lib/api/types';
+import { useUi } from '../../content/ui';
 
 /**
  * One recipe section driven by a culinary category: the category name is the
@@ -16,12 +17,13 @@ import type { Taxonomy } from '../../lib/api/types';
 const LIMIT = 6;
 
 function MoreLink({ className = '' }: { className?: string }) {
+    const ui = useUi().common;
     return (
         <a
             href="#"
             className={`flex items-center gap-[8px] text-[13px] font-bold uppercase tracking-[0.06em] text-taiky-yellow transition hover:opacity-80 ${className}`}
         >
-            Xem thêm
+            {ui.viewMore}
             <svg
                 width="20"
                 height="14"
@@ -40,6 +42,7 @@ function MoreLink({ className = '' }: { className?: string }) {
 }
 
 export default function CulinarySection({ category }: { category: Taxonomy }) {
+    const ui = useUi().culinarySection;
     const { data, isLoading, isError, refetch } = useCulinary({
         categories: category.id,
         limit: LIMIT,
@@ -68,7 +71,7 @@ export default function CulinarySection({ category }: { category: Taxonomy }) {
                             error={isError}
                             empty={recipes.length === 0}
                             onRetry={() => refetch()}
-                            emptyText="Chưa có công thức cho mục này."
+                            emptyText={ui.empty}
                         />
                         {recipes.length > 0 && (
                             <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[24px]">

@@ -6,6 +6,7 @@
 
 import Container from '../Container';
 import BannerImage from '../BannerImage';
+import { useUi } from '../../content/ui';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
@@ -16,24 +17,13 @@ const imgDecorCoreValue = '/images/decor-core-value.webp';
 const imgDecorLeftMb = '/images/imgDecorLeftMb.webp';
 const imgDecorRightMb = '/images/imgDecorRightMb.webp';
 
-// Shown only on mobile — the desktop composite (corevalue.webp) bakes these in,
-// but they're unreadable when scaled down, so we render them as text instead.
-const CORE_VALUES = [
-    {
-        title: 'Tôn trọng',
-        desc: 'Tôn trọng thương hiệu TAKYfood. Tôn trọng thành viên TAKYfood. Tôn trọng đối tác, khách hàng. Đó là Tôn trọng chính mình,',
-    },
-    { title: 'An tâm', desc: 'Sản phẩm đáng TIN cậy.' },
-    { title: 'Ích lợi', desc: 'Mang lại LỢI ÍCH cho khách hàng và các bên liên quan.' },
-    {
-        title: 'Khát vọng',
-        desc: 'KHÁT VỌNG biểu tượng BÁNH VIỆT ẩm thực văn hóa VIỆT NAM vươn ra thế giới.',
-    },
-    { title: 'Yên tâm', desc: 'Người CHÍNH TRỰC: trung thực trong lời nói và hành động.' },
-];
-
 export default function CoreValues() {
+    // Static display copy (translatable, non-API). The mobile list re-renders the
+    // five values as text because the desktop composite bakes them in unreadably.
+    const ui = useUi().coreValues;
+
     // ABOUT-US page CMS section 3: the core-values composite image.
+
     const { data } = usePage(PAGE.ABOUT_US);
     const s3 = pageSection(data?.data, '3');
     const s2 = pageSection(data?.data, '2');
@@ -64,7 +54,7 @@ export default function CoreValues() {
                             <BannerImage
                                 image={s2?.image}
                                 imageMb={s2?.imageMb}
-                                alt="Giá trị cốt lõi TAKYfood"
+                                alt={ui.compositeAlt}
                                 className="w-full max-w-[420px] h-auto lg:w-auto lg:max-w-[900px]"
                             />
                         )}
@@ -81,7 +71,7 @@ export default function CoreValues() {
                     <div className="relative mx-auto mt-[60px]">
                         {/* Heading — centered above the dome */}
                         <h2 className="font-stamp font-normal text-center tracking-brand my-[20px] text-[28px] leading-[32px] lg:text-[48px] lg:leading-[48px] text-taiky-orange uppercase">
-                            GIÁ TRỊ CỐT LÕI
+                            {ui.heading}
                         </h2>
                     </div>
                     {/* Desktop: the dome + letters + values composite */}
@@ -90,13 +80,13 @@ export default function CoreValues() {
                             <BannerImage
                                 image={s3?.image}
                                 imageMb={s3?.imageMb}
-                                alt="Giá trị cốt lõi TAKYfood"
+                                alt={ui.compositeAlt}
                                 className="w-full h-auto"
                             />
                         ) : (
                             <img
                                 src={imgMainCore}
-                                alt="Giá trị cốt lõi TAKYfood"
+                                alt={ui.compositeAlt}
                                 className="w-full h-auto"
                             />
                         )}
@@ -104,7 +94,7 @@ export default function CoreValues() {
 
                     {/* Mobile: the five values as readable text */}
                     <ul className="lg:hidden mt-[24px] flex flex-col gap-[28px] text-center">
-                        {CORE_VALUES.map((v) => (
+                        {ui.values.map((v) => (
                             <li key={v.title}>
                                 <h3 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] text-taiky-orange uppercase">
                                     {v.title}

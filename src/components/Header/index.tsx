@@ -4,24 +4,27 @@ import Container from '../Container';
 import ProductsMegaMenu from './ProductsMegaMenu';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useScrolled } from './useScrolled';
+import { useUi } from '../../content/ui';
 
 const imgLogoMain = '/images/logo-main.svg';
 const imgLogoSub = '/images/logo-sub.svg';
 
-type NavLink = { label: string; to: string };
+type NavKey = 'story' | 'products' | 'news' | 'distribution' | 'food';
+type NavLink = { key: NavKey; to: string };
 
 const NAV_LINKS: NavLink[] = [
-    { label: 'Câu chuyện TAKYfood', to: '/story' },
-    { label: 'sản phẩm', to: '/products' },
-    { label: 'tin tức sự kiện', to: '/news' },
-    { label: 'phân phối', to: '/distribution' },
-    { label: 'góc ẩm thực', to: '/food' },
+    { key: 'story', to: '/story' },
+    { key: 'products', to: '/products' },
+    { key: 'news', to: '/news' },
+    { key: 'distribution', to: '/distribution' },
+    { key: 'food', to: '/food' },
 ];
 
 export default function Header() {
     const scrolled = useScrolled();
     const [open, setOpen] = useState(false);
     const { pathname } = useLocation();
+    const ui = useUi().header;
     // Active when on the page or any of its sub-routes (e.g. /products/:slug).
     const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`);
 
@@ -68,7 +71,7 @@ export default function Header() {
                     <Link to="/" className="hidden sm:block shrink-0">
                         <img
                             src={imgLogoSub}
-                            alt="TAKYfood 50 năm"
+                            alt={ui.badgeAlt}
                             width={97}
                             height={80}
                             className={`block w-auto transition-[height] duration-300 ease-out motion-reduce:transition-none ${
@@ -80,13 +83,13 @@ export default function Header() {
 
                 {/* Right: desktop nav links + language switcher */}
                 <div className="hidden lg:flex items-center gap-6">
-                    <nav aria-label="Điều hướng chính">
+                    <nav aria-label={ui.navAria}>
                         <ul className="flex items-center gap-5 uppercase text-[16px] leading-6 text-taiky-brown font-bold">
-                            {NAV_LINKS.map(({ label, to }) => {
+                            {NAV_LINKS.map(({ key, to }) => {
                                 const isProducts = to === '/products';
                                 return (
                                     <li
-                                        key={label}
+                                        key={key}
                                         onMouseEnter={isProducts ? openMega : closeMegaNow}
                                         onMouseLeave={isProducts ? scheduleCloseMega : undefined}
                                     >
@@ -98,7 +101,7 @@ export default function Header() {
                                                 isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
                                             }`}
                                         >
-                                            {label}
+                                            {ui.nav[key]}
                                         </Link>
                                     </li>
                                 );
@@ -112,7 +115,7 @@ export default function Header() {
                 <button
                     type="button"
                     onClick={() => setOpen((o) => !o)}
-                    aria-label={open ? 'Đóng menu' : 'Mở menu'}
+                    aria-label={open ? ui.closeMenu : ui.openMenu}
                     aria-expanded={open}
                     className="lg:hidden flex h-[40px] w-[40px] items-center justify-end text-taiky-brown"
                 >
@@ -162,12 +165,12 @@ export default function Header() {
                 }`}
             >
                 <nav
-                    aria-label="Điều hướng chính (mobile)"
+                    aria-label={ui.navAriaMobile}
                     className="bg-taiky-bg/95 backdrop-blur-md"
                 >
                     <ul className="flex flex-col px-[20px] py-[8px]">
-                        {NAV_LINKS.map(({ label, to }) => (
-                            <li key={label}>
+                        {NAV_LINKS.map(({ key, to }) => (
+                            <li key={key}>
                                 <Link
                                     to={to}
                                     onClick={() => setOpen(false)}
@@ -176,14 +179,14 @@ export default function Header() {
                                         isActive(to) ? 'text-taiky-orange' : 'text-taiky-brown'
                                     }`}
                                 >
-                                    {label}
+                                    {ui.nav[key]}
                                 </Link>
                             </li>
                         ))}
                     </ul>
                     <div className="flex items-center gap-[10px] px-[20px] py-[16px]">
                         <span className="text-[15px] font-bold uppercase text-taiky-lightbrown">
-                            Ngôn ngữ:
+                            {ui.languageLabel}
                         </span>
                         <LanguageSwitcher variant="inline" />
                     </div>

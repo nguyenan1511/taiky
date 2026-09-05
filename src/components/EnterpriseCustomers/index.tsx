@@ -4,6 +4,7 @@ import Skeleton from '../Skeleton';
 import RevealStagger from '../RevealStagger';
 import { usePartners } from '../../lib/api/queries';
 import { img, t } from '../../lib/api/helpers';
+import { useUi } from '../../content/ui';
 
 /**
  * "KHÁCH HÀNG DOANH NGHIỆP (OEM/ODM)" — enterprise partners: intro copy + a
@@ -11,6 +12,7 @@ import { img, t } from '../../lib/api/helpers';
  */
 
 export default function EnterpriseCustomers() {
+    const ui = useUi().enterpriseCustomers;
     const { data, isLoading, isError, refetch } = usePartners();
     const logos = data?.data ?? [];
 
@@ -18,10 +20,10 @@ export default function EnterpriseCustomers() {
         <section className="relative w-full overflow-hidden bg-taiky-bg">
             <Container className="flex flex-col items-center gap-[16px] lg:gap-[20px] py-[40px]">
                 <h2 className="font-stamp font-normal tracking-brand text-[26px] leading-[32px] lg:text-[48px] lg:leading-[44px] text-taiky-orange uppercase text-center">
-                    KHÁCH HÀNG DOANH NGHIỆP (OEM/ODM)
+                    {ui.heading}
                 </h2>
                 <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] font-bold tracking-[0.04em] text-taiky-lightbrown uppercase">
-                    Đồng hành sản xuất &amp; phát triển sản phẩm cùng các thương hiệu
+                    {ui.intro}
                 </p>
 
                 {isLoading ? (

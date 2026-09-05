@@ -4,6 +4,8 @@
  * the grid while a query is pending, has errored, or returned nothing.
  */
 
+import { useUi } from '../../content/ui';
+
 type ListStateProps = {
     loading?: boolean;
     error?: boolean;
@@ -19,31 +21,36 @@ export default function ListState({
     error,
     empty,
     onRetry,
-    loadingText = 'Đang tải…',
-    errorText = 'Không tải được dữ liệu. Vui lòng thử lại.',
-    emptyText = 'Chưa có dữ liệu.',
+    loadingText,
+    errorText,
+    emptyText,
 }: ListStateProps) {
+    const ui = useUi().listState;
     if (!loading && !error && !empty) return null;
+
+    const loadingMsg = loadingText ?? ui.loading;
+    const errorMsg = errorText ?? ui.error;
+    const emptyMsg = emptyText ?? ui.empty;
 
     return (
         <div className="flex w-full flex-col items-center justify-center gap-[12px] py-[60px] text-center">
-            {loading && <p className="text-[16px] text-taiky-lightbrown">{loadingText}</p>}
+            {loading && <p className="text-[16px] text-taiky-lightbrown">{loadingMsg}</p>}
             {error && (
                 <>
-                    <p className="text-[16px] text-taiky-brown">{errorText}</p>
+                    <p className="text-[16px] text-taiky-brown">{errorMsg}</p>
                     {onRetry && (
                         <button
                             type="button"
                             onClick={onRetry}
                             className="btn-cta bg-taiky-yellow px-[28px] py-[10px] text-[14px] font-bold uppercase tracking-[0.04em] text-taiky-brown"
                         >
-                            Thử lại
+                            {ui.retry}
                         </button>
                     )}
                 </>
             )}
             {empty && !loading && !error && (
-                <p className="text-[16px] text-taiky-lightbrown">{emptyText}</p>
+                <p className="text-[16px] text-taiky-lightbrown">{emptyMsg}</p>
             )}
         </div>
     );

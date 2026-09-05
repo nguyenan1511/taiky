@@ -1,6 +1,7 @@
 import Container from '../Container';
 import BannerImage from '../BannerImage';
 import { useReady } from '../../context/ready';
+import { useUi } from '../../content/ui';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 
@@ -12,19 +13,19 @@ const imgBgBanner = '/images/bg-hero.webp';
 const imgSketch = '/images/hero-sketch.webp';
 const imgBgBannerMb = '/images/bg-baner-mb.webp';
 
-const FALLBACK_DESC =
-    'Dòng sản phẩm Taky hoàn hảo về chất lượng và đột phá trong từng thiết kế bao bì mới. Mỗi tuyệt phẩm đến từ nhãn hàng Taky đều là một sản phẩm quan trọng trong danh mục sản phẩm được ưa thích nhất. Xứng đáng trở thành chuyên gia bột thực phẩm hàng đầu tại Việt Nam.';
-
 export default function Hero() {
     // Hold the entrance until the preloader lifts, then play it.
     const ready = useReady();
 
+    // Static display copy (translatable, non-API), with API content taking priority.
+    const ui = useUi().hero;
+
     // Banner content from GET /pages/HOME (section 1), with local fallback.
     const { data } = usePage(PAGE.HOME);
     const s1 = pageSection(data?.data, '1');
-    const title = s1?.title || 'Đậm chất bản Việt';
-    const product = s1?.product || 'Bánh TAKY';
-    const description = s1?.description || FALLBACK_DESC;
+    const title = s1?.title || ui.title;
+    const product = s1?.product || ui.product;
+    const description = s1?.description || ui.description;
     const link = s1?.linkProduct || '#';
     const hasBanner = Boolean(s1?.image || s1?.imageMb);
 
@@ -69,7 +70,7 @@ export default function Hero() {
                             className="flex items-center justify-center px-[40px] py-[12px] drop-shadow-[2px_4px_2px_rgba(0,0,0,0.5)] btn-cta bg-taiky-yellow"
                         >
                             <span className="font-bold text-taiky-brown text-[16px] leading-6 whitespace-nowrap [word-break:break-word]">
-                                XEM CHI TIẾT
+                                {ui.cta}
                             </span>
                         </a>
                     </div>
@@ -91,17 +92,17 @@ export default function Hero() {
                             <>
                                 <img
                                     src={imgBagLeft}
-                                    alt="Bánh Taky"
+                                    alt={ui.bannerAlt}
                                     className="w-full h-auto lg:w-auto"
                                 />
                                 <img
                                     src={imgBagRight}
-                                    alt="Bánh Taky"
+                                    alt={ui.bannerAlt}
                                     className="absolute top-0 left-0 w-full h-auto lg:w-auto"
                                 />
                                 <img
                                     src={imgBagFront}
-                                    alt="Bánh Taky"
+                                    alt={ui.bannerAlt}
                                     className="absolute top-0 left-0 w-full h-auto lg:w-auto"
                                 />
                             </>

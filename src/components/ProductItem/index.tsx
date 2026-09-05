@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useUi } from '../../content/ui';
 
 export type Product = {
     name: string;
@@ -54,20 +55,21 @@ export default function ProductItem({
     tiktokUrl,
     url = '#',
 }: Product) {
+    const ui = useUi().productItem;
     return (
         <article className="group flex flex-col rounded-[16px] border border-taiky-lightbrown/30 bg-[#F3E9DC] p-[20px] shadow-card transition-[box-shadow,border-color] duration-[450ms] ease-brand hover:border-taiky-orange/50 hover:shadow-card-hover">
             {/* Social links */}
             <div className="flex items-center gap-[12px]">
                 <a
                     href={shopeeUrl ?? '#'}
-                    aria-label={`Mua ${name} trên Shopee`}
+                    aria-label={ui.buyShopee.replace('{name}', name)}
                     className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-taiky-orange text-white transition hover:opacity-90"
                 >
                     <ShopeeIcon />
                 </a>
                 <a
                     href={tiktokUrl ?? '#'}
-                    aria-label={`Mua ${name} trên TikTok Shop`}
+                    aria-label={ui.buyTiktok.replace('{name}', name)}
                     className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-taiky-orange text-white transition hover:opacity-90"
                 >
                     <TiktokIcon />

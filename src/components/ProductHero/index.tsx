@@ -3,6 +3,7 @@ import BannerImage from '../BannerImage';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
 import { useReady } from '../../context/ready';
+import { useUi } from '../../content/ui';
 
 const imgBg = '/images/bg-product.webp';
 
@@ -14,10 +15,12 @@ const imgBg = '/images/bg-product.webp';
  */
 export default function ProductHero() {
     const ready = useReady();
+    const ui = useUi();
     const { data } = usePage(PAGE.PRODUCT);
     const s1 = pageSection(data?.data, '1');
     const hasBanner = Boolean(s1?.image || s1?.imageMb);
-    const title = s1?.title || 'SẢN PHẨM';
+    const title = s1?.title || ui.productHero.title;
+    const tag = ui.productHero.tagline;
 
     const imageClass = `absolute inset-0 h-full w-full object-cover ${
         ready ? 'animate-hero-zoom' : 'opacity-0'
@@ -61,12 +64,12 @@ export default function ProductHero() {
                                     style={riseStyle('0.24s')}
                                     className={`mt-[12px] lg:mt-[16px] font-semibold text-[15px] leading-[24px] lg:text-[20px] lg:leading-[32px] text-taiky-lightbrown uppercase ${riseClass}`}
                                 >
-                                    Tài Ký là{' '}
-                                    <span className="font-bold text-taiky-brown">chính mình</span>,
-                                    sản phẩm là{' '}
-                                    <span className="font-bold text-taiky-brown">hoàn hảo</span>,
-                                    khách hàng là{' '}
-                                    <span className="font-bold text-taiky-brown">thượng đế</span>
+                                    {tag.p1}
+                                    <span className="font-bold text-taiky-brown">{tag.b1}</span>
+                                    {tag.p2}
+                                    <span className="font-bold text-taiky-brown">{tag.b2}</span>
+                                    {tag.p3}
+                                    <span className="font-bold text-taiky-brown">{tag.b3}</span>
                                 </p>
                             )}
                             <a
@@ -75,7 +78,7 @@ export default function ProductHero() {
                                 className={`mt-[20px] lg:mt-[28px] inline-flex items-center justify-center btn-cta bg-taiky-yellow px-[32px] lg:px-[40px] py-[10px] lg:py-[12px] ${riseClass}`}
                             >
                                 <span className="font-bold text-[14px] lg:text-[16px] leading-6 text-taiky-brown uppercase">
-                                    Xem chi tiết
+                                    {ui.common.viewDetails}
                                 </span>
                             </a>
                         </div>

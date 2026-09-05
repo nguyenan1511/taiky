@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import Container from '../Container';
 import { usePage } from '../../lib/api/queries';
 import { PAGE, pageSection } from '../../lib/api/pages';
+import { useUi } from '../../content/ui';
 
 /**
  * "THỊ TRƯỜNG QUỐC TẾ" — export markets: an interactive world map above a
@@ -13,38 +14,20 @@ import { PAGE, pageSection } from '../../lib/api/pages';
  * continent you're over, regardless of shape. `origin` (~continent centre)
  * makes the pop scale in place.
  */
-type Continent = { key: string; src: string; alt: string; origin: string };
+// Continent map layers: `key` matches `ui.internationalMarket.continents.*` (alt
+// text) and drives the pixel-alpha hit-testing; `src`/`origin` are layout.
+type ContinentKey = 'americas' | 'europe' | 'africa' | 'asia' | 'oceania';
+type Continent = { key: ContinentKey; src: string; origin: string };
 
 const CONTINENTS: Continent[] = [
-    { key: 'americas', src: '/images/player-1.webp', alt: 'Châu Mỹ', origin: '11% 42%' },
-    { key: 'europe', src: '/images/player-3.webp', alt: 'Châu Âu', origin: '44% 16%' },
-    { key: 'africa', src: '/images/player-2.webp', alt: 'Châu Phi', origin: '46% 52%' },
-    { key: 'asia', src: '/images/player-5.webp', alt: 'Châu Á', origin: '70% 28%' },
-    { key: 'oceania', src: '/images/player-4.webp', alt: 'Châu Đại Dương', origin: '80% 62%' },
+    { key: 'americas', src: '/images/player-1.webp', origin: '11% 42%' },
+    { key: 'europe', src: '/images/player-3.webp', origin: '44% 16%' },
+    { key: 'africa', src: '/images/player-2.webp', origin: '46% 52%' },
+    { key: 'asia', src: '/images/player-5.webp', origin: '70% 28%' },
+    { key: 'oceania', src: '/images/player-4.webp', origin: '80% 62%' },
 ];
 
 type Region = { name: string; count: number; countries: string };
-
-const LEFT_REGIONS: Region[] = [
-    {
-        name: 'CHÂU Á',
-        count: 13,
-        countries:
-            'Campuchia, Lào, Nhật Bản, Hàn Quốc, Đài Loan, Trung Quốc, Philippines, Malaysia, Indonesia, Thái Lan, Ả Rập Saudi, Các Tiểu vương quốc Ả Rập Thống nhất, Uzbekistan',
-    },
-    { name: 'CHÂU ĐẠI DƯƠNG', count: 3, countries: 'Úc, New Zealand, Fiji' },
-    { name: 'CHÂU MỸ', count: 3, countries: 'Hoa Kỳ, Canada, Chile' },
-];
-
-const RIGHT_REGIONS: Region[] = [
-    {
-        name: 'CHÂU ÂU',
-        count: 14,
-        countries:
-            'Nga, Serbia, Hà Lan, Anh, Na Uy, Phần Lan, Ba Lan, Pháp, Đức, Czechia, Đan Mạch, Thụy Điển, Thụy Sĩ, Slovakia',
-    },
-    { name: 'CHÂU PHI', count: 1, countries: 'Ma Rốc' },
-];
 
 const imgDecorTopRight = '/images/decor-core-value.webp';
 
@@ -61,11 +44,12 @@ function RegionRow({ name, count, countries }: Region) {
 
 export default function InternationalMarket() {
     const [hovered, setHovered] = useState<string | null>(null);
+    const ui = useUi().internationalMarket;
 
     // DISTRIBUTION page, section "2" = "Thị trường quốc tế" (heading + subtitle).
     const { data: page } = usePage(PAGE.DISTRIBUTION);
     const s2 = pageSection(page?.data, '2');
-    const heading = s2?.title || 'THỊ TRƯỜNG QUỐC TẾ';
+    const heading = s2?.title || ui.heading;
 
     // Offscreen canvas per layer for pixel-alpha hit-testing.
     const samplers = useRef<
@@ -124,8 +108,8 @@ export default function InternationalMarket() {
                     />
                 ) : (
                     <p className="text-center text-[15px] leading-[22px] lg:text-[18px] lg:leading-[26px] tracking-[0.04em] text-taiky-lightbrown uppercase">
-                        Chúng tôi đã xuất khẩu đến{' '}
-                        <span className="font-bold text-taiky-brown">59 quốc gia</span>
+                        {ui.intro.pre}
+                        <span className="font-bold text-taiky-brown">{ui.intro.highlight}</span>
                     </p>
                 )}
 
@@ -143,7 +127,7 @@ export default function InternationalMarket() {
                             <img
                                 key={c.key}
                                 src={c.src}
-                                alt={c.alt}
+                                alt={ui.continents[c.key]}
                                 onLoad={(e) => cacheSampler(c.key, e.currentTarget)}
                                 style={{ transformOrigin: c.origin }}
                                 className={`pointer-events-none absolute inset-0 h-full w-full object-contain transition-[transform,opacity,filter] duration-[400ms] ease-brand ${
@@ -158,12 +142,12 @@ export default function InternationalMarket() {
 
                 <div className="mt-[8px] grid w-full grid-cols-1 lg:grid-cols-2 gap-x-[64px] gap-y-[20px] lg:gap-y-[28px]">
                     <div className="flex flex-col gap-[28px]">
-                        {LEFT_REGIONS.map((region) => (
+                        {ui.regionsLeft.map((region: Region) => (
                             <RegionRow key={region.name} {...region} />
                         ))}
                     </div>
                     <div className="flex flex-col gap-[28px]">
-                        {RIGHT_REGIONS.map((region) => (
+                        {ui.regionsRight.map((region: Region) => (
                             <RegionRow key={region.name} {...region} />
                         ))}
                     </div>

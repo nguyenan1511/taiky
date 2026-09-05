@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSettings } from '../../lib/api/queries';
+import { useUi } from '../../content/ui';
 
 /**
  * Floating chat widget — a fixed circular launcher (orange circle + message
@@ -12,8 +13,6 @@ const imgMessage = '/images/message.svg';
 const imgLogoMain = '/images/logo-main.svg';
 const imgLogoSub = '/images/logo-sub.svg';
 const imgBg = '/images/bg-form.webp';
-
-const QUICK_REPLIES = ['Đơn hàng', 'Sản phẩm', 'Khuyến mãi mới', 'Về TakyFood'];
 
 function Icon({ d, fill = false }: { d: string; fill?: boolean }) {
     return (
@@ -38,6 +37,7 @@ const socialBtn =
 
 export default function ChatWidget() {
     const [open, setOpen] = useState(false);
+    const ui = useUi().chatWidget;
     const { data } = useSettings();
     const s = data?.data;
     const phone = (s?.phone || '19006108').replace(/\s/g, '');
@@ -49,7 +49,7 @@ export default function ChatWidget() {
             {open && (
                 <div
                     role="dialog"
-                    aria-label="Chat với TAKYfood"
+                    aria-label={ui.dialogAria}
                     className="fixed bottom-[20px] right-[20px] z-[70] flex h-[600px] max-h-[calc(100vh-32px)] w-[380px] max-w-[calc(100vw-32px)] origin-bottom-right animate-chat-pop flex-col overflow-hidden rounded-[20px] shadow-card-hover"
                 >
                     <img
@@ -65,7 +65,7 @@ export default function ChatWidget() {
                             <button
                                 type="button"
                                 onClick={() => setOpen(false)}
-                                aria-label="Đóng chat"
+                                aria-label={ui.close}
                                 className="text-taiky-brown/60 transition hover:text-taiky-brown"
                             >
                                 <Icon d="M6 6l12 12M18 6L6 18" />
@@ -84,16 +84,16 @@ export default function ChatWidget() {
                                     />
                                 </span>
                                 <p className="rounded-[16px] bg-white px-[18px] py-[12px] text-[14px] leading-[20px] text-taiky-brown shadow-card">
-                                    Chào bạn, TakyFood luôn sẵn sàng hỗ trợ bạn!
+                                    {ui.greeting1}
                                 </p>
                             </div>
                             <p className="mt-[12px] ml-[50px] rounded-[16px] bg-white px-[18px] py-[12px] text-[14px] leading-[20px] text-taiky-brown shadow-card">
-                                TakyFood có thể giúp gì cho bạn hôm nay?
+                                {ui.greeting2}
                             </p>
 
                             {/* Quick replies */}
                             <div className="mt-[20px] ml-[50px] flex flex-wrap gap-[12px]">
-                                {QUICK_REPLIES.map((q) => (
+                                {ui.quickReplies.map((q) => (
                                     <button
                                         key={q}
                                         type="button"
@@ -127,7 +127,7 @@ export default function ChatWidget() {
                                 </a>
                                 <a
                                     href={`tel:${phone}`}
-                                    aria-label="Gọi điện"
+                                    aria-label={ui.callAria}
                                     className={`${socialBtn} bg-taiky-orange text-white`}
                                 >
                                     <Icon
@@ -153,12 +153,12 @@ export default function ChatWidget() {
                             <input
                                 type="text"
                                 maxLength={1000}
-                                placeholder="Nhập tin nhắn dưới 1000 ký tự nhé!"
+                                placeholder={ui.placeholder}
                                 className="min-w-0 flex-1 bg-transparent text-[14px] font-semibold text-white outline-none placeholder:text-white/85"
                             />
                             <button
                                 type="submit"
-                                aria-label="Gửi"
+                                aria-label={ui.send}
                                 className="text-white transition hover:scale-110"
                             >
                                 <Icon d="M5 12h14M13 6l6 6-6 6" />
@@ -173,7 +173,7 @@ export default function ChatWidget() {
                 <button
                     type="button"
                     onClick={() => setOpen(true)}
-                    aria-label="Mở chat hỗ trợ"
+                    aria-label={ui.launcher}
                     className="group fixed bottom-[20px] right-[20px] z-[60] flex h-[60px] w-[60px] lg:h-[68px] lg:w-[68px] items-center justify-center rounded-full bg-taiky-orange shadow-lg transition-transform duration-300 ease-brand hover:scale-110 hover:-rotate-6"
                 >
                     <span
@@ -182,7 +182,7 @@ export default function ChatWidget() {
                     />
                     <img
                         src={imgMessage}
-                        alt="Chat với TAKYfood"
+                        alt={ui.launcherAlt}
                         className="relative h-[28px] w-[28px] lg:h-[32px] lg:w-[32px]"
                     />
                 </button>

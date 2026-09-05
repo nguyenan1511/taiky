@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUi } from '../../content/ui';
 
 /**
  * Orange pagination — prev / page numbers (with ellipsis) / next.
@@ -65,6 +66,7 @@ export default function Pagination({
     onPageChange,
     className = '',
 }: PaginationProps) {
+    const ui = useUi().pagination;
     const controlled = typeof page === 'number' && typeof pageCount === 'number';
 
     if (controlled) {
@@ -75,10 +77,10 @@ export default function Pagination({
         };
 
         return (
-            <nav className={`flex items-center gap-[12px] ${className}`} aria-label="Phân trang">
+            <nav className={`flex items-center gap-[12px] ${className}`} aria-label={ui.nav}>
                 <button
                     type="button"
-                    aria-label="Trang trước"
+                    aria-label={ui.prev}
                     disabled={page === 1}
                     onClick={() => go(page! - 1)}
                     className="flex h-[40px] w-[40px] items-center justify-center text-taiky-orange transition hover:opacity-80 disabled:opacity-30"
@@ -109,7 +111,7 @@ export default function Pagination({
 
                 <button
                     type="button"
-                    aria-label="Trang sau"
+                    aria-label={ui.next}
                     disabled={page === pageCount}
                     onClick={() => go(page! + 1)}
                     className="flex h-[40px] w-[40px] items-center justify-center text-taiky-orange transition hover:opacity-80 disabled:opacity-30"
@@ -125,12 +127,13 @@ export default function Pagination({
 
 function UncontrolledPagination({ pages, className }: { pages: string[]; className: string }) {
     const [active, setActive] = useState(pages[0]);
+    const ui = useUi().pagination;
 
     return (
-        <nav className={`flex items-center gap-[12px] ${className}`} aria-label="Phân trang">
+        <nav className={`flex items-center gap-[12px] ${className}`} aria-label={ui.nav}>
             <button
                 type="button"
-                aria-label="Trang trước"
+                aria-label={ui.prev}
                 className="flex h-[40px] w-[40px] items-center justify-center text-taiky-orange transition hover:opacity-80"
             >
                 <Chevron dir="left" />
@@ -156,7 +159,7 @@ function UncontrolledPagination({ pages, className }: { pages: string[]; classNa
 
             <button
                 type="button"
-                aria-label="Trang sau"
+                aria-label={ui.next}
                 className="flex h-[40px] w-[40px] items-center justify-center text-taiky-orange transition hover:opacity-80"
             >
                 <Chevron dir="right" />

@@ -1,3 +1,4 @@
+import { getLang } from '../../context/language';
 import type { ApiPage, PageSection } from './types';
 
 /**
@@ -15,7 +16,12 @@ export const PAGE = {
 
 export type PageCode = (typeof PAGE)[keyof typeof PAGE];
 
-/** Find a section block by its `section` id (e.g. "1" = the banner). */
+/**
+ * Find a section block by its `section` id (e.g. "1" = the banner), resolved for
+ * the active language and falling back to Vietnamese when EN content is absent.
+ */
 export function pageSection(page: ApiPage | undefined, id: string): PageSection | undefined {
-    return page?.contents?.vi?.find((s) => s.section === id);
+    const lang = getLang();
+    const sections = page?.contents?.[lang] ?? page?.contents?.vi;
+    return sections?.find((s) => s.section === id);
 }
