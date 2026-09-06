@@ -40,8 +40,8 @@ export interface Taxonomy {
 }
 
 export interface NutritionRow {
-    label: string;
-    value: string;
+    label: Localized;
+    value: Localized;
 }
 
 export interface ApiProduct {
@@ -65,12 +65,12 @@ export interface ApiProduct {
     linkTiktok: string;
     isHighlight: boolean;
     /** Quy cách (packaging). */
-    specification?: string;
+    specification?: Localized;
     /** Trọng lượng. */
-    weight?: string;
+    weight?: Localized;
     /** Hạn sử dụng. */
-    expiry?: string;
-    nutrition?: { title: string; ingredients: NutritionRow[] };
+    expiry?: Localized;
+    nutrition?: { title: Localized; ingredients: NutritionRow[] };
     categories: Array<Taxonomy | string>;
     createdAt: string;
 }
@@ -127,8 +127,8 @@ export interface ApiCertificate {
 }
 
 export interface ApiSettings {
-    companyName: string;
-    address: string;
+    companyName: Localized;
+    address: Localized;
     factoryAddress: string;
     phone: string;
     email: string;

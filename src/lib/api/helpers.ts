@@ -6,9 +6,11 @@ import { getLang } from '../../context/language';
 import { getUi } from '../../content/ui';
 
 /** Resolve a localized text field for the active language, then fall back. */
-export function t(value?: Localized | null): string {
+export function t(value?: Localized | string | null): string {
+    if (value == null) return '';
+    if (typeof value === 'string') return value;
     const lang = getLang();
-    return value?.[lang] ?? value?.vi ?? value?.en ?? '';
+    return value[lang] ?? value.vi ?? value.en ?? '';
 }
 
 /** Resolve a localized image URL for the active language, then fall back. */
@@ -27,7 +29,7 @@ export function toProductCard(p: ApiProduct): Product & { id: string } {
     return {
         id: p.id,
         name: t(p.name),
-        weight: p.weight || '',
+        weight: t(p.weight),
         image: img(p.image),
         shopeeUrl: p.linkShoppe || undefined,
         tiktokUrl: p.linkTiktok || undefined,

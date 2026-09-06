@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSettings } from '../../lib/api/queries';
 import { useUi } from '../../content/ui';
+import { getLang } from '../../context/language';
 
 /**
  * Floating chat widget — a fixed circular launcher (orange circle + message
@@ -13,6 +14,17 @@ const imgMessage = '/images/message.svg';
 const imgLogoMain = '/images/logo-main.svg';
 const imgLogoSub = '/images/logo-sub.svg';
 const imgBg = '/images/bg-form.webp';
+
+// Settings text fields are typed as `string` but the API may return a localized
+// object (`{ vi, en }`); resolve either shape for the active language.
+const asText = (value: unknown): string => {
+    if (typeof value === 'string') return value;
+    if (value && typeof value === 'object') {
+        const o = value as Record<string, string>;
+        return o[getLang()] ?? o.vi ?? o.en ?? '';
+    }
+    return '';
+};
 
 function Icon({ d, fill = false }: { d: string; fill?: boolean }) {
     return (
@@ -40,9 +52,9 @@ export default function ChatWidget() {
     const ui = useUi().chatWidget;
     const { data } = useSettings();
     const s = data?.data;
-    const phone = (s?.phone || '19006108').replace(/\s/g, '');
-    const email = s?.email || 'contact@takyfood.com.vn';
-    const facebook = s?.linkFacebook || '#';
+    const phone = (asText(s?.phone) || '19006108').replace(/\s/g, '');
+    const email = asText(s?.email) || 'contact@takyfood.com.vn';
+    const facebook = asText(s?.linkFacebook) || '#';
 
     return (
         <>

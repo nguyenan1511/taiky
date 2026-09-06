@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { useSettings, useSubmitSubscriber } from '../../lib/api/queries';
 import { useUi } from '../../content/ui';
+import { t } from '../../lib/api/helpers';
+import { getLang } from '../../context/language';
 
 const imgLogoMain = '/images/footer-logo-main.svg';
 const imgBg = '/images/bg-ft.webp';
@@ -40,6 +42,17 @@ const SUPPORT_LINKS = [
     { key: 'payment', to: 'https://www.takyfood.com.vn/vn/chinh-sach-thanh-toan.html' },
 ] as const;
 
+// Settings text fields are typed as `string` but the API may return a localized
+// object (`{ vi, en }`); resolve either shape for the active language.
+const asText = (value: unknown): string => {
+    if (typeof value === 'string') return value;
+    if (value && typeof value === 'object') {
+        const o = value as Record<string, string>;
+        return o[getLang()] ?? o.vi ?? o.en ?? '';
+    }
+    return '';
+};
+
 // A footer nav entry. External URLs open in a new tab; internal paths use the
 // router; an empty destination renders plain (non-clickable) text.
 function NavItem({ label, to }: { label: string; to: string }) {
@@ -62,10 +75,10 @@ export default function Footer() {
     const ui = useUi().footer;
     const { data: settingsData } = useSettings();
     const s = settingsData?.data;
-    const companyName = s?.companyName || ui.company;
-    const address = s?.address || ui.address;
-    const phone = s?.phone || FALLBACK.phone;
-    const email = s?.email || FALLBACK.email;
+    const companyName = t(s?.companyName) || ui.company;
+    const address = t(s?.address) || ui.address;
+    const phone = asText(s?.phone) || FALLBACK.phone;
+    const email = asText(s?.email) || FALLBACK.email;
 
     const [subEmail, setSubEmail] = useState('');
     const subscribe = useSubmitSubscriber();

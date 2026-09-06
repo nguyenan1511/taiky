@@ -175,9 +175,9 @@ export default function ProductDetail() {
     };
 
     const specs = [
-        { label: ui.specs.specification, value: product.specification },
-        { label: ui.specs.weight, value: product.weight },
-        { label: ui.specs.expiry, value: product.expiry },
+        { label: ui.specs.specification, value: t(product.specification) },
+        { label: ui.specs.weight, value: t(product.weight) },
+        { label: ui.specs.expiry, value: t(product.expiry) },
     ].filter((s) => s.value);
 
     return (
@@ -300,16 +300,16 @@ export default function ProductDetail() {
                         <Reveal>
                             <div className="bg-taiky-orange text-white rounded-[8px] px-[28px] py-[28px]">
                                 <h3 className="font-bold text-[22px] leading-[28px]">
-                                    {product.nutrition.title}
+                                    {t(product.nutrition.title)}
                                 </h3>
                                 <div className="mt-[16px]">
                                     {product.nutrition.ingredients.map((row) => (
                                         <div
-                                            key={row.label}
+                                            key={t(row.label)}
                                             className="flex items-center justify-between border-b border-white/25 py-[14px] text-[15px]"
                                         >
-                                            <span>{row.label}</span>
-                                            <span className="font-bold">{row.value}</span>
+                                            <span>{t(row.label)}</span>
+                                            <span className="font-bold">{t(row.value)}</span>
                                         </div>
                                     ))}
                                 </div>
