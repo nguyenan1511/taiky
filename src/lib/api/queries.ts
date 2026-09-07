@@ -201,6 +201,8 @@ export function useCulinary(filters: CulinaryFilters = {}) {
     return useQuery({
         queryKey: qk.culinary(params),
         queryFn: () => api.get<ListResponse<ApiCulinary>>('/api/v1/frontend/culinary', params),
+        // Keep the prior recipes on screen while a larger limit loads.
+        placeholderData: keepPreviousData,
     });
 }
 

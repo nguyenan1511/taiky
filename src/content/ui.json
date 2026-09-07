@@ -122,7 +122,8 @@
       "nextAria": "Công thức sau"
     },
     "culinarySection": {
-      "empty": "Chưa có công thức cho mục này."
+      "empty": "Chưa có công thức cho mục này.",
+      "loadingMore": "Đang tải..."
     },
     "recipeMeta": {
       "difficultyLabel": "Độ khó: "
@@ -445,7 +446,8 @@
       "nextAria": "Next recipe"
     },
     "culinarySection": {
-      "empty": "No recipes for this category yet."
+      "empty": "No recipes for this category yet.",
+      "loadingMore": "Loading..."
     },
     "recipeMeta": {
       "difficultyLabel": "Difficulty: "
