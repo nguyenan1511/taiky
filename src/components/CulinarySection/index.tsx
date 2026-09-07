@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Container from '../Container';
 import RecipeItem from '../RecipeItem';
 import RecipeCardSkeleton from '../RecipeItem/Skeleton';
@@ -65,7 +65,25 @@ export default function CulinarySection({ category }: { category: Taxonomy }) {
     const total = data?.pagination.total ?? 0;
     const hasMore = recipes.length < total;
     const moreLabel = isFetching ? ui.culinarySection.loadingMore : ui.common.viewMore;
-    const loadMore = () => setLimit((n) => n + PAGE_SIZE);
+
+    // After load-more resolves, scroll to the first newly added recipe.
+    const firstNewRef = useRef<HTMLDivElement | null>(null);
+    const scrollFrom = useRef<number | null>(null);
+    const loadMore = () => {
+        scrollFrom.current = recipes.length;
+        setLimit((n) => n + PAGE_SIZE);
+    };
+
+    useEffect(() => {
+        const from = scrollFrom.current;
+        if (from == null || recipes.length <= from) return;
+        scrollFrom.current = null;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        firstNewRef.current?.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'start',
+        });
+    }, [recipes.length]);
 
     return (
         <section className="relative w-full overflow-hidden bg-taiky-bg">
@@ -100,8 +118,14 @@ export default function CulinarySection({ category }: { category: Taxonomy }) {
                         />
                         {recipes.length > 0 && (
                             <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[24px]">
-                                {recipes.map((recipe) => (
-                                    <RecipeItem key={recipe.id} {...recipe} />
+                                {recipes.map((recipe, i) => (
+                                    <div
+                                        key={recipe.id}
+                                        ref={i === scrollFrom.current ? firstNewRef : undefined}
+                                        className="scroll-mt-[96px] lg:scroll-mt-[120px]"
+                                    >
+                                        <RecipeItem {...recipe} />
+                                    </div>
                                 ))}
                             </RevealStagger>
                         )}
