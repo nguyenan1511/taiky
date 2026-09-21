@@ -1,4 +1,7 @@
 {
+    "redirects": [
+        { "source": "/vn/trang-chu.html", "destination": "/", "statusCode": 301 }
+    ],
     "rewrites": [
         { "source": "/products/:slug", "destination": "/api/ssr?type=product&slug=:slug" },
         { "source": "/news/:slug", "destination": "/api/ssr?type=news&slug=:slug" },
