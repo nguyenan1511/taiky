@@ -6,19 +6,19 @@ const LEGACY_REDIRECTS: Record<string, string> = {
     '/vn/trang-chu.html': '/',
 };
 
-/** Connect's IncomingMessage may not expose `url` in TS without @types/node. */
-function redirectLocation(req: { url?: string }): string | undefined {
-    if (!req.url) return undefined;
-    const q = req.url.indexOf('?');
-    const pathname = q === -1 ? req.url : req.url.slice(0, q);
+function redirectLocation(url: string | undefined): string | undefined {
+    if (!url) return undefined;
+    const q = url.indexOf('?');
+    const pathname = q === -1 ? url : url.slice(0, q);
     const dest = LEGACY_REDIRECTS[pathname];
     if (!dest) return undefined;
-    return dest + (q === -1 ? '' : req.url.slice(q));
+    return dest + (q === -1 ? '' : url.slice(q));
 }
 
 function applyLegacyRedirects(server: ViteDevServer | PreviewServer) {
     server.middlewares.use((req, res, next) => {
-        const location = redirectLocation(req);
+        // Connect's IncomingMessage may omit `url` in TS when @types/node is absent.
+        const location = redirectLocation((req as { url?: string }).url);
         if (!location) {
             next();
             return;
